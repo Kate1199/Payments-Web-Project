@@ -1,0 +1,21 @@
+.introduction-picture{
+	height: 600px;
+}
+
+.introduction-picture img{
+	height: 600px;
+}
+
+a:link{
+	text-decoration: none;
+}
+a:visit{
+	text-decoration: none;
+}
+
+a:hover{
+	text-decoration: blink;
+}
+a:active {
+	text-decoration: none;
+}
