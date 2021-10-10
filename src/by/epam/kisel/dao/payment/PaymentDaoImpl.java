@@ -26,7 +26,7 @@ public class PaymentDaoImpl extends DatabaseDAO<Payment> implements PaymentDAO {
 	
 	private static int previousLimit = 0;
 	private static int limit = 3;
-	private static int currentPage = 1;
+	private static int currentPage = 2;
 	
 
 	@Override
