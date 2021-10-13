@@ -13,12 +13,6 @@
 <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-
-<sql:setDataSource var = "payments" driver = "com.mysql.cj.jdbc.Driver"
-         url = "jdbc:mysql://localhost/payments_db"
-         user = "root"  password = "654321"/>
-
-         
          
 <main class="bg-secondary">
 	<div class="introduction-picture">
@@ -28,9 +22,7 @@
 	<div class="container mb-5 pb-5">
 	
 		<div class="row">
-		
-		<%@include file="paymentsSlider.jsp" %>
-			
+			<%@include file="paymentsSlider.jsp" %>
 		</div>
 	</div>
 </main>

@@ -19,3 +19,11 @@ a:hover{
 a:active {
 	text-decoration: none;
 }
+
+input:valid {
+	border-color: green;
+}
+
+input:invalid {
+	border-color: red;
+}

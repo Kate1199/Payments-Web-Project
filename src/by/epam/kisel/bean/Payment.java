@@ -1,7 +1,7 @@
 package by.epam.kisel.bean;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Payment extends Entity implements Serializable {
@@ -10,6 +10,7 @@ public class Payment extends Entity implements Serializable {
 	
 	private int id;
 	private String name;
+	private byte[] image;
 	private String reciever;
 	private String paymentDetails;
 	private String description;
@@ -20,10 +21,11 @@ public class Payment extends Entity implements Serializable {
 		
 	}
 
-	public Payment(int id, String name, String reciever, String paymentDetails, String description, int fixedAmount,
+	public Payment(int id, String name, byte[] image, String reciever, String paymentDetails, String description, int fixedAmount,
 			int procentFee) {
 		this.id = id;
 		this.name = name;
+		this.image = image;
 		this.reciever = reciever;
 		this.paymentDetails = paymentDetails;
 		this.description = description;
@@ -41,6 +43,14 @@ public class Payment extends Entity implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public String getReciever() {
@@ -85,7 +95,7 @@ public class Payment extends Entity implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(description, fixedAmount, id, name, paymentDetails, procentFee, reciever);
+		return Objects.hash(description, fixedAmount, id, name, image, paymentDetails, procentFee, reciever);
 	}
 
 	@Override
@@ -97,15 +107,38 @@ public class Payment extends Entity implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Payment other = (Payment) obj;
-		return Objects.equals(description, other.description) && fixedAmount == other.fixedAmount
-				&& Objects.equals(id, other.id) && Objects.equals(name, other.name)
-				&& Objects.equals(paymentDetails, other.paymentDetails) && procentFee == other.procentFee
-				&& Objects.equals(reciever, other.reciever);
+		return id == other.id
+				&& name.equals(other.name)
+				&& Arrays.equals(image, other.image)
+				&& reciever.equals(other.reciever)
+				&& paymentDetails.equals(other.paymentDetails)
+				&& description.equals(other.description)
+				&& fixedAmount == other.fixedAmount
+				&& procentFee == other.procentFee;
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(getClass().getSimpleName());
+		builder.append(" [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", image=");
+		builder.append(Arrays.toString(image));
+		builder.append(", reciever=");
+		builder.append(reciever);
+		builder.append(", paymentDetails=");
+		builder.append(paymentDetails);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", fixedAmount=");
+		builder.append(fixedAmount);
+		builder.append(", procentFee=");
+		builder.append(procentFee);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 }

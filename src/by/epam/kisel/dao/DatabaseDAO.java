@@ -9,19 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.epam.kisel.bean.Entity;
-import by.epam.kisel.bean.User;
 import by.epam.kisel.dao.builders.EntityBuilder;
-import by.epam.kisel.dao.builders.UserBuilder;
 import by.epam.kisel.dao.connection.ConnectionPool;
 import by.epam.kisel.exception.ConnectionPoolException;
 import by.epam.kisel.exception.DAOException;
-import by.epam.kisel.util.validation.Validator;
 
 public class DatabaseDAO<T extends Entity> {
 	
 	private static final int KEY_INDEX = 1;
 	private static final int PARAMETER_POSITION = 1;
-	
+
+	protected DatabaseDAO() {
+	}
+
 	public List<T> findAll(String sqlRequest, EntityBuilder<T> entityBuilder) throws DAOException {
 		Connection connection = null;
 		Statement statement = null;
@@ -39,7 +39,8 @@ public class DatabaseDAO<T extends Entity> {
 		} catch (ConnectionPoolException e) {
 			throw new DAOException(e.getMessage());
 		}
-		entities = takeEntityList(sqlRequest, resultSet, entityBuilder);
+		entityBuilder.makeEntity(resultSet);
+		entities = entityBuilder.getListOfEntities();
 		myConnectionPool.releaseConnection(connection);
 		return entities;
 	}

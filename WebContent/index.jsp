@@ -12,25 +12,9 @@
 		<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-<%@ include file="WEB-INF/header.jsp" %>
 
-<c:choose>
-	<c:when test="${requestScope.redirect == 'registration'}">
-		<%@ include file="WEB-INF/registration.jsp" %>
-	</c:when>
-	<c:when test="${requestScope.redirect == 'login'}">
-		<%@include file="WEB-INF/login.jsp" %>
-	</c:when>
-	<c:when test="${requestScope.redirect == 'payments'}">
-		<%@include file="WEB-INF/payments.jsp" %>
-	</c:when>
-	<c:otherwise>
-		<%@include file="WEB-INF/home.jsp" %>
-	</c:otherwise>
-</c:choose>
+<c:import url="/Controller" />
 
-
-<%@ include file="WEB-INF/footer.jsp" %>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
 </html>

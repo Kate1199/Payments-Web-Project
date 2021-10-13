@@ -3,6 +3,7 @@ package by.epam.kisel.service;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -10,8 +11,11 @@ import javax.servlet.http.HttpSession;
 import by.epam.kisel.bean.User;
 import by.epam.kisel.dao.user.UserDaoImpl;
 import by.epam.kisel.exception.DAOException;
+import by.epam.kisel.exception.IncorrectEnteredDataException;
 import by.epam.kisel.exception.ServiceException;
 import by.epam.kisel.service.encrytion.Encrypter;
+import by.epam.kisel.util.parameterConstants.AttributeName;
+import by.epam.kisel.util.parameterConstants.AttributeValue;
 import by.epam.kisel.util.parameterConstants.ParameterName;
 import by.epam.kisel.util.parameterConstants.Path;
 import by.epam.kisel.util.validation.Validator;
@@ -19,6 +23,10 @@ import by.epam.kisel.util.validation.Validator;
 public class LoginCommand implements ServletCommand {
 	
 	private static final String PASSWORD = "password";
+	private static final String INVALID_PASSWORD_RU = "Неверный пароль";
+	private static final String INVALID_PASSWORD = "invalid password";
+	private static final String NO_SUCH_USER_RU = "Пользователя с таким именем не существует";
+	private static final String NO_SUCH_USER = "User doen't exist";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
@@ -39,14 +47,15 @@ public class LoginCommand implements ServletCommand {
 		if(userExists(user)) {
 			passwordsEqual = Encrypter.compareEncryptedData(user.getPassword(), request.getParameter(PASSWORD).toCharArray(), user.getSalt());
 		} else {
+			request.setAttribute(AttributeName.MESSAGE, NO_SUCH_USER_RU);
+			request.setAttribute(AttributeName.REDIRECT, AttributeValue.LOGIN);
 			try {
-				//TODO: message
-				System.out.println("user doesn't exist");
-				response.sendRedirect(Path.LOGIN_PATH);
-				return false;
-			} catch (IOException e) {
+				request.getRequestDispatcher(Path.STATIC_PAGE_PATH).forward(request, response);
+			} catch (IOException | ServletException e) {
 				throw new ServiceException(e.getMessage());
 			}
+			throw new ServiceException(NO_SUCH_USER);
+			//log
 			
 		}
 		
@@ -60,13 +69,16 @@ public class LoginCommand implements ServletCommand {
 				throw new ServiceException(e.getMessage());
 			}
 		} else {
+			request.setAttribute(AttributeName.MESSAGE, INVALID_PASSWORD_RU);
+			request.setAttribute(AttributeName.REDIRECT, AttributeValue.LOGIN);
+			request.setAttribute(ParameterName.LOGIN, login);
 			try {
-				response.sendRedirect(Path.LOGIN_PATH);
-			} catch (IOException e) {
+				request.getRequestDispatcher(Path.STATIC_PAGE_PATH).forward(request, response);
+			} catch (IOException | ServletException e) {
 				throw new ServiceException(e.getMessage());
 			}
-			System.out.println("invalid password");
-			//TODO: message
+			throw new ServiceException(INVALID_PASSWORD);
+			//log
 		}
 		
 		return passwordsEqual && userExists(user);

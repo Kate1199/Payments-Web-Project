@@ -2,6 +2,8 @@ package by.epam.kisel.service;
 
 import java.io.IOException;
 
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -11,6 +13,9 @@ import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.exception.IncorrectEnteredDataException;
 import by.epam.kisel.exception.ServiceException;
 import by.epam.kisel.service.entityMaker.UserMaker;
+import by.epam.kisel.util.parameterConstants.AttributeName;
+import by.epam.kisel.util.parameterConstants.AttributeValue;
+import by.epam.kisel.util.parameterConstants.Path;
 
 public class RegistrationCommand implements ServletCommand {
 	
@@ -31,12 +36,13 @@ public class RegistrationCommand implements ServletCommand {
 		UserDaoImpl dao = new UserDaoImpl();
 		try {
 			dao.create(user);
-			response.sendRedirect("index.jsp");
+			request.setAttribute(AttributeName.REDIRECT, AttributeValue.HOME);
+			response.sendRedirect(Path.INDEX_PATH);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		} catch (IOException e) {
 			throw new ServiceException(e.getMessage());
-		}
+		} 
 		
 	}
 	

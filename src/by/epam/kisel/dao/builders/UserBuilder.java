@@ -70,4 +70,10 @@ public class UserBuilder implements EntityBuilder<User> {
 		return transmit;
 	}
 
+	@Override
+	public List<User> getListOfEntities() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

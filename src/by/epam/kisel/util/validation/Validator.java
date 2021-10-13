@@ -1,6 +1,9 @@
 package by.epam.kisel.util.validation;
 
 import java.util.Arrays;
+import java.util.List;
+
+import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
 
 import by.epam.kisel.bean.User;
 import by.epam.kisel.util.MinValues;
@@ -30,5 +33,16 @@ public class Validator {
 	
 	public static boolean isEmptyCharArray(char[] array) {
 		return Arrays.equals(array, new char[MinValues.MIN_ARRAY_SIZE]);
+	}
+	public static boolean lessThanZero(int number) {
+		return number < 0;
+	}
+	
+	public static boolean lessThanZeroOrEqualZero(int number) {
+		return number <= 0;
+	}
+	
+	public static <T> boolean isEmptyList(List<T> list) {
+		return list.isEmpty();
 	}
 }

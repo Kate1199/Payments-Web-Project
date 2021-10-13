@@ -13,4 +13,5 @@ public interface EntityBuilder<T extends Entity> {
 	public boolean putTo(List<T> list, T entity);
 	public boolean transmitEntity(PreparedStatement preparedStatement, T entity)
 			throws DAOException;
+	public List<T> getListOfEntities();
 }

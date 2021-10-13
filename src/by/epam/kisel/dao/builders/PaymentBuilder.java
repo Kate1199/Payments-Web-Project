@@ -20,7 +20,8 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 	
 	private List<Payment> payments = new ArrayList<Payment>();
 	
-	public List<Payment> getPayments() {
+	@Override
+	public List<Payment> getListOfEntities() {
 		return payments;
 	}
 
@@ -36,12 +37,13 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 			while (resultSet.next()) {
 				int id = resultSet.getInt(PaymentColoumns.ID);
 				String name = resultSet.getString(PaymentColoumns.NAME);
+				byte[] image = BlobByteArrayMaker.makeByteArray(resultSet, PaymentColoumns.IMAGE);
 				String reciever = resultSet.getString(PaymentColoumns.RECIEVER);
 				String details = resultSet.getString(PaymentColoumns.DETAILS);
 				String description = resultSet.getString(PaymentColoumns.DESCRIPTION);
 				int fixedAmount = resultSet.getInt(PaymentColoumns.FIXED_AMOUNT);
 				int procentFee = resultSet.getInt(PaymentColoumns.PROCENT_FEE);
-				payment = new Payment(id, name, reciever, details, description, fixedAmount, procentFee);
+				payment = new Payment(id, name, image, reciever, details, description, fixedAmount, procentFee);
 				payments.add(payment);
 			}
 		} catch (SQLException e) {
@@ -62,6 +64,7 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 		try {
 			preparedStatement.setInt(PaymentColoumns.ID, payment.getId());
 			preparedStatement.setString(PaymentColoumns.NAME, payment.getName());
+			preparedStatement.setBlob(PaymentColoumns.IMAGE, new SerialBlob(payment.getImage()));
 			preparedStatement.setString(PaymentColoumns.RECIEVER, payment.getReciever());
 			preparedStatement.setString(PaymentColoumns.DETAILS, payment.getPaymentDetails());
 			preparedStatement.setString(PaymentColoumns.DESCRIPTION, payment.getDescription());
@@ -75,5 +78,7 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 		}
 		return transmit;
 	}
+
+	
 	
 }

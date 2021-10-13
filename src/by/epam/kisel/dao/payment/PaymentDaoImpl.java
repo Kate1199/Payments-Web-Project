@@ -24,10 +24,6 @@ public class PaymentDaoImpl extends DatabaseDAO<Payment> implements PaymentDAO {
 	private static final int NAME_POSITION_IN_FIND_BY_NAME_REQUEST = 1;
 	private static final int SECOND_POSITION = 2;
 	
-	private static int previousLimit = 0;
-	private static int limit = 3;
-	private static int currentPage = 2;
-	
 
 	@Override
 	public List<Payment> findAll() throws DAOException {
@@ -72,7 +68,7 @@ public class PaymentDaoImpl extends DatabaseDAO<Payment> implements PaymentDAO {
 		return super.findByParameter(FIND_BY_NAME, name, new PaymentBuilder());
 	}
 	
-	public List<Payment> findAllWithLimits() throws DAOException {
+	public List<Payment> findAllWithLimits(int previousLimit, int limit) throws DAOException {
 		List<Payment> payments = new ArrayList<Payment>();
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -93,9 +89,16 @@ public class PaymentDaoImpl extends DatabaseDAO<Payment> implements PaymentDAO {
 		}
 		PaymentBuilder paymentBuilder = new PaymentBuilder();
 		paymentBuilder.makeEntity(resultSet);
-		payments = paymentBuilder.getPayments();
+		payments = paymentBuilder.getListOfEntities();
 		connectionPool.releaseConnection(connection);
-		previousLimit += limit;
 		return payments;
 	}
+
+	@Override
+	public List<Payment> findSomeFist(int number) {
+		
+		return null;
+	}
+	
+	
 }

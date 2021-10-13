@@ -18,13 +18,14 @@
 <div class="row justify-content-md-center">
   <div class="col-md-4">
     <label for="inputLogin" class="form-label">Логин</label>
-    <input name="login" type="text" class="form-control" id="inputLogin" required>
+    <input name="login" type="text" class="form-control" id="inputLogin" value="${login}" required>
   </div>
   </div>
   <div class="row justify-content-md-center">
   <div class="col-md-4">
     <label for="inputPassword" class="form-label">Пароль</label>
     <input name="password" type="password" class="form-control" id="inputPassword" required>
+    <span class="form-text text-danger">${message}</span>
   </div>
   </div>
   

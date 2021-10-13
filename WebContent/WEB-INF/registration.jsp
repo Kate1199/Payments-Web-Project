@@ -11,56 +11,72 @@
 	<link rel="stylesheet" href="css/main.css">
 </head>
 <body>
+<form action="Controller?command=registration" method="post" class="row g-3 needs-validation">
+	<div class="p-5 mt-5 col-md-5 mx-auto">
+		
+			<h5 class="display-5 text-center">Регистрация</h5>
 
-<div class="p-5 mt-5">
-<form action="Controller?command=registration" method="post" class="row g-3">
-
-<h5 class="display-5 text-center">Регистрация</h5>
-
-<div class="row justify-content-md-center">
-  <div class="col-md-4">
-    <label for="inputLogin" class="form-label">Логин*</label>
-    <input name="login" type="text" class="form-control" id="inputLogin" required>
-  </div>
- </div>
- <div class="row justify-content-md-center">
-  <div class="col-md-4">
-    <label for="inputEmail" class="form-label">Email*</label>
-    <div class="input-group">
-      <span class="input-group-text" id="inputGroupPrepend2">@</span>
-      <input name="email" type="email" class="form-control" id="inputEmail"  aria-describedby="inputGroupPrepend2" required>
-    </div>
-  </div>
- </div>
- <div class="row justify-content-md-center">
-  <div class="col-md-4">
-    <label for="inputPassword" class="form-label">Пароль*</label>
-    <input name="password" type="password" class="form-control" id="inputPassword" required>
-  </div>
- </div>
- <div class="row justify-content-md-center">
-  <div class="col-md-4">
-    <label for="inputPasswordRepeat" class="form-label">Повторите пароль*</label>
-    <input name="repeatPassword" type="password" class="form-control" id="inputPasswordRepeat" required>
-  </div>
- </div>
- <div class="row">
-  <div class="mt-2 mb-2 d-grid gap-2 col-md-4 mx-auto">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
-      <label class="form-check-label" for="invalidCheck2">
-        Согласие на обработку данных
-      </label>
-    </div>
-  </div>
-  </div>
-   <div class="row">
-  <div class="d-grid gap-2 col-2 mx-auto">
-    <button class="btn btn-primary" type="submit">Отправить</button>
-  </div>
-  </div>
+			<div class="row mb-2">
+    			<label for="inputLogin" class="form-label">Логин*</label>
+    			<input name="login" type="text" class="form-control" id="inputLogin" placeholder=" " required pattern="[A-Za-z0-9_-]+">
+ 				<span class="form-text text-danger">${message}</span>
+ 			</div>
+ 
+ 			<div class="row mb-2">
+    			<label for="inputEmail" class="form-label">Email*</label>
+    			<div class="input-group">
+      			<span class="input-group-text" id="inputGroupPrepend2">@</span>
+     	 		<input name="email" type="email" class="form-control" id="inputEmail"  
+     	 			aria-describedby="inputGroupPrepend2" value="${email}" placeholder="name@example.com" 
+     	 			required pattern="[a-zA-z_\.\d]+@([a-zA-Z]+\.){1,2}[a-zA-Z]+">
+    		</div>
+ 		</div>
+ 
+ 		<div class="row">
+ 			<label for="inputPassword" class="form-label">Пароль*</label>
+ 			<div class="input-group">
+  				<input name="password" type="password" class="form-control" id="inputPassword"
+     				aria-describedby="basic-addon2" value="${password}" placeholder=" " required pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^@#$%]).{6,20})">
+  				<div class="input-group-append">
+   					<a href="#" class="btn btn-outline-dark" onclick="return show_hide_password(this);"><img src="images/eye.svg" alt="" /></a>
+ 
+  				</div>
+    			<span id="passwordHelpInline" class="form-text">
+  					Ваш пароль должен состоять из 8-20 символов, содержать буквы разного регистра, цифры и не должен содержать пробелов, специальных символов или эмодзи.
+				</span>
+			</div>
+		</div>
+ 
+  		<div class="mt-2 mb-2 d-grid gap-2 mx-auto">
+   			 <div class="form-check">
+      			<input class="form-check-input" type="checkbox" value="" id="invalidCheck2" required>
+      			<label class="form-check-label" for="invalidCheck2">
+        			Согласие на обработку данных
+      			</label>
+    		</div>
+  		</div>
+  	</div>
+  	
+   	<div class="row">
+  		<div class="d-grid gap-2 col-2 mx-auto">
+    		<button class="btn btn-primary" type="submit">Отправить</button>
+  		</div>
+  	</div>
 </form>
-</div>
+
+<script type="text/javascript">
+function show_hide_password(target){
+	var input = document.getElementById('inputPassword');
+	if (input.getAttribute('type') == 'password') {
+		target.classList.add('view');
+		input.setAttribute('type', 'text');
+	} else {
+		target.classList.remove('view');
+		input.setAttribute('type', 'password');
+	}
+	return false;
+}
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </body>
