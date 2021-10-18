@@ -183,6 +183,7 @@ public class SqlDatabaseDAO<T extends Entity> {
 		try {
 			preparedStatement = connection.prepareStatement(sqlStatement);
 			insert &= entityBuilder.transmitEntity(preparedStatement, entity);
+			preparedStatement.executeUpdate();
 		} catch (SQLException e) {
 			insert = false;
 			logger.log(Level.ERROR, e.getMessage());

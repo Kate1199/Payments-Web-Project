@@ -9,5 +9,6 @@ public class PaymentColoumns {
 	public static final int DESCRIPTION = 6;
 	public static final int FIXED_AMOUNT = 7;
 	public static final int PROCENT_FEE = 8;
+	public static final int PAYMENT_ACCOUNT_ID = 10;
 	
 }

@@ -37,7 +37,6 @@ public class UserBuilder implements EntityBuilder<User> {
 			preparedStatement.setBlob(UserColoumns.PASSWORD_COLOUMN, new SerialBlob(user.getPassword()));
 			preparedStatement.setBlob(UserColoumns.SALT_COLOUMN, new SerialBlob(user.getSalt()));
 			preparedStatement.setString(UserColoumns.ROLE_COLOUMN, user.getRole().toString());
-			preparedStatement.executeUpdate();
 			transmit = true;
 		} catch (SQLException e) {
 			transmit = false;

@@ -20,6 +20,9 @@ import by.epam.payments.bean.Card;
 public class CardBuilder implements EntityBuilder<Card> {
 	
 	public static Logger logger = LogManager.getLogger();
+	
+	public CardBuilder() {
+	}
 
 	@Override
 	public boolean transmitEntity(PreparedStatement preparedStatement, Card card) throws DAOException {

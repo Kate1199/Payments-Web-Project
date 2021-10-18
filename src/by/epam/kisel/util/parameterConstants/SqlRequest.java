@@ -13,7 +13,9 @@ public class SqlRequest {
 	 */
 	public static final String FIND_CLIENT_ID_BY_USER_ID = "SELECT client_id FROM clients WHERE hidden = 0 AND user_id = ?";
 	public static final String FIND_CLIENT_BY_IDENTIFIACTION_NUMBER = "SELECT * FROM clients WHERE hidden = 0 AND personal_identification_number = ?";
-	public static final String ADD_CLIENT = "INSERT INTO clients VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public static final String ADD_CLIENT = "INSERT INTO clients client_id, personal_identifiaction_number, "
+			+ "surname, name, patronymic, phone_number, registration_address, real_address, Users_user_id "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	/*
 	 * For bank
@@ -24,7 +26,8 @@ public class SqlRequest {
 	 * For account
 	 */
 	public static final String FIND_ALL_ACCOUNTS = "SELECT * FROM accounts WHERE hidden = 0";
-	public static final String ADD_ACCOUNT = "INSERT INTO accounts VALUES(?, ?, ?, ?, ?, ?)";
+	public static final String ADD_ACCOUNT = "INSERT INTO accounts account_id, account_IBAN_number, "
+			+ "currency, balance, Cients_client_id, Bank_departents_department_id VALUES(?, ?, ?, ?, ?, ?)";
 	public static final String FIND_ACCOUNT_BY_ID = "SELECT * FROM accounts WHERE hidden = 0 AND account_id = ?";
 	public static final String FIND_ACCOUNT_BY_CLIENT_ID = "SELECT * FROM accounts WHERE hidden = 0 AND Clients_client_id = ?";
 	public static final String GET_BALANCE_BY_ACCOUNT_NUMBER = "SELECT balnce FROM accounts WHERE hidden = 0 AND account_IBAN_number = ?";	

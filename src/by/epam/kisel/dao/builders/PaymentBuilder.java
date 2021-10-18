@@ -22,6 +22,9 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 	
 	private static Logger logger = LogManager.getLogger();
 	
+	public PaymentBuilder() {
+	}
+	
 	@Override
 	public boolean transmitEntity(PreparedStatement preparedStatement, Payment payment) throws DAOException {
 		boolean transmit;
@@ -35,7 +38,7 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 			preparedStatement.setString(PaymentColoumns.DESCRIPTION, payment.getDescription());
 			preparedStatement.setInt(PaymentColoumns.FIXED_AMOUNT, payment.getFixedAmount());
 			preparedStatement.setInt(PaymentColoumns.PROCENT_FEE, payment.getProcentFee());
-			
+			preparedStatement.setInt(PaymentColoumns.PAYMENT_ACCOUNT_ID, payment.getAccountId());
 			transmit = true;
 		} catch (SQLException e) {
 			transmit = false;
@@ -63,7 +66,8 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 				String description = resultSet.getString(PaymentColoumns.DESCRIPTION);
 				int fixedAmount = resultSet.getInt(PaymentColoumns.FIXED_AMOUNT);
 				int procentFee = resultSet.getInt(PaymentColoumns.PROCENT_FEE);
-				Payment payment = new Payment(id, name, image, reciever, details, description, fixedAmount, procentFee);
+				int accountId = resultSet.getInt(PaymentColoumns.PAYMENT_ACCOUNT_ID);
+				Payment payment = new Payment(id, name, image, reciever, details, description, fixedAmount, procentFee, accountId);
 				payments.add(payment);
 			}
 		} catch (SQLException e) {

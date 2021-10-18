@@ -18,6 +18,9 @@ import by.epam.payments.bean.Client;
 public class ClientBuilder implements EntityBuilder<Client> {
 	
 	private static Logger logger = LogManager.getLogger();
+	
+	public ClientBuilder() {
+	}
 
 	@Override
 	public boolean transmitEntity(PreparedStatement preparedStatement, Client client) throws DAOException {

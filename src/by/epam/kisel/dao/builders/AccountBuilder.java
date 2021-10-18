@@ -17,6 +17,9 @@ import by.epam.payments.bean.Account;
 public class AccountBuilder implements EntityBuilder<Account> {
 
 	private static Logger logger = LogManager.getLogger();
+	
+	public AccountBuilder() {
+	}
 
 	@Override
 	public boolean transmitEntity(PreparedStatement preparedStatement, Account entity) throws DAOException {
