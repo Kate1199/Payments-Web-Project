@@ -19,7 +19,6 @@ import by.epam.kisel.util.parameterConstants.ParameterName;
 import by.epam.kisel.util.parameterConstants.SqlRequest;
 import by.epam.kisel.util.validation.Validator;
 import by.epam.payments.bean.Account;
-import by.epam.payments.bean.Bank;
 import by.epam.payments.bean.Card;
 import by.epam.payments.bean.Client;
 

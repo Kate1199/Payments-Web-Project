@@ -2,8 +2,7 @@ package by.epam.payments.bean;
 
 public enum Role {
 	USER("user"),
-	ADMIN("admin"),
-	BANK("bank");
+	ADMIN("admin");
 
 	private String roleName;
 	

@@ -94,8 +94,6 @@ public class LoginCommand implements ServletCommand {
 		
 		if(user.getRole() == Role.ADMIN) {
 			logger.log(Level.INFO, LogMessage.ADMIN_LOGGED_IN + user.getId());
-		} else if(user.getRole() == Role.BANK) {
-			logger.log(Level.INFO, LogMessage.BANK_LOGGED_IN + user.getId());
 		}
 		
 		SqlDatabaseDAO<User> userDao = new SqlDatabaseDAO<User>();

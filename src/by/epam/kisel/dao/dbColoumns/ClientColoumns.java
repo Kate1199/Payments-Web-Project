@@ -10,5 +10,5 @@ public class ClientColoumns {
 	public static final int PHONE_NUMBER = 6;
 	public static final int REGISTARTION_ADDRESS = 7;
 	public static final int REAL_ADDRESS = 8;
-	public static final int USER_ID = 9;
+	public static final int USER_ID = 10;
 }

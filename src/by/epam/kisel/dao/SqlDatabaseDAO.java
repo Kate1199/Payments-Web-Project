@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.Level;
@@ -43,11 +44,7 @@ public class SqlDatabaseDAO<T extends Entity> {
 	private PreparedStatement preparedStatement;
 	private ResultSet resultSet;
 
-	public SqlDatabaseDAO() {
-	}
-
-	public Connection getConnection() {
-		return connection;
+	protected SqlDatabaseDAO() {
 	}
 
 	public SqlDatabaseDAO(Connection connection) {
@@ -115,6 +112,10 @@ public class SqlDatabaseDAO<T extends Entity> {
 
 	public List<T> findByParameterEntity(String sqlRequest, EntityBuilder<T> entityBuilder, Object... parameters)
 			throws DAOException {
+		if(Validator.isNull(entityBuilder) || Validator.isNull(sqlRequest) || Validator.isNull(parameters)) {
+			return new ArrayList<T>();
+		}
+		
 		findByParameter(sqlRequest, parameters);
 		List<T> entities = entityBuilder.getListOfEntities(resultSet);
 		closeConnection();
@@ -129,7 +130,6 @@ public class SqlDatabaseDAO<T extends Entity> {
 	}
 
 	private boolean findByParameter(String sqlRequest, Object...parameters) throws DAOException {
-
 		boolean find = true;
 		makeConnection();
 		makePreparedStatementForSomeParameters(sqlRequest, parameters);
@@ -175,6 +175,10 @@ public class SqlDatabaseDAO<T extends Entity> {
 
 	public boolean insertInto(String sqlStatement, T entity, EntityBuilder<T> entityBuilder) throws DAOException {
 		boolean insert = true;
+		
+		if(Validator.isNull(entity) || Validator.isNull(sqlStatement) || Validator.isNull(entityBuilder)) {
+			return false;
+		}
 		makeConnection();
 		try {
 			preparedStatement = connection.prepareStatement(sqlStatement);
@@ -213,5 +217,12 @@ public class SqlDatabaseDAO<T extends Entity> {
 			throw new DAOException(e.getMessage());
 		}
 		return update;
+	}
+	
+	public boolean makeEntryInvisible(String sqlRequest, Object...parameters) throws DAOException {
+		boolean invisible = true;
+		makeConnection();
+		invisible &= updateCore(sqlRequest, parameters) && closeConnection();
+		return invisible;
 	}
 }

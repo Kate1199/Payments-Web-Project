@@ -9,4 +9,6 @@ import by.epam.payments.bean.Account;
 public interface AccountDao extends Dao<Account> {
 	
 	public List<Account> takeAccountByClientId(int clientId) throws DAOException;
+	public long takeBalanceByAccountNumber(String sqlRequest, String numberIban) throws DAOException;
+	public boolean updateAccountBalance(long balance, String numberIban) throws DAOException;
 }
