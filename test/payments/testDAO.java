@@ -9,69 +9,35 @@ import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.w3c.dom.UserDataHandler;
 
-import by.epam.kisel.bean.User;
+import by.epam.kisel.dao.SqlDatabaseDAO;
+import by.epam.kisel.dao.builders.UserBuilder;
 import by.epam.kisel.exception.DAOException;
+import by.epam.kisel.service.encrytion.Encrypter;
+import by.epam.payments.bean.Role;
+import by.epam.payments.bean.User;
 
 public class testDAO {
-
-	private Connection connection;
+	
 	private HashMap<Integer, User> users;
-	private User admin = new User(1, "admin", "admin@mail.ru", "654321", false);
-	private User user1 = new User(2, "user1", 375447748956L, "user1@mail.ru", "654321", true);
-	private User user2 = new User(3, "user2", 375258974525L, "user2@mail.ru", "654321", true);
-	private UserDAOforDB<Integer, User> dao;
+	private byte[] password = {15, -67, -85, -45};
+	private byte[] salt = Encrypter.generateSalt();
+	private User admin = new User(1, "admin", "admin@mail.ru", password, salt, Role.ADMIN);
+	private User user1 = new User(2, "user1", "user1@mail.ru", password, salt, Role.USER);
+	private User bank = new User(3, "bank", "bank@mail.ru", password, salt, Role.BANK);
+	private SqlDatabaseDAO<User> dao;
+	private Connection connection;
+	
+	private String findAll = "SELECT * FROM users";
+	private String insert = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?)";
 	
 	@Before
 	public void setUp() {
-		users = new HashMap<Integer, User>();
 		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mydb",
-					"root", "654321");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test_db", "root", "654321");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
-		
-	}
-	
-	@Test
-	public void testReadAll() {
-		users.put(1, admin);
-		users.put(2, user1);
-		HashMap<Integer, User> actual = null;
-		try {
-			actual = dao.readAll();
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		assertEquals(users, actual);
-	}
-	
-	@Test
-	public void testReadBy() {
-		User expected = admin;
-		User actual = null;
-		try {
-			actual = dao.readBy(1);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		assertEquals(expected, actual);
-	}
-	
-	@Test
-	public void testWrite() {
-		boolean expected = true;
-		boolean actual = false;
-		try {
-			actual = dao.write(user2);
-		} catch (DAOException e) {
-			e.printStackTrace();
-		}
-		assertEquals(expected, actual);
+		dao = new SqlDatabaseDAO<User>(connection);
 	}
 }

@@ -2,41 +2,43 @@ package by.epam.kisel.service.entityMaker;
 
 import java.io.IOException;
 
-import javax.management.AttributeValueExp;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import by.epam.kisel.bean.Role;
-import by.epam.kisel.bean.User;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.epam.kisel.dao.user.UserDaoImpl;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.exception.IncorrectEnteredDataException;
 import by.epam.kisel.exception.ServiceException;
 import by.epam.kisel.service.encrytion.Encrypter;
-import by.epam.kisel.util.MinValues;
 import by.epam.kisel.util.parameterConstants.AttributeName;
 import by.epam.kisel.util.parameterConstants.AttributeValue;
 import by.epam.kisel.util.parameterConstants.ParameterName;
 import by.epam.kisel.util.parameterConstants.Path;
 import by.epam.kisel.util.validation.PatternValidator;
 import by.epam.kisel.util.validation.Validator;
+import by.epam.payments.bean.Role;
+import by.epam.payments.bean.User;
 
 public class UserMaker implements EntityMakerFromRequest<User> {
 
 	private static final String USER_EXISTS = "user with such login already exists";
 	private static final String USER_EXISTS_RU = "Пользователь с таким именем уже существует";
 	private static final String INCORRECT_DATA_FORMAT = "login, email or password is incorrect";
-
-	private static final String STANDART_ROLE = "user";
+	
+	private static Logger logger = LogManager.getLogger();
 
 	public UserMaker() {
 	}
 
 	public User makeEntity(HttpServletRequest request, HttpServletResponse response)
 			throws ServiceException, IncorrectEnteredDataException {
-
+		
 		String login;
 		String email;
 		byte[] password;
@@ -53,10 +55,10 @@ public class UserMaker implements EntityMakerFromRequest<User> {
 			request.setAttribute(AttributeName.MESSAGE, USER_EXISTS_RU);
 			request.setAttribute(ParameterName.EMAIL, email);
 			request.setAttribute(ParameterName.PASSWORD, request.getParameter(ParameterName.PASSWORD));
-			request.setAttribute(AttributeName.REDIRECT, AttributeValue.REGISTRATION);
 			try {
-				request.getRequestDispatcher(Path.STATIC_PAGE_PATH).forward(request, response);
+				request.getRequestDispatcher(Path.REGISTRATION_PATH).forward(request, response);
 			} catch (IOException | ServletException e) {
+				logger.log(Level.ERROR, e.getMessage());
 				throw new ServiceException(e.getMessage());
 			}
 			throw new IncorrectEnteredDataException(USER_EXISTS);
@@ -65,15 +67,14 @@ public class UserMaker implements EntityMakerFromRequest<User> {
 
 		User user = new User(login, email, password, salt, role);
 		if (isEnteredDataCorrect(user, response)) {
-
 			session.setAttribute(ParameterName.LOGIN, login);
 			session.setAttribute(ParameterName.ROLE, role);
 
 		} else {
-			request.setAttribute(AttributeName.REDIRECT, AttributeValue.HOME);
 			try {
-				request.getRequestDispatcher(Path.STATIC_PAGE_PATH).forward(request, response);
+				request.getRequestDispatcher(Path.HOME_PATH).forward(request, response);
 			} catch (ServletException | IOException e) {
+				logger.log(Level.ERROR, e.getMessage());
 				throw new ServiceException(e.getMessage());
 			}
 		}
@@ -91,8 +92,7 @@ public class UserMaker implements EntityMakerFromRequest<User> {
 			throw new ServiceException(e.getMessage());
 		}
 
-		if (!Validator.isEmptyUser(userWithSuchLogin)) {
-			// TODO: something
+		if (!Validator.isNull(userWithSuchLogin) || !Validator.isEmptyUser(userWithSuchLogin)) {
 			isExist = true;
 		}
 
@@ -109,8 +109,9 @@ public class UserMaker implements EntityMakerFromRequest<User> {
 			try {
 				// TODO:change
 
-				response.sendRedirect(Path.STATIC_PAGE_PATH);
+				response.sendRedirect(Path.CLIENT_FORM_PATH);
 			} catch (IOException e) {
+				logger.log(Level.ERROR, e.getMessage());
 				throw new ServiceException(e.getMessage());
 			}
 			throw new IncorrectEnteredDataException(INCORRECT_DATA_FORMAT);

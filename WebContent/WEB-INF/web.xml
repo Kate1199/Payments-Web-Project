@@ -3,16 +3,46 @@
   <display-name>payments</display-name>
   <servlet>
  	 <servlet-name>Controller</servlet-name>
- 	 <servlet-class>by.epam.kisel.controller.Controller</servlet-class>
+ 	 <servlet-class>by.epam.payments.controller.Controller</servlet-class>
   </servlet>
-  
+
   <servlet-mapping>
   	<servlet-name>Controller</servlet-name>
   	<url-pattern>/Controller</url-pattern>
   </servlet-mapping>
   
+  <jsp-config>
+  		<jsp-property-group>
+			<url-pattern>*.jsp</url-pattern>
+			<include-prelude>/WEB-INF/header.jsp</include-prelude>
+			<include-coda>/WEB-INF/footer.jsp</include-coda>
+		</jsp-property-group>
+	</jsp-config>
+  
   <session-config>
   	<session-timeout>15</session-timeout>
   </session-config>
   
+  <context-param>  
+    	<param-name>log4jConfiguration</param-name>  
+    	<param-value>/WEB-INF/classes/log4j2.xml</param-value>  
+   </context-param>  
+   
+   <listener>
+   		<listener-class>by.epam.kisel.util.StrartEndServerListener</listener-class>
+   </listener>
+
+	<filter>
+    	<filter-name>CharacterEncodingFilter</filter-name>
+    	<filter-class>by.epam.kisel.service.filter.CharacterEncodingFilter</filter-class>
+      <init-param>
+        <param-name>requestEncoding</param-name>
+        <param-value>UTF-8</param-value>
+      </init-param>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>CharacterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

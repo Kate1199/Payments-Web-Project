@@ -12,8 +12,9 @@ public final class ParameterPattern {
 	/*
 	 * Parameters for client
 	 */
-	public static final String PHONE_NUMBER = "(\u002B){1}[\\d]{10,}";
-	public static final String NAME = "^([A-Z]?|[А-Я]?)([a-z]*|[а-я]*)[\\s-]*([a-z]+|[а-я]+)";
-	public static final String IDENTIFIACTION_NUMBER = "[a-zA-z\\d]{5,}";
-	public static final String ADDRESS = "[^<>?@#$%&*()=+]";
+	public static final String IDENTIFIACTION_NUMBER = "[A-Za-z0-9]{5,20}";
+	public static final String NAME = "^[A-ZА-Я]{1}[a-zа-я]*[\\s-]*[a-zа-я]+";
+	public static final String PATRONYMIC = "[А-ЯA-Z]{1}[a-zа-я]+";
+	public static final String PHONE_NUMBER = "\\u002B{1}[0-9]{7,}";
+	public static final String ADDRESS = "[A-Za-zА-Яа-я0-9\\\\.\\,\\s]{10,}";
 }

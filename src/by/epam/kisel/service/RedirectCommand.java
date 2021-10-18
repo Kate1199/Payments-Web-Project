@@ -4,22 +4,29 @@ package by.epam.kisel.service;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.kisel.dao.client.ClientDaoImpl;
 import by.epam.kisel.dao.payment.PaymentDaoImpl;
+import by.epam.kisel.dao.user.UserDaoImpl;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.exception.ServiceException;
 import by.epam.kisel.util.parameterConstants.AttributeName;
 import by.epam.kisel.util.parameterConstants.AttributeValue;
 import by.epam.kisel.util.parameterConstants.ParameterName;
 import by.epam.kisel.util.parameterConstants.Path;
+import by.epam.kisel.util.parameterConstants.PathMap;
 import by.epam.kisel.util.validation.Validator;
+import by.epam.payments.bean.Client;
+import by.epam.payments.bean.User;
 
 public class RedirectCommand implements ServletCommand {
 	
@@ -28,44 +35,49 @@ public class RedirectCommand implements ServletCommand {
 	
 	private static final String PARAMETER_NAME = "redirect";
 	
-	private static final String REGISTRATION_VALUE = "registration";
-	private static final String LOG_IN_VALUE = "login";
 	private static final String HOME_VALUE = "home";
 	private static final String EXIT_VALUE = "exit";
 	private static final String PAYMENTS_VALUE = "payments";
 	
 	private static final int PREVIOUS_LIMIT = 0;
 	private static final int LIMIT = 4;
+	
+	private static Logger logger = LogManager.getLogger();
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-		
-		definePage(request);
+		String page = definePage(request);
 		try {
-			request.getRequestDispatcher(Path.STATIC_PAGE_PATH).forward(request, response);
+			request.getRequestDispatcher(page).forward(request, response);
 		} catch (ServletException e) {
+			logger.log(Level.ERROR, e.getMessage());
 			throw new ServiceException(e.getMessage());
 		} catch (IOException e) {
+			logger.log(Level.ERROR, e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
 	
-	private boolean definePage(HttpServletRequest request) throws ServiceException {
+	private String definePage(HttpServletRequest request) throws ServiceException {
 		boolean define = true;
 		String value = request.getParameter(PARAMETER_NAME);
+		PathMap pathMap = PathMap.getInstanse();
+		String page;
 		
 		if(Validator.isNull(value) || value.equals(HOME_VALUE)) {
-			request.setAttribute(PARAMETER_NAME, HOME_VALUE);
+			page = pathMap.getPath(HOME_VALUE);
 			loadHomePayments(request);
 			define = false;
 		} else if (value.equals(EXIT_VALUE)) {
 			exit(request);
-			request.setAttribute(AttributeName.REDIRECT, AttributeValue.HOME);
+			page = pathMap.getPath(HOME_VALUE);
 			loadHomePayments(request);
+		} else if(value.equals(AttributeValue.PROFILE)) {
+			page = checkIfActiveClient(request);
 		} else {
-			request.setAttribute(AttributeName.REDIRECT, value);
+			page = pathMap.getPath(value);
 		}
-		return define;
+		return page;
 	}
 	
 	private boolean exit(HttpServletRequest request) {
@@ -87,6 +99,33 @@ public class RedirectCommand implements ServletCommand {
 		}
 		
 		return load;
+	}
+	
+	private String checkIfActiveClient(HttpServletRequest request) throws ServiceException {
+		String page;
+		PathMap pathMap = PathMap.getInstanse();
+		HttpSession session = request.getSession();
+		String login = (String) session.getAttribute(ParameterName.LOGIN);
+		UserDaoImpl userDaoImpl = new UserDaoImpl();
+		Client client;
+		try {
+			User user = userDaoImpl.findByLogin(login);
+			ClientDaoImpl clientDaoIml = new ClientDaoImpl();
+			client = clientDaoIml.findClientByUserId(user.getId());
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		
+		if(Validator.isEmpty(client)) {
+			page = pathMap.getPath(AttributeValue.CLIENT_FORM);
+		} else {
+			page = pathMap.getPath(AttributeValue.PROFILE);
+			ProfilePage profilePage = new ProfilePage(session);
+			profilePage.outputClientInformation(request);
+		}
+		
+		return page;
+		
 	}
 
 }

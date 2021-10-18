@@ -6,7 +6,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.epam.kisel.exception.ConnectionPoolException;
+import by.epam.kisel.util.parameterConstants.LogMessage;
 import by.epam.kisel.util.validation.Validator;
 
 public class ConnectionPool {
@@ -26,8 +31,18 @@ public class ConnectionPool {
 	private static List<Connection> usedConnections;
 	
 	private static ConnectionPool instanse;
+	
+	private static Logger logger = LogManager.getLogger();
 
-	public ConnectionPool() {
+	private ConnectionPool() {
+	}
+	
+	public static synchronized ConnectionPool getInstanse() throws ConnectionPoolException {
+		if(Validator.isNull(instanse)) {
+			instanse = create();
+		}
+		
+		return instanse;
 	}
 
 	public static ConnectionPool create() throws ConnectionPoolException {
@@ -46,29 +61,25 @@ public class ConnectionPool {
 			try {
 				connection = DriverManager.getConnection(url, user, password);
 			} catch (SQLException e) {
+				logger.log(Level.INFO, e.getMessage());
 				throw new ConnectionPoolException(e.getMessage());
 			}
 			connectionPool.add(connection);
 		}
+		logger.log(Level.INFO, LogMessage.СONNECTION_POOL_CREATED);
 		return new ConnectionPool();
-	}
-	
-	public static synchronized ConnectionPool getInstanse() throws ConnectionPoolException {
-		if(Validator.isNull(instanse)) {
-			instanse = create();
-		}
-		
-		return instanse;
 	}
 
 	public Connection getConnection() {
 		Connection connection = connectionPool.remove(connectionPool.size() - LAST_INDEX_CORRECTOR);
 		usedConnections.add(connection);
+		logger.log(Level.INFO, LogMessage.CONNECTION_RECIEVED);
 		return connection;
 	}
 
 	public boolean releaseConnection(Connection connection) {
 		connectionPool.add(connection);
+		logger.log(Level.INFO, LogMessage.CONNECTION_CLOSED);
 		return usedConnections.remove(connection);
 	}
 

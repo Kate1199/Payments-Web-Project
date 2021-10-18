@@ -3,10 +3,11 @@ package by.epam.kisel.util.validation;
 import java.util.Arrays;
 import java.util.List;
 
-import com.mysql.cj.x.protobuf.MysqlxCrud.Collection;
+import org.apache.logging.log4j.core.net.Facility;
 
-import by.epam.kisel.bean.User;
 import by.epam.kisel.util.MinValues;
+import by.epam.payments.bean.Client;
+import by.epam.payments.bean.User;
 
 public class Validator {
 	
@@ -24,7 +25,7 @@ public class Validator {
 	
 	public static boolean isEmptyUser(User user) {
 		boolean isEmpty = false;
-		if(user.getId() == 0 || isNull(user.getLogin()) || isNull(user.getEmail())
+		if(isNull(user) || user.getId() == 0 || isNull(user.getLogin()) || isNull(user.getEmail())
 				|| isNull(user.getPassword()) || isNull(user.getRole())) {
 			isEmpty = true;
 		}
@@ -34,6 +35,19 @@ public class Validator {
 	public static boolean isEmptyCharArray(char[] array) {
 		return Arrays.equals(array, new char[MinValues.MIN_ARRAY_SIZE]);
 	}
+	
+	public static boolean isEmpty(Client client) {
+		return isNull(client) ||
+				isNull(client.getId()) ||
+				isNull(client.getIdentificationNumber()) ||
+				isNull(client.getFirstName()) ||
+				isNull(client.getLastName()) ||
+				isNull(client.getPatronymic()) ||
+				isNull(client.getPhoneNumber()) ||
+				isNull(client.getRegistrationAddress()) ||
+				isNull(client.getRealAddress());
+	}
+	
 	public static boolean lessThanZero(int number) {
 		return number < 0;
 	}

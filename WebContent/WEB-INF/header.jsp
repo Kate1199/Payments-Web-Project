@@ -59,7 +59,9 @@
      <c:when test="${sessionScope.role == 'USER'}">
      <div class="row">
      <div class="col-8 me-2">
-     	<h5 class="text-light">Привет, ${sessionScope.login}</h5>
+     	<form action="Controller" method="get">
+     		<button type="submit" class=" btn btn-link text-light" name="redirect" value="profile">Мой профиль</button>
+     	</form>
      </div>
      <div class="col-3">
      <form action="Controller" method="get">
@@ -75,6 +77,10 @@
      </div>
    </div>
    </div>
+   
+   <button type="submit" class="btn btn-light me-5">
+   		<img alt="" src="images/translate.svg">
+   </button>
 </nav>
 
 <%@include file="modalNotificationRegLog.jsp" %>

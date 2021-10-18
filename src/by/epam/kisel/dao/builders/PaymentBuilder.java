@@ -8,55 +8,20 @@ import java.util.List;
 
 import javax.sql.rowset.serial.SerialBlob;
 
-import by.epam.kisel.bean.Payment;
-import by.epam.kisel.bean.User;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.epam.kisel.dao.dbColoumns.PaymentColoumns;
-import by.epam.kisel.dao.dbColoumns.UserColoumns;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.util.BlobByteArrayMaker;
 import by.epam.kisel.util.validation.Validator;
+import by.epam.payments.bean.Payment;
 
 public class PaymentBuilder implements EntityBuilder<Payment> {
 	
-	private List<Payment> payments = new ArrayList<Payment>();
+	private static Logger logger = LogManager.getLogger();
 	
-	@Override
-	public List<Payment> getListOfEntities() {
-		return payments;
-	}
-
-	@Override
-	public Payment makeEntity(ResultSet resultSet) throws DAOException {
-		if (Validator.isNull(resultSet)) {
-			return new Payment();
-		}
-		
-		Payment payment = new Payment();
-
-		try {
-			while (resultSet.next()) {
-				int id = resultSet.getInt(PaymentColoumns.ID);
-				String name = resultSet.getString(PaymentColoumns.NAME);
-				byte[] image = BlobByteArrayMaker.makeByteArray(resultSet, PaymentColoumns.IMAGE);
-				String reciever = resultSet.getString(PaymentColoumns.RECIEVER);
-				String details = resultSet.getString(PaymentColoumns.DETAILS);
-				String description = resultSet.getString(PaymentColoumns.DESCRIPTION);
-				int fixedAmount = resultSet.getInt(PaymentColoumns.FIXED_AMOUNT);
-				int procentFee = resultSet.getInt(PaymentColoumns.PROCENT_FEE);
-				payment = new Payment(id, name, image, reciever, details, description, fixedAmount, procentFee);
-				payments.add(payment);
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e.getMessage());
-		}
-		return payment;
-	}
-
-	@Override
-	public boolean putTo(List<Payment> payments, Payment payment) {
-		return payments.add(payment);
-	}
-
 	@Override
 	public boolean transmitEntity(PreparedStatement preparedStatement, Payment payment) throws DAOException {
 		boolean transmit;
@@ -74,10 +39,40 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 			transmit = true;
 		} catch (SQLException e) {
 			transmit = false;
+			logger.log(Level.ERROR, e.getMessage());
 			throw new DAOException(e.getMessage());
 		}
 		return transmit;
 	}
+	
+	@Override
+	public List<Payment> getListOfEntities(ResultSet resultSet) throws DAOException {
+		if (Validator.isNull(resultSet)) {
+			return new ArrayList<Payment>();
+		}
+		
+		List<Payment> payments = new ArrayList<Payment>();
+
+		try {
+			while (resultSet.next()) {
+				int id = resultSet.getInt(PaymentColoumns.ID);
+				String name = resultSet.getString(PaymentColoumns.NAME);
+				byte[] image = BlobByteArrayMaker.makeByteArray(resultSet, PaymentColoumns.IMAGE);
+				String reciever = resultSet.getString(PaymentColoumns.RECIEVER);
+				String details = resultSet.getString(PaymentColoumns.DETAILS);
+				String description = resultSet.getString(PaymentColoumns.DESCRIPTION);
+				int fixedAmount = resultSet.getInt(PaymentColoumns.FIXED_AMOUNT);
+				int procentFee = resultSet.getInt(PaymentColoumns.PROCENT_FEE);
+				Payment payment = new Payment(id, name, image, reciever, details, description, fixedAmount, procentFee);
+				payments.add(payment);
+			}
+		} catch (SQLException e) {
+			logger.log(Level.ERROR, e.getMessage());
+			throw new DAOException(e.getMessage());
+		}
+		return payments;
+	}
+
 
 	
 	

@@ -1,12 +1,10 @@
 package by.epam.kisel.service;
 
-import by.epam.kisel.bean.User;
-import by.epam.kisel.dao.Dao;
 import by.epam.kisel.dao.EntityTransaction;
-import by.epam.kisel.dao.user.UserDAO;
 import by.epam.kisel.dao.user.UserDaoImpl;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.exception.ServiceException;
+import by.epam.payments.bean.User;
 
 public class SomeService {
 

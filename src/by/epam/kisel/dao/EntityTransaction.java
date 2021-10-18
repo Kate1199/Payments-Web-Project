@@ -3,42 +3,39 @@ package by.epam.kisel.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import by.epam.kisel.bean.Entity;
-import by.epam.kisel.dao.connection.ConnectionPool;
-import by.epam.kisel.exception.DAOException;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class EntityTransaction<K, T extends Entity> {
+import by.epam.kisel.exception.DAOException;
+import by.epam.payments.bean.Entity;
+
+public class EntityTransaction<T extends Entity> extends SqlDatabaseDAO<T> {
+	
+	private static Logger logger = LogManager.getLogger();
 
 	private Connection connection;
 
-	public void initTransaction(Dao<K, T> dao, Dao<K, T>... daos) throws DAOException {
-		if (connection == null) {
-			try {
-				connection = ConnectionPool.getConnection();
-			} catch (SQLException e) {
-				throw new DAOException(e.getMessage());
-			}
-		}
-
+	public void initTransaction() throws DAOException {
+		
+		connection = makeConnection();
 		try {
 			connection.setAutoCommit(false);
 		} catch (SQLException e) {
 			throw new DAOException(e.getMessage());
 		}
 
-		dao.setConnection(connection);
-		for (Dao<K, T> daoElement : daos) {
-			daoElement.setConnection(connection);
-		}
+		setConnection(connection);
 	}
 
-	public void endTransaction() {
+	public void endTransaction() throws DAOException {
 		try {
 			connection.setAutoCommit(true);
 		} catch (SQLException e) {
-			//log
+			logger.log(Level.ERROR, e.getMessage());
+			throw new DAOException(e.getMessage());
 		}
-		// TODO: return connection to connection pool
+		closeConnection();
 	}
 
 	public void commit() throws DAOException {
@@ -53,24 +50,7 @@ public class EntityTransaction<K, T extends Entity> {
 		try {
 			connection.rollback();
 		} catch (SQLException e) {
-			//log
-		}
-	}
-
-	public void init(Dao<K, T> dao) throws DAOException {
-		if (connection == null) {
-			try {
-				connection = ConnectionPool.getConnection();
-			} catch (SQLException e) {
-				throw new DAOException(e.getMessage());
-			}
-		}
-		dao.setConnection(connection);
-	}
-	
-	public void end() {
-		if(connection != null) {
-			//return connection
+			logger.log(Level.ERROR, e.getMessage());
 		}
 	}
 }

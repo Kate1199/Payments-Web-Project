@@ -1,5 +1,7 @@
 package by.epam.kisel.util.validation;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +44,9 @@ public class PatternValidator {
 	
 	public static boolean checkString(String data, String regex) {
 		boolean isMatch = true;
+		if(Validator.isStringEmpty(data)) {
+			return false;
+		}
 		Pattern pattern = Pattern.compile(regex, Pattern.UNICODE_CHARACTER_CLASS);
 		Matcher matcher = pattern.matcher(data.subSequence(CHAR_SEQUENCE_BEGINNING, data.length() - CHAR_SEQUENCE_ENDING_DEFINER));
 		if(!matcher.matches() || Validator.isNull(data)) {

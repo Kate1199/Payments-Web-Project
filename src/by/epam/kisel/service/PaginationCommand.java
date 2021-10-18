@@ -4,21 +4,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.mysql.cj.Session;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import by.epam.kisel.bean.Payment;
 import by.epam.kisel.dao.payment.PaymentDaoImpl;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.exception.ServiceException;
 import by.epam.kisel.util.parameterConstants.Path;
 import by.epam.kisel.util.validation.Validator;
+import by.epam.payments.bean.Payment;
 
 public class PaginationCommand implements ServletCommand {
 	
@@ -29,7 +29,6 @@ public class PaginationCommand implements ServletCommand {
 	private static final String PAGINATION_PARAMETER_PREVIOUS = "previous";
 	private static final String PAGINATION_PARAMETER_NEXT = "next";
 	private static final String PAGINATION_PARAMETER_GO_TO = "goTo";
-	private static final String PAGINATION_ATTRIBUTE_GO_TO_PAGE = "goToPage";
 	private static final String PAGE = "currentPage";
 	private static final String TOTAL_PAGES = "totalPages";
 	private static final String PAGE_NUMBERS = "pageNumbers";
@@ -46,6 +45,8 @@ public class PaginationCommand implements ServletCommand {
 	private static int totalPages;
 	private static int visiblePageNumbers = 5;
 	
+	private static Logger logger = LogManager.getLogger();
+	
 	public PaginationCommand() {
 	}
 
@@ -56,8 +57,9 @@ public class PaginationCommand implements ServletCommand {
 		}
 		outputPayments(request, response);
 		try {
-			request.getRequestDispatcher(Path.STATIC_PAGE_PATH).forward(request, response);
+			request.getRequestDispatcher(Path.PAYMENTS_PATH).forward(request, response);
 		} catch (ServletException | IOException e) {
+			logger.log(Level.ERROR, e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}
@@ -87,7 +89,6 @@ public class PaginationCommand implements ServletCommand {
 			throw new ServiceException(e.getMessage());
 		}
 		
-		request.setAttribute(REDIRECT_ATTRIBUTE, REDIRECT_ATTRIBUTE_PAYMENTS);
 		HttpSession session = request.getSession();
 		session.setAttribute(PAGE, currentPage);
 		request.setAttribute(TOTAL_PAGES, totalPages);

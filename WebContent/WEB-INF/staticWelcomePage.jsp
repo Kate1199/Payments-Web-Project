@@ -37,6 +37,9 @@
 	<c:when test="${redirect == 'contacts'}">
 		<%@include file="contacts.jsp" %>
 	</c:when>
+	<c:when test="${redirect == 'clientForm'}">
+		<%@include file="ClientForm.jsp" %>
+	</c:when>
 	<c:otherwise>
 		<%@include file="home.jsp" %>
 	</c:otherwise>

@@ -1,29 +1,17 @@
 package by.epam.kisel.dao.payment;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import by.epam.kisel.bean.Payment;
-import by.epam.kisel.dao.DatabaseDAO;
+import by.epam.kisel.dao.SqlDatabaseDAO;
 import by.epam.kisel.dao.builders.PaymentBuilder;
-import by.epam.kisel.dao.connection.ConnectionPool;
-import by.epam.kisel.exception.ConnectionPoolException;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.util.validation.Validator;
+import by.epam.payments.bean.Payment;
 
-public class PaymentDaoImpl extends DatabaseDAO<Payment> implements PaymentDAO {
+public class PaymentDaoImpl extends SqlDatabaseDAO<Payment> implements PaymentDAO {
 	
 	private static final String FIND_ALL = "SELECT * FROM payments";
 	private static final String FIND_ALL_WHITH_LIMIT = "SELECT * FROM payments ORDER BY payment_id LIMIT ?,?";
 	private static final String FIND_BY_NAME = "SELECT * FROM payments WHERE payment_name = ?";
-	
-	private static final int NAME_POSITION_IN_FIND_BY_NAME_REQUEST = 1;
-	private static final int SECOND_POSITION = 2;
-	
 
 	@Override
 	public List<Payment> findAll() throws DAOException {
@@ -65,33 +53,11 @@ public class PaymentDaoImpl extends DatabaseDAO<Payment> implements PaymentDAO {
 		if(Validator.isNull(name)) {
 			return new Payment();
 		}
-		return super.findByParameter(FIND_BY_NAME, name, new PaymentBuilder());
+		return takeEntity(findByParameterEntity(FIND_BY_NAME, new PaymentBuilder(), name));
 	}
 	
 	public List<Payment> findAllWithLimits(int previousLimit, int limit) throws DAOException {
-		List<Payment> payments = new ArrayList<Payment>();
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		ConnectionPool connectionPool;
-		try {
-			connectionPool = ConnectionPool.getInstanse();
-			connection = connectionPool.getConnection();
-			preparedStatement = connection.prepareStatement(FIND_ALL_WHITH_LIMIT);
-			preparedStatement.setInt(NAME_POSITION_IN_FIND_BY_NAME_REQUEST, previousLimit);
-			preparedStatement.setInt(SECOND_POSITION, limit);
-			resultSet = preparedStatement.executeQuery();
-			
-		} catch (SQLException e) {
-			throw new DAOException(e.getMessage());
-		} catch (ConnectionPoolException e) {
-			throw new DAOException(e.getMessage());
-		}
-		PaymentBuilder paymentBuilder = new PaymentBuilder();
-		paymentBuilder.makeEntity(resultSet);
-		payments = paymentBuilder.getListOfEntities();
-		connectionPool.releaseConnection(connection);
-		return payments;
+		return findByParameterEntity(FIND_ALL_WHITH_LIMIT, new PaymentBuilder(), previousLimit, limit);
 	}
 
 	@Override

@@ -2,6 +2,7 @@ package by.epam.kisel.util.parameterConstants;
 
 import java.util.HashMap;
 
+import by.epam.kisel.service.ClientFormCommand;
 import by.epam.kisel.service.LoginCommand;
 import by.epam.kisel.service.PaginationCommand;
 import by.epam.kisel.service.RegistrationCommand;
@@ -17,6 +18,7 @@ public class CommandMap {
 		commands.put(AttributeValue.REGISTRATION, new RegistrationCommand());
 		commands.put(AttributeValue.LOGIN, new LoginCommand());
 		commands.put(AttributeValue.PAYMENTS, new PaginationCommand());
+		commands.put(AttributeValue.CLIENT_FORM, new ClientFormCommand());
 	}
 	
 	public static synchronized CommandMap getInstanse() {

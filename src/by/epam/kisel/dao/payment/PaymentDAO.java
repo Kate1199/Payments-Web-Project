@@ -2,9 +2,9 @@ package by.epam.kisel.dao.payment;
 
 import java.util.List;
 
-import by.epam.kisel.bean.Payment;
 import by.epam.kisel.dao.Dao;
 import by.epam.kisel.exception.DAOException;
+import by.epam.payments.bean.Payment;
 
 public interface PaymentDAO extends Dao<Integer, Payment>{
 	
