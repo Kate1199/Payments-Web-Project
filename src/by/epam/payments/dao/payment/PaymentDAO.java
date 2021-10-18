@@ -9,5 +9,5 @@ import by.epam.payments.exception.DAOException;
 public interface PaymentDAO extends Dao<Payment>{
 	
 	public Payment findByName(String name) throws DAOException;
-	public List<Payment> findSomeFist(int number);
+	public List<Payment> findAllWithLimits(int previousLimit, int limit) throws DAOException;
 }

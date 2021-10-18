@@ -52,11 +52,29 @@ public class SqlRequest {
 	 */
 	public static final String FIND_CARD_BY_ACCOUNT_ID = "SELECT * FROM cards WHERE hidden = 0 AND Accounts_account_id = ?";
 	public static final String FIND_ALL_CARDS = "SELECT * FROM cards WHERE hidden = 0";
-	public static final String ADD_CARD = "INSERT INTO cards card_id, card_number, card_start_digits, "
-			+ "card_salt, validity_period, Accounts_account_id VALUES(?, ?, ?, ?, ?, ?)";
+	public static final String ADD_CARD = "INSERT INTO cards (card_id, card_number, card_start_digits, "
+			+ "card_salt, validity_period, Accounts_account_id) VALUES(?, ?, ?, ?, ?, ?)";
 	public static final String FIND_CARD_BY_ID = "SELECT * FROM cards WHERE hidden = 0 AND card_id = ?";
 	public static final String HIDE_CARD = "UPDATE cards SET hidden = 1 WHERE card_number = ? "
 			+ "AND card_start_digits = ? AND card_end_digits = ? AND card_salt = ? AND validity_period = ? "
 			+ "AND Accounts_account_id = ?";
 	public static final String HIDE_CARD_BY_ID = "UPDATE cards SET hidden = 1 WHERE card_id = ?";
+	
+	/*
+	 * For payments
+	 */
+	public static final String FIND_ALL_PAYMENTS_WHITH_LIMIT = "SELECT * FROM payments WHERE hidden = 0 ORDER BY payment_id LIMIT ?,?";
+	public static final String FIND_ALL_PAYMENTS = "SELECT * FROM payments WHERE hidden = 0";
+	public static final String FIND_PAYMENT_BY_NAME = "SELECT * FROM payments WHERE hidden = 0 AND payment_name = ?";
+	public static final String FIND_PAYMENT_BY_ID = "SELECT * FROM payments WHERE hidden = 0 AND payment_id = ?";
+	public static final String ADD_PAYMENT = "INSERT INTO payments (payment_name, image, reciever, "
+			+ "payment_details, description, fixed_amount, procent_fee, Accounts_account_id) "
+			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+	public static final String UPDATE_PAYMENT = "UPDATE payments SET payment_name = ?, image = ?, reciever = ?,"
+			+"payment_details = ?, description = ?, fixed_amount = ?, procent_fee = ?, "
+			+ "Accounts_account_id = ? WHERE hidden = 0 AND payment_id = ?";
+	public static final String HIDE_PAYMENT = "UPDATE payments SET hidden = 1 WHERE payment_name = ? AND "
+			+ "image = ? AND reciever = ? AND payment_details = ? AND description = ? AND fixed_amount = ?"
+			+ " AND procent_fee = ? AND Accounts_account_id = ?";
+	public static final String HIDE_PAYMENT_BY_ID = "UPDATE payment SET hidden = 1 WHERE payment_id = ?";
 }

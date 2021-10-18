@@ -12,6 +12,9 @@ import by.epam.payments.util.validation.Validator;
 public class ClientDaoImpl extends SqlDatabaseDAO<Client> implements ClientDao {
 	
 	private ClientBuilder clientBuilder = new ClientBuilder();
+	
+	public ClientDaoImpl() {
+	}
 
 	@Override
 	public Client findClientByUserId(int userId) throws DAOException {
@@ -35,6 +38,7 @@ public class ClientDaoImpl extends SqlDatabaseDAO<Client> implements ClientDao {
 		return clientId;
 	}
 	
+	@Override
 	public Client findClientByIdentifiactionNumber(String identifiactionNumber) throws DAOException {
 		List<Client> result = findByParameterEntity(SqlRequest.FIND_CLIENT_BY_IDENTIFIACTION_NUMBER,
 				clientBuilder, identifiactionNumber);

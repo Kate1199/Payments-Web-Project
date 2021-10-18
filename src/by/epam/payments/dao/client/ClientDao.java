@@ -8,4 +8,5 @@ public interface ClientDao extends Dao<Client> {
 	
 	public Client findClientByUserId(int userId) throws DAOException;
 	public int findClientId(int userId) throws DAOException;
+	public Client findClientByIdentifiactionNumber(String identifiactionNumber) throws DAOException;
 }
