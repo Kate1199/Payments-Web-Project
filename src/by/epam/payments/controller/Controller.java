@@ -11,11 +11,11 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.kisel.exception.ServiceException;
-import by.epam.kisel.service.RedirectCommand;
-import by.epam.kisel.service.ServletCommand;
-import by.epam.kisel.util.parameterConstants.CommandMap;
-import by.epam.kisel.util.parameterConstants.LogMessage;
+import by.epam.payments.exception.ServiceException;
+import by.epam.payments.service.RedirectCommand;
+import by.epam.payments.service.ServletCommand;
+import by.epam.payments.util.parameterConstants.CommandMap;
+import by.epam.payments.util.parameterConstants.LogMessage;
 
 public class Controller extends HttpServlet {
 

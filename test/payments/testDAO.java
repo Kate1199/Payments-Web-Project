@@ -10,12 +10,12 @@ import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
-import by.epam.kisel.dao.SqlDatabaseDAO;
-import by.epam.kisel.dao.builders.UserBuilder;
-import by.epam.kisel.exception.DAOException;
-import by.epam.kisel.service.encrytion.Encrypter;
 import by.epam.payments.bean.Role;
 import by.epam.payments.bean.User;
+import by.epam.payments.dao.SqlDatabaseDAO;
+import by.epam.payments.dao.builders.UserBuilder;
+import by.epam.payments.exception.DAOException;
+import by.epam.payments.service.encrytion.Encrypter;
 
 public class testDAO {
 	
