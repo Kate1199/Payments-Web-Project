@@ -11,11 +11,14 @@ public class SqlRequest {
 	/*
 	 * For client
 	 */
+	public static final String FIND_CLIENT_BY_USER_ID = "SELECT * FROM clients WHERE Users_user_id = ?";
 	public static final String FIND_CLIENT_ID_BY_USER_ID = "SELECT client_id FROM clients WHERE hidden = 0 AND user_id = ?";
 	public static final String FIND_CLIENT_BY_IDENTIFIACTION_NUMBER = "SELECT * FROM clients WHERE hidden = 0 AND personal_identification_number = ?";
-	public static final String ADD_CLIENT = "INSERT INTO clients client_id, personal_identifiaction_number, "
-			+ "surname, name, patronymic, phone_number, registration_address, real_address, Users_user_id "
+	public static final String FIND_ALL_CLIENTS = "SELECT * FROM clients WHERE hidden = 0";
+	public static final String ADD_CLIENT = "INSERT INTO clients (client_id, personal_identification_number, "
+			+ "surname, name, patronymic, phone_number, registration_address, real_address, Users_user_id) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	public static final String FIND_CLIENT_BY_ID = "SELECT * FROM clients WHERE client_id = ?";
 	
 	/*
 	 * For bank

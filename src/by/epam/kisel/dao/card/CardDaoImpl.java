@@ -65,7 +65,7 @@ public class CardDaoImpl extends SqlDatabaseDAO<Card> implements CardDao {
 		if(Validator.isNull(card)) {
 			return false;
 		}
-		return makeEntryInvisible(SqlRequest.HIDE_CARD, card.getNumber(), card.getStartDigits(), card.getEndDigits(),
+		return update(SqlRequest.HIDE_CARD, card.getNumber(), card.getStartDigits(), card.getEndDigits(),
 				card.getSalt(), card.getValidityPeriod(), card.getAccountId());
 		
 	}
@@ -75,6 +75,6 @@ public class CardDaoImpl extends SqlDatabaseDAO<Card> implements CardDao {
 		if(id <= 0) {
 			return false;
 		}
-		return makeEntryInvisible(SqlRequest.HIDE_CARD_BY_ID, id);
+		return update(SqlRequest.HIDE_CARD_BY_ID, id);
 	}
 }

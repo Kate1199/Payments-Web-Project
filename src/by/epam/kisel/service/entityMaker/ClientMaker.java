@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.kisel.dao.SqlDatabaseDAO;
 import by.epam.kisel.dao.builders.ClientBuilder;
+import by.epam.kisel.dao.client.ClientDaoImpl;
+import by.epam.kisel.dao.user.UserDaoImpl;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.exception.IncorrectEnteredDataException;
 import by.epam.kisel.exception.ServiceException;
@@ -36,7 +38,7 @@ public class ClientMaker implements EntityMakerFromRequest<Client> {
 	public Client makeEntity(HttpServletRequest request, HttpServletResponse response)
 			throws ServiceException, IncorrectEnteredDataException {
 		
-		SqlDatabaseDAO<User> userDao = new SqlDatabaseDAO<User>();
+		UserDaoImpl userDao = new UserDaoImpl();
 		HttpSession session = request.getSession();
 
 		String identificationNumber;
@@ -46,14 +48,14 @@ public class ClientMaker implements EntityMakerFromRequest<Client> {
 		String phoneNumber;
 		String registrationAddress;
 		String realAddress;
+		String login = (String) session.getAttribute(ParameterName.LOGIN);
 		int userId;
 		try {
-			long id = (long) userDao.findByParameterField(SqlRequest.FIND_ID_BY_LOGIN, session.getAttribute(ParameterName.LOGIN));
-			userId = (int) id;
-			session.setAttribute(ParameterName.USER_ID, userId);
+			userId = userDao.findUserIdByLogin(login);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
+			session.setAttribute(ParameterName.USER_ID, userId);
 
 		identificationNumber = PatternValidator.defineParameter(request, ParameterName.IDENTIFIACTION_NUMBER);
 		lastName = PatternValidator.defineParameter(request, ParameterName.LAST_NAME);
@@ -113,11 +115,10 @@ public class ClientMaker implements EntityMakerFromRequest<Client> {
 
 	private boolean checkIfClientExists(String identifiactionNumber) throws ServiceException {
 		boolean exists = true;
-		SqlDatabaseDAO<Client> dao = new SqlDatabaseDAO<Client>();
+		ClientDaoImpl dao = new ClientDaoImpl();
 		try {
-			List<Client> result = dao.findByParameterEntity(SqlRequest.FIND_CLIENT_BY_IDENTIFIACTION_NUMBER,
-					new ClientBuilder(), identifiactionNumber);
-			if (result.isEmpty()) {
+			Client client = dao.findClientByIdentifiactionNumber(identifiactionNumber);
+			if (Validator.isNull(client)) {
 				exists = false;
 			}
 		} catch (DAOException e) {
@@ -129,9 +130,9 @@ public class ClientMaker implements EntityMakerFromRequest<Client> {
 
 	private boolean addClientInDatabase(String identificationNumber, Client client) throws ServiceException {
 		boolean add = true;
-		SqlDatabaseDAO<Client> dao = new SqlDatabaseDAO<Client>();
+		ClientDaoImpl clientDao = new ClientDaoImpl();
 		try {
-			dao.insertInto(SqlRequest.ADD_CLIENT, client, new ClientBuilder());
+			clientDao.insertInto(client);
 		} catch (DAOException e) {
 			add = false;
 			logger.log(Level.ERROR, e.getMessage());

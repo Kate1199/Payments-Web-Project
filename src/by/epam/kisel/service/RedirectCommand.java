@@ -59,7 +59,6 @@ public class RedirectCommand implements ServletCommand {
 	}
 	
 	private String definePage(HttpServletRequest request) throws ServiceException {
-		boolean define = true;
 		String value = request.getParameter(PARAMETER_NAME);
 		PathMap pathMap = PathMap.getInstanse();
 		String page;
@@ -67,7 +66,6 @@ public class RedirectCommand implements ServletCommand {
 		if(Validator.isNull(value) || value.equals(HOME_VALUE)) {
 			page = pathMap.getPath(HOME_VALUE);
 			loadHomePayments(request);
-			define = false;
 		} else if (value.equals(EXIT_VALUE)) {
 			exit(request);
 			page = pathMap.getPath(HOME_VALUE);
@@ -116,7 +114,7 @@ public class RedirectCommand implements ServletCommand {
 			throw new ServiceException(e.getMessage());
 		}
 		
-		if(Validator.isEmpty(client)) {
+		if(Validator.isEmpty(client) || Validator.isNull(client)) {
 			page = pathMap.getPath(AttributeValue.CLIENT_FORM);
 		} else {
 			page = pathMap.getPath(AttributeValue.PROFILE);

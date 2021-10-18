@@ -96,11 +96,10 @@ public class LoginCommand implements ServletCommand {
 			logger.log(Level.INFO, LogMessage.ADMIN_LOGGED_IN + user.getId());
 		}
 		
-		SqlDatabaseDAO<User> userDao = new SqlDatabaseDAO<User>();
+		UserDaoImpl userDao = new UserDaoImpl();
 		int userId;
 		try {
-			long id = (long) userDao.findByParameterField(SqlRequest.FIND_ID_BY_LOGIN, login);
-			userId = (int) id;
+			userId = userDao.findUserIdByLogin(login);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}

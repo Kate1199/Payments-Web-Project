@@ -77,14 +77,14 @@ public class AccountDaoImpl extends SqlDatabaseDAO<Account> implements AccountDa
 
 	@Override
 	public boolean delete(Account account) throws DAOException {
-		makeEntryInvisible(SqlRequest.HIDE_ACCOUNT, account.getNumberIBAN(), account.getCurrency(), 
+		update(SqlRequest.HIDE_ACCOUNT, account.getNumberIBAN(), account.getCurrency(), 
 				account.getBalance(), account.getClientId(), account.getBankDepartmentId());
 		return false;
 	}
 
 	@Override
 	public boolean delete(int id) throws DAOException {
-		makeEntryInvisible(SqlRequest.HIDE_ACCOUNT_BY_ID, id);
+		update(SqlRequest.HIDE_ACCOUNT_BY_ID, id);
 		return false;
 	}
 }

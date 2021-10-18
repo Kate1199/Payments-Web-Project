@@ -19,7 +19,7 @@ public class PaymentDaoImpl extends SqlDatabaseDAO<Payment> implements PaymentDA
 	}
 
 	@Override
-	public Payment findEntityById(Integer id) throws DAOException {
+	public Payment findEntityById(int id) throws DAOException {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -31,13 +31,7 @@ public class PaymentDaoImpl extends SqlDatabaseDAO<Payment> implements PaymentDA
 	}
 
 	@Override
-	public boolean delete(Integer id) throws DAOException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean create(Payment entity) throws DAOException {
+	public boolean delete(int id) throws DAOException {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -64,6 +58,12 @@ public class PaymentDaoImpl extends SqlDatabaseDAO<Payment> implements PaymentDA
 	public List<Payment> findSomeFist(int number) {
 		
 		return null;
+	}
+
+	@Override
+	public boolean insertInto(Payment entity) throws DAOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

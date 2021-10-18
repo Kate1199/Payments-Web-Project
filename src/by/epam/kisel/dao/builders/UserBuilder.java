@@ -12,7 +12,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.kisel.dao.dbColoumns.UserColoumns;
+import by.epam.kisel.dao.dbColoumns.ColomnName;
+import by.epam.kisel.dao.dbColoumns.ColoumnNumberInPreparedStatement;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.util.BlobByteArrayMaker;
 import by.epam.kisel.util.validation.Validator;
@@ -31,12 +32,12 @@ public class UserBuilder implements EntityBuilder<User> {
 		boolean transmit;
 
 		try {
-			preparedStatement.setInt(UserColoumns.ID_COLOUMN, user.getId());
-			preparedStatement.setString(UserColoumns.LOGIN_COLOUMN, user.getLogin());
-			preparedStatement.setString(UserColoumns.EMAIL_COLOUMN, user.getEmail());
-			preparedStatement.setBlob(UserColoumns.PASSWORD_COLOUMN, new SerialBlob(user.getPassword()));
-			preparedStatement.setBlob(UserColoumns.SALT_COLOUMN, new SerialBlob(user.getSalt()));
-			preparedStatement.setString(UserColoumns.ROLE_COLOUMN, user.getRole().toString());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_1, user.getId());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_2, user.getLogin());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_3, user.getEmail());
+			preparedStatement.setBlob(ColoumnNumberInPreparedStatement.COLOUMN_4, new SerialBlob(user.getPassword()));
+			preparedStatement.setBlob(ColoumnNumberInPreparedStatement.COLOUMN_5, new SerialBlob(user.getSalt()));
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_6, user.getRole().toString());
 			transmit = true;
 		} catch (SQLException e) {
 			transmit = false;
@@ -54,12 +55,12 @@ public class UserBuilder implements EntityBuilder<User> {
 		List<User> users = new ArrayList<User>();
 		try {
 			while (resultSet.next()) {
-				int id = resultSet.getInt(UserColoumns.ID_COLOUMN);
-				String login = resultSet.getString(UserColoumns.LOGIN_COLOUMN);
-				String email = resultSet.getString(UserColoumns.EMAIL_COLOUMN);
-				byte[] password = BlobByteArrayMaker.makeByteArray(resultSet, UserColoumns.PASSWORD_COLOUMN);
-				byte[] salt = BlobByteArrayMaker.makeByteArray(resultSet, UserColoumns.SALT_COLOUMN);
-				Role role = Role.valueOf(resultSet.getString(UserColoumns.ROLE_COLOUMN).toUpperCase());
+				int id = resultSet.getInt(ColomnName.USER_ID);
+				String login = resultSet.getString(ColomnName.LOGIN);
+				String email = resultSet.getString(ColomnName.EMAIL);
+				byte[] password = BlobByteArrayMaker.makeByteArray(resultSet, ColomnName.PASSWORD);
+				byte[] salt = BlobByteArrayMaker.makeByteArray(resultSet, ColomnName.USER_SALT);
+				Role role = Role.valueOf(resultSet.getString(ColomnName.ROLE).toUpperCase());
 				User user = new User(id, login, email, password, salt, role);
 				users.add(user);
 			}

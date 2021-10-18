@@ -5,6 +5,8 @@ import java.util.List;
 import by.epam.kisel.dao.SqlDatabaseDAO;
 import by.epam.kisel.dao.builders.UserBuilder;
 import by.epam.kisel.exception.DAOException;
+import by.epam.kisel.util.parameterConstants.ParameterName;
+import by.epam.kisel.util.parameterConstants.SqlRequest;
 import by.epam.kisel.util.validation.Validator;
 import by.epam.payments.bean.User;
 
@@ -21,6 +23,10 @@ public class UserDaoImpl extends SqlDatabaseDAO<User> {
 
 	private static final String INSERT_USER = "INSERT INTO users (user_id, login, email, password, user_salt, role) VALUES (?, ?, ?, ?, ?, ?)";
 	
+	public int findUserIdByLogin(String login) throws DAOException {
+		long id = (long) findByParameterField(SqlRequest.FIND_ID_BY_LOGIN, login);
+		return (int) id;
+	}
 	public List<User> findAll() throws DAOException {
 		return super.findAll(READ_ALL_USERS, new UserBuilder());
 	}

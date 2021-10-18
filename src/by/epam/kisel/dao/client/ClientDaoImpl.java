@@ -5,23 +5,25 @@ import java.util.List;
 import by.epam.kisel.dao.SqlDatabaseDAO;
 import by.epam.kisel.dao.builders.ClientBuilder;
 import by.epam.kisel.exception.DAOException;
-import by.epam.kisel.exception.ServiceException;
-import by.epam.kisel.util.parameterConstants.ParameterName;
 import by.epam.kisel.util.parameterConstants.SqlRequest;
 import by.epam.kisel.util.validation.Validator;
 import by.epam.payments.bean.Client;
 
-public class ClientDaoImpl extends SqlDatabaseDAO<Client> {
+public class ClientDaoImpl extends SqlDatabaseDAO<Client> implements ClientDao {
 	
-	private static final String FIND_BY_ID = "SELECT * FROM clients WHERE client_id = ?";
-	private static final String FIND_BY_USER_ID = "SELECT * FROM clients WHERE Users_user_id = ?";
+	private ClientBuilder clientBuilder = new ClientBuilder();
 
-	
-	public Client findClientByUserId(Integer userId) throws DAOException {
-		return takeEntity(findByParameterEntity(FIND_BY_USER_ID, new ClientBuilder(), userId));
+	@Override
+	public Client findClientByUserId(int userId) throws DAOException {
+		if(userId <= 0) {
+			return new Client();
+		}
+		
+		return takeEntity(findByParameterEntity(SqlRequest.FIND_CLIENT_BY_USER_ID, clientBuilder, userId));
 	}
 	
-	public int findClientIdByUserId(int userId) throws DAOException {
+	@Override
+	public int findClientId(int userId) throws DAOException {
 		int clientId;
 		Object clientIdParameter = findByParameterField(SqlRequest.FIND_CLIENT_ID_BY_USER_ID, userId);
 		
@@ -31,6 +33,51 @@ public class ClientDaoImpl extends SqlDatabaseDAO<Client> {
 			clientId = (int) clientIdParameter;
 		}
 		return clientId;
+	}
+	
+	public Client findClientByIdentifiactionNumber(String identifiactionNumber) throws DAOException {
+		List<Client> result = findByParameterEntity(SqlRequest.FIND_CLIENT_BY_IDENTIFIACTION_NUMBER,
+				clientBuilder, identifiactionNumber);
+		return takeEntity(result);
+	}
+
+	@Override
+	public List<Client> findAll() throws DAOException {
+		return super.findAll(SqlRequest.FIND_ALL_CLIENTS, clientBuilder);
+	}
+
+	@Override
+	public boolean insertInto(Client client) throws DAOException {
+		return super.insertInto(SqlRequest.ADD_CLIENT, client, clientBuilder);
+	}
+
+	@Override
+	public Client findEntityById(int id) throws DAOException {
+		if(id <= 0) {
+			return new Client();
+		}
+		List<Client> result = findByParameterEntity(SqlRequest.FIND_CLIENT_BY_ID, clientBuilder, id);
+		return takeEntity(result);
+	}
+
+	@Override
+	public Client update(Client client) throws DAOException {
+		if(Validator.isNull(client)) {
+			return new Client();
+		}
+		return new Client();	
+	}
+
+	@Override
+	public boolean delete(Client entity) throws DAOException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean delete(int id) throws DAOException {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

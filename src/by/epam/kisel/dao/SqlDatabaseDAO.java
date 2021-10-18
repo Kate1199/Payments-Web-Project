@@ -184,6 +184,7 @@ public class SqlDatabaseDAO<T extends Entity> {
 			preparedStatement = connection.prepareStatement(sqlStatement);
 			insert &= entityBuilder.transmitEntity(preparedStatement, entity);
 			preparedStatement.executeUpdate();
+
 		} catch (SQLException e) {
 			insert = false;
 			logger.log(Level.ERROR, e.getMessage());
@@ -220,10 +221,10 @@ public class SqlDatabaseDAO<T extends Entity> {
 		return update;
 	}
 	
-	public boolean makeEntryInvisible(String sqlRequest, Object...parameters) throws DAOException {
-		boolean invisible = true;
+	public boolean update(String sqlRequest, Object...parameters) throws DAOException {
+		boolean update = true;
 		makeConnection();
-		invisible &= updateCore(sqlRequest, parameters) && closeConnection();
-		return invisible;
+		update &= updateCore(sqlRequest, parameters) && closeConnection();
+		return update;
 	}
 }

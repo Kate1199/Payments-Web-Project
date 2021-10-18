@@ -12,7 +12,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.kisel.dao.dbColoumns.DatabaseColoumn;
+import by.epam.kisel.dao.dbColoumns.ColomnName;
+import by.epam.kisel.dao.dbColoumns.ColoumnNumberInPreparedStatement;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.util.BlobByteArrayMaker;
 import by.epam.payments.bean.Card;
@@ -28,13 +29,13 @@ public class CardBuilder implements EntityBuilder<Card> {
 	public boolean transmitEntity(PreparedStatement preparedStatement, Card card) throws DAOException {
 		boolean transmit = true;
 		try {
-			preparedStatement.setInt(DatabaseColoumn.CARD_ID, card.getId());
-			preparedStatement.setBlob(DatabaseColoumn.CARD_NUMBER, new SerialBlob(card.getNumber()));
-			preparedStatement.setInt(DatabaseColoumn.CARD_START_DIGITS, card.getStartDigits());
-			preparedStatement.setInt(DatabaseColoumn.CARD_END_DIGITS, card.getEndDigits());
-			preparedStatement.setBlob(DatabaseColoumn.CARD_SALT, new SerialBlob(card.getSalt()));
-			preparedStatement.setString(DatabaseColoumn.VALIDITY_PERIOD, card.getValidityPeriod());
-			preparedStatement.setInt(DatabaseColoumn.CARD_ACCOUNT_ID, card.getAccountId());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_1, card.getId());
+			preparedStatement.setBlob(ColoumnNumberInPreparedStatement.COLOUMN_2, new SerialBlob(card.getNumber()));
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_3, card.getStartDigits());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_4, card.getEndDigits());
+			preparedStatement.setBlob(ColoumnNumberInPreparedStatement.COLOUMN_5, new SerialBlob(card.getSalt()));
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_6, card.getValidityPeriod());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_7, card.getAccountId());
 		} catch (SQLException e) {
 			transmit = false;
 			logger.log(Level.ERROR, e.getMessage());
@@ -49,13 +50,13 @@ public class CardBuilder implements EntityBuilder<Card> {
 		List<Card> cards = new ArrayList<Card>();
 		try {
 			while(resultSet.next()) {
-				int id = resultSet.getInt(DatabaseColoumn.CARD_ID);
-				byte[] number = BlobByteArrayMaker.makeByteArray(resultSet, DatabaseColoumn.CARD_NUMBER);
-				int startDigits = resultSet.getInt(DatabaseColoumn.CARD_START_DIGITS);
-				int endDigits = resultSet.getInt(DatabaseColoumn.CARD_END_DIGITS);
-				byte[] salt = BlobByteArrayMaker.makeByteArray(resultSet, DatabaseColoumn.CARD_SALT);
-				String validityPeriod = resultSet.getString(DatabaseColoumn.VALIDITY_PERIOD);
-				int accountId = resultSet.getInt(DatabaseColoumn.CARD_ACCOUNT_ID);
+				int id = resultSet.getInt(ColomnName.CARD_ID);
+				byte[] number = BlobByteArrayMaker.makeByteArray(resultSet, ColomnName.CARD_NUMBER);
+				int startDigits = resultSet.getInt(ColomnName.CARD_START_DIGITS);
+				int endDigits = resultSet.getInt(ColomnName.CARD_END_DIGITS);
+				byte[] salt = BlobByteArrayMaker.makeByteArray(resultSet,ColomnName.CARD_SALT);
+				String validityPeriod = resultSet.getString(ColomnName.VALIDITY_PERIOD);
+				int accountId = resultSet.getInt(ColomnName.ACCOUNTS_ACCOUNT_ID);
 				Card card = new Card(id, number, startDigits, endDigits, salt, validityPeriod, accountId);
 				cards.add(card);
 			}

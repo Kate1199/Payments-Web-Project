@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import by.epam.kisel.dao.dbColoumns.ColomnName;
+import by.epam.kisel.dao.dbColoumns.ColoumnNumberInPreparedStatement;
 import by.epam.kisel.dao.dbColoumns.PaymentColoumns;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.util.BlobByteArrayMaker;
@@ -30,15 +32,15 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 		boolean transmit;
 
 		try {
-			preparedStatement.setInt(PaymentColoumns.ID, payment.getId());
-			preparedStatement.setString(PaymentColoumns.NAME, payment.getName());
-			preparedStatement.setBlob(PaymentColoumns.IMAGE, new SerialBlob(payment.getImage()));
-			preparedStatement.setString(PaymentColoumns.RECIEVER, payment.getReciever());
-			preparedStatement.setString(PaymentColoumns.DETAILS, payment.getPaymentDetails());
-			preparedStatement.setString(PaymentColoumns.DESCRIPTION, payment.getDescription());
-			preparedStatement.setInt(PaymentColoumns.FIXED_AMOUNT, payment.getFixedAmount());
-			preparedStatement.setInt(PaymentColoumns.PROCENT_FEE, payment.getProcentFee());
-			preparedStatement.setInt(PaymentColoumns.PAYMENT_ACCOUNT_ID, payment.getAccountId());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_1, payment.getId());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_2, payment.getName());
+			preparedStatement.setBlob(ColoumnNumberInPreparedStatement.COLOUMN_3, new SerialBlob(payment.getImage()));
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_4, payment.getReciever());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_5, payment.getPaymentDetails());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_6, payment.getDescription());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_7, payment.getFixedAmount());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_8, payment.getProcentFee());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_9, payment.getAccountId());
 			transmit = true;
 		} catch (SQLException e) {
 			transmit = false;
@@ -58,15 +60,15 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 
 		try {
 			while (resultSet.next()) {
-				int id = resultSet.getInt(PaymentColoumns.ID);
-				String name = resultSet.getString(PaymentColoumns.NAME);
-				byte[] image = BlobByteArrayMaker.makeByteArray(resultSet, PaymentColoumns.IMAGE);
-				String reciever = resultSet.getString(PaymentColoumns.RECIEVER);
-				String details = resultSet.getString(PaymentColoumns.DETAILS);
-				String description = resultSet.getString(PaymentColoumns.DESCRIPTION);
-				int fixedAmount = resultSet.getInt(PaymentColoumns.FIXED_AMOUNT);
-				int procentFee = resultSet.getInt(PaymentColoumns.PROCENT_FEE);
-				int accountId = resultSet.getInt(PaymentColoumns.PAYMENT_ACCOUNT_ID);
+				int id = resultSet.getInt(ColomnName.PAYMENT_ID);
+				String name = resultSet.getString(ColomnName.PAYMENT_NAME);
+				byte[] image = BlobByteArrayMaker.makeByteArray(resultSet, ColomnName.IMAGE);
+				String reciever = resultSet.getString(ColomnName.RECIEVER);
+				String details = resultSet.getString(ColomnName.PAYMENT_DETAILS);
+				String description = resultSet.getString(ColomnName.DESCRIPTION);
+				int fixedAmount = resultSet.getInt(ColomnName.FIXED_AMOUNT);
+				int procentFee = resultSet.getInt(ColomnName.PROCENT_FEE);
+				int accountId = resultSet.getInt(ColomnName.ACCOUNTS_ACCOUNT_ID);
 				Payment payment = new Payment(id, name, image, reciever, details, description, fixedAmount, procentFee, accountId);
 				payments.add(payment);
 			}

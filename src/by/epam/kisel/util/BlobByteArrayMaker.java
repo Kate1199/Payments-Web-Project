@@ -10,7 +10,7 @@ public class BlobByteArrayMaker {
 	
 	private static final int BLOB_BEGINING = 1;
 	
-	public static byte[] makeByteArray(ResultSet resultSet, int coloumn) throws SQLException {
+	public static byte[] makeByteArray(ResultSet resultSet, String coloumn) throws SQLException {
 		Blob blob = resultSet.getBlob(coloumn);
 		if(Validator.isNull(blob)) {
 			return new byte[MinValues.MIN_ARRAY_SIZE];

@@ -10,7 +10,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.epam.kisel.dao.dbColoumns.ClientColoumns;
+import by.epam.kisel.dao.dbColoumns.ColomnName;
+import by.epam.kisel.dao.dbColoumns.ColoumnNumberInPreparedStatement;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.util.validation.Validator;
 import by.epam.payments.bean.Client;
@@ -26,20 +27,19 @@ public class ClientBuilder implements EntityBuilder<Client> {
 	public boolean transmitEntity(PreparedStatement preparedStatement, Client client) throws DAOException {
 		boolean transmint = true;
 		try {
-			preparedStatement.setInt(ClientColoumns.ID, client.getId());
-			preparedStatement.setString(ClientColoumns.IDENTIFIACTION_NUMBER, client.getIdentificationNumber());
-			preparedStatement.setString(ClientColoumns.LAST_NAME, client.getLastName());
-			preparedStatement.setString(ClientColoumns.FIRST_NAME, client.getFirstName());
-			preparedStatement.setString(ClientColoumns.PATRONYMIC, client.getPatronymic());
-			preparedStatement.setString(ClientColoumns.PHONE_NUMBER, client.getPhoneNumber());
-			preparedStatement.setString(ClientColoumns.REGISTARTION_ADDRESS, client.getRegistrationAddress());
-			preparedStatement.setString(ClientColoumns.REAL_ADDRESS, client.getRegistrationAddress());
-			preparedStatement.setInt(ClientColoumns.USER_ID, client.getUserId());
-			preparedStatement.executeUpdate();
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_1, client.getId());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_2, client.getIdentificationNumber());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_3, client.getLastName());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_4, client.getFirstName());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_5, client.getPatronymic());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_6, client.getPhoneNumber());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_7, client.getRegistrationAddress());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_8, client.getRegistrationAddress());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_9, client.getUserId());
 		} catch (SQLException e) {
 			transmint = false;
 			logger.log(Level.ERROR, e.getMessage());
-			e.printStackTrace();
+			throw new DAOException(e.getMessage());
 		}
 		return transmint;
 	}
@@ -54,15 +54,15 @@ public class ClientBuilder implements EntityBuilder<Client> {
 		
 		try {
 			while(resultSet.next()) {
-				int id = resultSet.getInt(ClientColoumns.ID);
-				String identifiactionNumber = resultSet.getString(ClientColoumns.IDENTIFIACTION_NUMBER);
-				String lastName = resultSet.getString(ClientColoumns.LAST_NAME);
-				String firstName = resultSet.getString(ClientColoumns.FIRST_NAME);
-				String patronymic = resultSet.getString(ClientColoumns.PATRONYMIC);
-				String phoneNumber = resultSet.getString(ClientColoumns.PHONE_NUMBER);
-				String regisatrtionAddress = resultSet.getString(ClientColoumns.REGISTARTION_ADDRESS);
-				String realAddress = resultSet.getString(ClientColoumns.REAL_ADDRESS);
-				int userId = resultSet.getInt(ClientColoumns.USER_ID);
+				int id = resultSet.getInt(ColomnName.CLIENT_ID);
+				String identifiactionNumber = resultSet.getString(ColomnName.PERSONAL_IDENTIFIACTION_NUMBER);
+				String lastName = resultSet.getString(ColomnName.SURNAME);
+				String firstName = resultSet.getString(ColomnName.NAME);
+				String patronymic = resultSet.getString(ColomnName.PATRONYMIC);
+				String phoneNumber = resultSet.getString(ColomnName.PHONE_NUMBER);
+				String regisatrtionAddress = resultSet.getString(ColomnName.REGISTARTION_ADDRESS);
+				String realAddress = resultSet.getString(ColomnName.REAL_ADDRESS);
+				int userId = resultSet.getInt(ColomnName.USERS_USER_ID);
 				Client client = new Client(id, identifiactionNumber, lastName, firstName, patronymic, phoneNumber, regisatrtionAddress, realAddress, userId);
 				clients.add(client);
 			}
