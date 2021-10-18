@@ -12,4 +12,5 @@ public class AttributeValue {
 	public static final String EXCHANGE_RATES = "exchangeRates";	
 	public static final String BANKS_PARTNERS = "partners";	
 	public static final String CONTACTS = "contacts";	
+	public static final String CASH_IN = "cashIn";	
 }

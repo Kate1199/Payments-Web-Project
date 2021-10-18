@@ -55,7 +55,9 @@
   						</c:forEach>
 
 					</dl>
-    				<a href="#" class="btn btn-success">Привязать новую карту</a>
+					<form action="Controller">
+    					<button type="submit" class="btn btn-success" name="redirect" value="cashIn">Пополнить счет</button>
+    				</form>
   				</div>
   			</c:forEach>
 		</div>

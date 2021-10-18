@@ -19,6 +19,13 @@ public class SqlRequest {
 			+ "surname, name, patronymic, phone_number, registration_address, real_address, Users_user_id) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	public static final String FIND_CLIENT_BY_ID = "SELECT * FROM clients WHERE client_id = ?";
+	public static final String UPDATE_CLIENT = "UPDATE clients SET personal_identification_number = ?, "
+			+ "surname = ?, name = ?, patronymic = ?, phone_number = ?, registration_address = ?, "
+			+ "real_address = ?, Users_user_id = ? WHERE hidden = 0 AND client_id = ?";
+	public static final String HIDE_CLIENT = "UPDATE clients SET hidden = 1 WHERE personal_identification_number = ? AND"
+			+ " surname = ? AND name = ? AND patronymic = ? AND phone_number = ? AND registration_address = ? AND "
+			+ "real_address = ? AND Users_user_id = ?";
+	public static final String HIDE_CLIENT_BY_ID = "UPDATE clients SET hidden = 1 WHERE client_id = ?";
 	
 	/*
 	 * For bank

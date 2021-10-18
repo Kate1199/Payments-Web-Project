@@ -173,7 +173,7 @@ public class SqlDatabaseDAO<T extends Entity> {
 		return field;
 	}
 
-	public boolean insertInto(String sqlStatement, T entity, EntityBuilder<T> entityBuilder) throws DAOException {
+	public boolean addNewData(String sqlStatement, T entity, EntityBuilder<T> entityBuilder) throws DAOException {
 		boolean insert = true;
 		
 		if(Validator.isNull(entity) || Validator.isNull(sqlStatement) || Validator.isNull(entityBuilder)) {

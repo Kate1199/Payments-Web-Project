@@ -42,7 +42,7 @@ public class CardDaoImpl extends SqlDatabaseDAO<Card> implements CardDao {
 		if(Validator.isNull(card)) {
 			return false;
 		}
-		return super.insertInto(SqlRequest.ADD_CARD, card, cardBuilder);
+		return super.addNewData(SqlRequest.ADD_CARD, card, cardBuilder);
 	}
 
 	@Override

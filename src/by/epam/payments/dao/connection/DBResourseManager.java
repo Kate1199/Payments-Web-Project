@@ -6,7 +6,7 @@ public class DBResourseManager {
 	
 private static final DBResourseManager instance = new DBResourseManager();
 	
-	private ResourceBundle bundle = ResourceBundle.getBundle("by.epam.kisel.dao.connection.db");
+	private ResourceBundle bundle = ResourceBundle.getBundle("by.epam.payments.dao.connection.db");
 	
 	public static DBResourseManager getInstance() {
 		return instance;

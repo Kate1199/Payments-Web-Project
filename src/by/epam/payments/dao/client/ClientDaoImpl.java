@@ -48,7 +48,7 @@ public class ClientDaoImpl extends SqlDatabaseDAO<Client> implements ClientDao {
 
 	@Override
 	public boolean insertInto(Client client) throws DAOException {
-		return super.insertInto(SqlRequest.ADD_CLIENT, client, clientBuilder);
+		return super.addNewData(SqlRequest.ADD_CLIENT, client, clientBuilder);
 	}
 
 	@Override
@@ -65,19 +65,27 @@ public class ClientDaoImpl extends SqlDatabaseDAO<Client> implements ClientDao {
 		if(Validator.isNull(client)) {
 			return new Client();
 		}
-		return new Client();	
+		
+		if(!addNewData(SqlRequest.UPDATE_CLIENT, client, clientBuilder)) {
+			client = new Client();
+		} 
+		return client;
 	}
 
 	@Override
-	public boolean delete(Client entity) throws DAOException {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(Client client) throws DAOException {
+		if(Validator.isNull(client)) {
+			return false;
+		}
+		return super.addNewData(SqlRequest.HIDE_CLIENT, client, clientBuilder);
 	}
 
 	@Override
 	public boolean delete(int id) throws DAOException {
-		// TODO Auto-generated method stub
-		return false;
+		if(id <= 0) {
+			return false;
+		}
+		return super.update(SqlRequest.HIDE_CLIENT_BY_ID, id);
 	}
 
 }

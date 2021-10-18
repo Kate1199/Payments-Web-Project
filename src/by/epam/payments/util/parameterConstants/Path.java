@@ -13,5 +13,6 @@ public final class Path {
 	public static final String EXCHANGE_RATES_PATH = "/WEB-INF/exchangeRates.jsp";
 	public static final String BANKS_PARTNERS_PATH = "/WEB-INF/exchangeRates.jsp";
 	public static final String CONTACTS_PATH = "/WEB-INF/contacts.jsp";
+	public static final String CASH_IN_PATH = "/WEB-INF/jsp/cashIn.jsp";
 
 }

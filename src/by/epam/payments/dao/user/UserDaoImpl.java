@@ -36,7 +36,7 @@ public class UserDaoImpl extends SqlDatabaseDAO<User> {
 	}
 
 	public boolean create(User entity) throws DAOException {
-		return super.insertInto(INSERT_USER, entity, new UserBuilder());
+		return super.addNewData(INSERT_USER, entity, new UserBuilder());
 	}
 
 	public User findByLogin(String login) throws DAOException {

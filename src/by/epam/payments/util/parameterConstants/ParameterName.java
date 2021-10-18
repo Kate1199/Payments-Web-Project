@@ -22,6 +22,8 @@ public final class ParameterName {
 	public static final String REAL_ADDRESS = "realAddress";
 	public static final String RESIDENT_USA = "residentUSA";
 
+	public static final String ACCOUNT_ID = "account_id";
+
 	
 	
 	

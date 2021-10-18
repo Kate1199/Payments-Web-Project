@@ -57,7 +57,7 @@ public class AccountDaoImpl extends SqlDatabaseDAO<Account> implements AccountDa
 
 	@Override
 	public boolean insertInto(Account account) throws DAOException {
-		return super.insertInto(SqlRequest.ADD_ACCOUNT, account, accountBuilder);
+		return super.addNewData(SqlRequest.ADD_ACCOUNT, account, accountBuilder);
 	}
 
 	@Override

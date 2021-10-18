@@ -21,6 +21,7 @@ public class PathMap {
 		path.put(AttributeValue.EXCHANGE_RATES, Path.EXCHANGE_RATES_PATH);
 		path.put(AttributeValue.BANKS_PARTNERS, Path.BANKS_PARTNERS_PATH);
 		path.put(AttributeValue.CONTACTS, Path.CONTACTS_PATH);
+		path.put(AttributeValue.CASH_IN, Path.CASH_IN_PATH);
 	}
 	
 	public static synchronized PathMap getInstanse() {

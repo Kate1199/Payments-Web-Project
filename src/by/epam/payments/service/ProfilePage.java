@@ -43,6 +43,7 @@ public class ProfilePage {
 				account.setCards(cards);
 			}
 			request.setAttribute(ParameterName.ACCOUNTS, accounts);
+
 		} catch (DAOException e) {
 			output = false;
 			throw new ServiceException(e.getMessage());
