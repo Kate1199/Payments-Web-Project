@@ -70,8 +70,8 @@ public class AccountDaoImpl extends SqlDatabaseDAO<Account> implements AccountDa
 	}
 
 	@Override
-	public Account update(Account entity) throws DAOException {
-		logger.log(Level.WARN, LogMessage.ACCOUNT_UPDATE);
+	public Account update(Account account) throws DAOException {
+		logger.log(Level.WARN, LogMessage.ACCOUNT_UPDATE + account.getId());
 		throw new UnsupportedOperationException();
 	}
 

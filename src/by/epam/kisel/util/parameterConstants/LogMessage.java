@@ -10,6 +10,7 @@ public class LogMessage {
 	public static final String CONNECTION_CLOSED = "Connection returned to connection pool";
 	
 	public static final String ACCOUNT_UPDATE = "Attempt to update account information for account with id: ";
+	public static final String CARD_UPDATE = "Attempt to update card information for account with id: ";
 	
 	public static final String REDIRECT_FAILED = "Redirect command failed for the reason: ";
 	public static final String POST_COMMAND_FAILED = "Command in method post failed for the reason: ";
