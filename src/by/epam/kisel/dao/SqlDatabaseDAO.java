@@ -132,12 +132,8 @@ public class SqlDatabaseDAO<T extends Entity> {
 
 		boolean find = true;
 		makeConnection();
+		makePreparedStatementForSomeParameters(sqlRequest, parameters);
 		try {
-			preparedStatement = connection.prepareStatement(sqlRequest);
-
-			for (int i = 0; i < parameters.length; i++) {
-				preparedStatement.setObject(i + CORRECTION_INDEX, parameters[i]);
-			}
 			resultSet = preparedStatement.executeQuery();
 		} catch (SQLException e) {
 			find = false;
@@ -146,6 +142,22 @@ public class SqlDatabaseDAO<T extends Entity> {
 		}
 		
 		return find;
+	}
+	
+	private boolean makePreparedStatementForSomeParameters(String sqlRequest, Object...parameters) throws DAOException {
+		boolean make = true;
+		try {
+			preparedStatement = connection.prepareStatement(sqlRequest);
+
+			for (int i = 0; i < parameters.length; i++) {
+				preparedStatement.setObject(i + CORRECTION_INDEX, parameters[i]);
+			}
+		} catch (SQLException e) {
+			make = false;
+			logger.log(Level.ERROR, e.getMessage());
+			throw new DAOException(e.getMessage());
+		}
+		return make;
 	}
 
 	private Object takeFieldFromResultSet() throws DAOException {
@@ -189,5 +201,17 @@ public class SqlDatabaseDAO<T extends Entity> {
 			return null;
 		}
 		return entities.get(ENTITY_INDEX);
+	}
+	
+	public boolean updateCore(String sqlRequest, Object...parameters) throws DAOException {
+		boolean update = true;
+		makePreparedStatementForSomeParameters(sqlRequest, parameters);
+		try {
+			preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			logger.log(Level.ERROR, e.getMessage());
+			throw new DAOException(e.getMessage());
+		}
+		return update;
 	}
 }

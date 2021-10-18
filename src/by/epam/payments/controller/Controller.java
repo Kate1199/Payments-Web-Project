@@ -33,7 +33,6 @@ public class Controller extends HttpServlet {
 			redirectCommand.execute(request, response);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, LogMessage.REDIRECT_FAILED + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 	
@@ -45,7 +44,6 @@ public class Controller extends HttpServlet {
 			servletCommand.execute(request, response);
 		} catch (ServiceException e) {
 			logger.log(Level.ERROR, LogMessage.POST_COMMAND_FAILED + e.getMessage());
-			e.printStackTrace();
 		}
 		
 	}

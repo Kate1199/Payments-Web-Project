@@ -4,6 +4,7 @@ public final class ParameterName {
 	
 	public static final String ACCOUNTS = "accounts";
 	public static final String CLIENT = "client";
+	public static final String 	MESSAGE = "message";
 	
 	public static final String USER_ID = "userId";
 	public static final String LOGIN = "login";

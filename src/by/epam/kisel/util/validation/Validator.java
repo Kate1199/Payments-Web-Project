@@ -48,11 +48,11 @@ public class Validator {
 				isNull(client.getRealAddress());
 	}
 	
-	public static boolean lessThanZero(int number) {
+	public static boolean lessThanZero(long number) {
 		return number < 0;
 	}
 	
-	public static boolean lessThanZeroOrEqualZero(int number) {
+	public static boolean lessThanZeroOrEqualZero(long number) {
 		return number <= 0;
 	}
 	

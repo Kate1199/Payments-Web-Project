@@ -1,15 +1,14 @@
 package by.epam.kisel.service;
 
-import javax.sql.rowset.serial.SerialException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import javax.servlet.http.HttpServletRequest;
 
 import by.epam.kisel.dao.EntityTransaction;
 import by.epam.kisel.dao.account.AccountDaoImpl;
 import by.epam.kisel.exception.DAOException;
 import by.epam.kisel.exception.ServiceException;
 import by.epam.kisel.util.MinValues;
+import by.epam.kisel.util.parameterConstants.ParameterName;
+import by.epam.kisel.util.parameterConstants.RuMessage;
 import by.epam.kisel.util.parameterConstants.SqlRequest;
 import by.epam.payments.bean.Account;
 
@@ -19,25 +18,48 @@ public class AccountTransfer {
 	private static final boolean RECIEVER = false;
 
 	private AccountDaoImpl accountDao = new AccountDaoImpl();
+	private EntityTransaction<Account> transaction = new EntityTransaction<Account>();
+	private HttpServletRequest request;
+	
+	public AccountTransfer() {
+	}
+	
+	public AccountTransfer(HttpServletRequest request) {
+		this.request = request;
+	}
 	
 	public boolean doTransfer(String senderNumberIban, String recieverNumberIban, long sum) throws ServiceException {
 		boolean transfer = true;
-		
-		EntityTransaction<Account> transaction = new EntityTransaction<Account>();
+
 		try {
 			transaction.initTransaction();
 			transaction.commit();
-			long senderBalance = countBalance(senderNumberIban, sum, SENDER);
-			accountDao.safeUpdate(senderBalance, senderNumberIban, transaction);
-			long recieverBalance = countBalance(recieverNumberIban, sum, RECIEVER);
-			accountDao.safeUpdate(recieverBalance, recieverNumberIban, transaction);
-			transaction.commit();
-			transaction.endTransaction();
 		} catch (DAOException e) {
 			transfer = false;
 			throw new ServiceException(e.getMessage());
 		}
+		makeUpdate(sum, senderNumberIban, SENDER);
+		makeUpdate(sum, recieverNumberIban, RECIEVER);
+		
+		try {
+			transaction.commit();
+			transaction.endTransaction();
+		} catch (DAOException e) {
+			transfer = false;
+		}
 		return transfer;
+	}
+	
+	private boolean makeUpdate(long sum, String numberIban, boolean sender) throws ServiceException {
+		boolean update = true;
+		long balance = countBalance(numberIban, sum, sender);
+		try {
+			accountDao.updateAccountBalance(balance, numberIban);
+		} catch (DAOException e) {
+			transaction.rollback();
+			throw new ServiceException(e.getMessage());
+		}
+		return update;
 	}
 	
 	private long countBalance(String numberIban, long sum, boolean sender) throws ServiceException {
@@ -48,10 +70,20 @@ public class AccountTransfer {
 			throw new ServiceException(e.getMessage());
 		}
 		if(sender) {
+			isEnoughMoney(balance, sum);
 			balance = balance - sum;
 		} else {
 			balance = balance + sum;
 		}
 		return balance;
+	}
+	
+	private boolean isEnoughMoney(long balance, long sum) {
+		boolean enough = true;
+		if(sum > balance) {
+			enough = false;
+			request.setAttribute(ParameterName.MESSAGE, RuMessage.NOT_ENOUGH_MONEY);
+		} 
+		return enough;
 	}
 }
