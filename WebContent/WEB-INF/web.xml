@@ -29,12 +29,12 @@
    </context-param>  
    
    <listener>
-   		<listener-class>by.epam.kisel.util.StrartEndServerListener</listener-class>
+   		<listener-class>by.epam.payments.util.StrartEndServerListener</listener-class>
    </listener>
 
 	<filter>
     	<filter-name>CharacterEncodingFilter</filter-name>
-    	<filter-class>by.epam.kisel.service.filter.CharacterEncodingFilter</filter-class>
+    	<filter-class>by.epam.payments.service.filter.CharacterEncodingFilter</filter-class>
       <init-param>
         <param-name>requestEncoding</param-name>
         <param-value>UTF-8</param-value>
