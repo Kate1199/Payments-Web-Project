@@ -6,45 +6,73 @@ import by.epam.payments.bean.User;
 import by.epam.payments.dao.SqlDatabaseDAO;
 import by.epam.payments.dao.builders.UserBuilder;
 import by.epam.payments.exception.DAOException;
-import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.parameterConstants.SqlRequest;
 import by.epam.payments.util.validation.Validator;
 
-public class UserDaoImpl extends SqlDatabaseDAO<User> {
+public class UserDaoImpl extends SqlDatabaseDAO<User> implements UserDAO {
 
-	private static final String READ_ALL_USERS = "SELECT * FROM users";
-
-	private static final String READ_USER_BY_ID = "SELECT * FROM users WHERE user_id = ?";
+	private UserBuilder userBuilder = new UserBuilder();
 	
-	private static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE login = ?";
-
-	private static final String DELETE_USER = "DELETE FROM users WHERE user_id = ? and "
-			+ "login = ? and email = ? and password = ? and user_salt = ? and role = ?";
-
-	private static final String INSERT_USER = "INSERT INTO users (user_id, login, email, password, user_salt, role) VALUES (?, ?, ?, ?, ?, ?)";
+	public UserDaoImpl() {
+	}
 	
 	public int findUserIdByLogin(String login) throws DAOException {
 		long id = (long) findByParameterField(SqlRequest.FIND_ID_BY_LOGIN, login);
 		return (int) id;
 	}
 	public List<User> findAll() throws DAOException {
-		return super.findAll(READ_ALL_USERS, new UserBuilder());
+		return super.findAll(SqlRequest.FIND_ALL_USERS, userBuilder);
 	}
 
-	public User findEntityById(Integer id) throws DAOException {
-		return takeEntity(findByParameterEntity(READ_USER_BY_ID, new UserBuilder(), id));
+	public User findEntityById(int id) throws DAOException {
+		if(id <= 0) {
+			return new User();
+		}
+		return takeEntity(findByParameterEntity(SqlRequest.FIND_USER_BY_ID, userBuilder, id));
 	}
-
-	public boolean create(User entity) throws DAOException {
-		return super.addNewData(INSERT_USER, entity, new UserBuilder());
-	}
-
+	
 	public User findByLogin(String login) throws DAOException {
 		
 		if(Validator.isNull(login)) {
 			return new User();
 		}
-		return takeEntity(findByParameterEntity(FIND_USER_BY_LOGIN, new UserBuilder(), login));
+		return takeEntity(findByParameterEntity(SqlRequest.FIND_USER_BY_LOGIN, userBuilder, login));
+	}
+	
+	@Override
+	public boolean insertInto(User user) throws DAOException {
+		if(Validator.isNull(user)) {
+			return false;
+		}
+		return super.addNewData(SqlRequest.ADD_USER, user, userBuilder);
+	}
+
+	@Override
+	public User update(User user) throws DAOException {
+		if(Validator.isNull(user)) {
+			return new User();
+		}
+		if(!super.update(SqlRequest.UPDATE_USER, user.getLogin(), user.getEmail(), user.getPassword(),
+				user.getSalt(), user.getRole(), user.getId())) {
+			user = new User();
+		}
+		return user;
+	}
+
+	@Override
+	public boolean delete(User user) throws DAOException {
+		if(Validator.isNull(user)) {
+			return false;
+		}
+		return addNewData(SqlRequest.HIDE_USER, user, userBuilder);
+	}
+
+	@Override
+	public boolean delete(int id) throws DAOException {
+		if(id <= 0) {
+			return false;
+		}
+		return update(SqlRequest.HIDE_USER_BY_ID, id);
 	}
 
 	

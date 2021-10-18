@@ -7,6 +7,16 @@ public class SqlRequest {
 	 * For user
 	 */
 	public static final String FIND_ID_BY_LOGIN = "SELECT user_id FROM users WHERE hidden = 0 and login = ?";
+	public static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE hidden = 0 AND login = ?";
+	public static final String FIND_ALL_USERS = "SELECT * FROM users WHERE hidden = 0";
+	public static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE hidden = 0 user_id = ?";
+	public static final String ADD_USER = "INSERT INTO users (user_id, login, email, password, user_salt, role) "
+			+ "VALUES (?, ?, ?, ?, ?, ?)";
+	public static final String UPDATE_USER = "UPDATE users SET login = ?, email = ?, password = ?, "
+			+ "user_salt = ?, role = ? WHERE hidden = 0 AND user_id = ?";
+	public static final String HIDE_USER = "UPDATE users set hidden = 1 WHERE login = ? AND email = ? "
+			+ "AND password = ? AND user_salt = ? AND role = ?";
+	public static final String HIDE_USER_BY_ID = "UPDATE users SET hidden = 1 WHERE user_id = ?";
 	
 	/*
 	 * For client

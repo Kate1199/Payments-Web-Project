@@ -41,7 +41,7 @@ public class RegistrationCommand implements ServletCommand {
 	
 		UserDaoImpl dao = new UserDaoImpl();
 		try {
-			dao.create(user);
+			dao.insertInto(user);
 			request.setAttribute(AttributeName.REDIRECT, AttributeValue.HOME);
 			response.sendRedirect(Path.INDEX_PATH);
 		} catch (DAOException e) {
