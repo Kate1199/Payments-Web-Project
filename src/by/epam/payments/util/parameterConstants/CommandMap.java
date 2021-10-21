@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import by.epam.payments.service.ClientFormCommand;
 import by.epam.payments.service.LoginCommand;
-import by.epam.payments.service.PaginationCommand;
+import by.epam.payments.service.PaymentsCommand;
 import by.epam.payments.service.RegistrationCommand;
 import by.epam.payments.service.ServletCommand;
 import by.epam.payments.util.validation.Validator;
@@ -17,7 +17,7 @@ public class CommandMap {
 	private CommandMap() {
 		commands.put(AttributeValue.REGISTRATION, new RegistrationCommand());
 		commands.put(AttributeValue.LOGIN, new LoginCommand());
-		commands.put(AttributeValue.PAYMENTS, new PaginationCommand());
+		commands.put(AttributeValue.PAYMENTS, new PaymentsCommand());
 		commands.put(AttributeValue.CLIENT_FORM, new ClientFormCommand());
 	}
 	

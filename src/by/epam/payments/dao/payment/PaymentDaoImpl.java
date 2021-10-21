@@ -53,7 +53,7 @@ public class PaymentDaoImpl extends SqlDatabaseDAO<Payment> implements PaymentDA
 		if(Validator.isNull(payment)) {
 			return new Payment();
 		}
-		if(!super.update(SqlRequest.UPDATE_PAYMENT, payment.getName(), payment.getImage(), 
+		if(!super.update(SqlRequest.UPDATE_PAYMENT, payment.getName(), 
 				payment.getReciever(), payment.getPaymentDetails(), payment.getDescription(), 
 				payment.getFixedAmount(), payment.getProcentFee(), payment.getAccountId(), payment.getId())) {
 			payment = new Payment();

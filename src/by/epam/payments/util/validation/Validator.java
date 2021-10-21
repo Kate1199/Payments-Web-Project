@@ -23,29 +23,28 @@ public class Validator {
 		return Arrays.equals(array, new byte[MinValues.MIN_ARRAY_SIZE]);
 	}
 	
-	public static boolean isEmptyUser(User user) {
-		boolean isEmpty = false;
-		if(isNull(user) || user.getId() == 0 || isNull(user.getLogin()) || isNull(user.getEmail())
-				|| isNull(user.getPassword()) || isNull(user.getRole())) {
-			isEmpty = true;
-		}
-		return isEmpty;
-	}
-	
 	public static boolean isEmptyCharArray(char[] array) {
 		return Arrays.equals(array, new char[MinValues.MIN_ARRAY_SIZE]);
 	}
 	
+	public static boolean isEmpty(User user) {
+		return isNull(user) 
+				|| isNull(user.getLogin()) || isStringEmpty(user.getLogin()) 
+				|| isNull(user.getEmail()) || isStringEmpty(user.getEmail())
+				|| isNull(user.getPassword()) || isEmptyByteArray(user.getPassword())
+				|| isNull(user.getRole()) || isStringEmpty(user.getRole().toString());
+	
+	}
+	
 	public static boolean isEmpty(Client client) {
 		return isNull(client) ||
-				isNull(client.getId()) ||
-				isNull(client.getIdentificationNumber()) ||
-				isNull(client.getFirstName()) ||
-				isNull(client.getLastName()) ||
-				isNull(client.getPatronymic()) ||
-				isNull(client.getPhoneNumber()) ||
-				isNull(client.getRegistrationAddress()) ||
-				isNull(client.getRealAddress());
+				isNull(client.getIdentificationNumber()) || isStringEmpty(client.getIdentificationNumber())
+				|| isNull(client.getFirstName()) || isStringEmpty(client.getFirstName())
+				|| isNull(client.getLastName()) || isStringEmpty(client.getLastName())
+				|| isNull(client.getPatronymic())
+				|| isNull(client.getPhoneNumber()) || isStringEmpty(client.getPhoneNumber())
+				|| isNull(client.getRegistrationAddress()) || isStringEmpty(client.getRegistrationAddress())
+				|| isNull(client.getRealAddress()) || isStringEmpty(client.getRealAddress());
 	}
 	
 	public static boolean lessThanZero(long number) {

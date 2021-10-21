@@ -29,7 +29,7 @@
    </context-param>  
    
    <listener>
-   		<listener-class>by.epam.payments.util.StrartEndServerListener</listener-class>
+   		<listener-class>by.epam.payments.util.ApplicationListener</listener-class>
    </listener>
 
 	<filter>

@@ -11,26 +11,22 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.mysql.cj.Session;
 
 import by.epam.payments.bean.Role;
 import by.epam.payments.bean.User;
-import by.epam.payments.dao.SqlDatabaseDAO;
 import by.epam.payments.dao.user.UserDaoImpl;
 import by.epam.payments.exception.DAOException;
+import by.epam.payments.exception.IncorrectEnteredDataException;
 import by.epam.payments.exception.ServiceException;
 import by.epam.payments.service.encrytion.Encrypter;
 import by.epam.payments.util.parameterConstants.AttributeName;
-import by.epam.payments.util.parameterConstants.AttributeValue;
 import by.epam.payments.util.parameterConstants.LogMessage;
 import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.parameterConstants.Path;
-import by.epam.payments.util.parameterConstants.SqlRequest;
 import by.epam.payments.util.validation.Validator;
 
 public class LoginCommand implements ServletCommand {
 	
-	private static final String PASSWORD = "password";
 	private static final String INVALID_PASSWORD_RU = "Неверный пароль";
 	private static final String INVALID_PASSWORD = "invalid password";
 	private static final String NO_SUCH_USER_RU = "Пользователя с таким именем не существует";
@@ -43,52 +39,29 @@ public class LoginCommand implements ServletCommand {
 		login(request, response);
 	}
 	
-	//TODO: change name
 	private boolean login(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
 		
 		if(Validator.isNull(request)) {
 			return false;
 		}
+		
 		String login = request.getParameter(ParameterName.LOGIN);
 		
 		User user = findUser(login);
 
 		boolean passwordsEqual;
-		if(userExists(user)) {
-			passwordsEqual = Encrypter.compareEncryptedData(user.getPassword(), request.getParameter(PASSWORD).toCharArray(), user.getSalt());
-		} else {
-			logger.log(Level.WARN, LogMessage.UNKNOWN_USER);
-			request.setAttribute(AttributeName.MESSAGE, NO_SUCH_USER_RU);
-			try {
-				request.getRequestDispatcher(Path.LOGIN_PATH).forward(request, response);
-			} catch (IOException | ServletException e) {
-				logger.log(Level.ERROR, e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
-			throw new ServiceException(NO_SUCH_USER);
-			
+		try {
+			passwordsEqual = checkArePasswordsEqualIfExists(user, request, response);
+		} catch (ServiceException | IncorrectEnteredDataException e) {
+			throw new ServiceException(e.getMessage());
 		}
 		
 		if(passwordsEqual) {
-			HttpSession session = request.getSession();
-			session.setAttribute(ParameterName.LOGIN, login);
-			session.setAttribute(ParameterName.ROLE, user.getRole());
-			try {
-				response.sendRedirect(Path.INDEX_PATH);
-			} catch (IOException e) {
-				logger.log(Level.ERROR, e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
+			saveDataToSession(request, response, user);
 		} else {
 			logger.log(Level.WARN, LogMessage.INVALID_PASSWORD + user.getId());
-			request.setAttribute(AttributeName.MESSAGE, INVALID_PASSWORD_RU);
 			request.setAttribute(ParameterName.LOGIN, login);
-			try {
-				request.getRequestDispatcher(Path.LOGIN_PATH).forward(request, response);
-			} catch (IOException | ServletException e) {
-				logger.log(Level.ERROR, e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
+			updatePage(request, response, INVALID_PASSWORD_RU);
 			throw new ServiceException(INVALID_PASSWORD);
 		}
 		
@@ -96,18 +69,9 @@ public class LoginCommand implements ServletCommand {
 			logger.log(Level.INFO, LogMessage.ADMIN_LOGGED_IN + user.getId());
 		}
 		
-		UserDaoImpl userDao = new UserDaoImpl();
-		int userId;
-		try {
-			userId = userDao.findUserIdByLogin(login);
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
-		HttpSession session = request.getSession();
-		session.setAttribute(ParameterName.USER_ID, userId);
+		addToDatabase(request, login);
 		
-			
-		return passwordsEqual && userExists(user);
+		return passwordsEqual;
 	}
 	
 	private User findUser(String login) throws ServiceException {
@@ -115,21 +79,78 @@ public class LoginCommand implements ServletCommand {
 		User user;
 		
 		try {
-			user = dao.findByLogin(login);
+			user = dao.findUserByLogin(login);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
 		return user;
 	}
 	
-	private boolean userExists(User user) throws ServiceException {
+	private boolean doesUserExist(User user) throws ServiceException {
 
-		boolean exists = false;
-		if(!Validator.isNull(user.getLogin())) {
-			exists = true;
+		boolean exists = true;
+		if(Validator.isEmpty(user)) {
+			exists = false;
 		}
 		
 		return exists;
+	} 
+	
+	private boolean checkArePasswordsEqualIfExists(User user, HttpServletRequest request, 
+			HttpServletResponse response) throws ServiceException, IncorrectEnteredDataException {
+		boolean passwordsEqual;
+		if(doesUserExist(user)) {
+			passwordsEqual = Encrypter.compareEncryptedData(user.getPassword(), request.getParameter(ParameterName.PASSWORD).toCharArray(), user.getSalt());
+		} else {
+			logger.log(Level.WARN, LogMessage.UNKNOWN_USER);
+			updatePage(request, response, NO_SUCH_USER_RU);
+			throw new IncorrectEnteredDataException(NO_SUCH_USER);
+		}
+		return passwordsEqual;
+	}
+	
+	private boolean updatePage(HttpServletRequest request, HttpServletResponse response, String message) throws ServiceException {
+		boolean update = true;
+		request.setAttribute(AttributeName.MESSAGE, message);
+		try {
+			request.getRequestDispatcher(Path.LOGIN_PATH).forward(request, response);
+		} catch (IOException | ServletException e) {
+			update = false;
+			logger.log(Level.ERROR, e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		return update;
+	}
+	
+	private boolean saveDataToSession(HttpServletRequest request, HttpServletResponse response, User user) 
+			throws ServiceException {
+		boolean save = true;
+		HttpSession session = request.getSession();
+		session.setAttribute(ParameterName.LOGIN, user.getLogin());
+		session.setAttribute(ParameterName.ROLE, user.getRole());
+		try {
+			response.sendRedirect(Path.INDEX_PATH);
+		} catch (IOException e) {
+			save = false;
+			logger.log(Level.ERROR, e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		return save;
+	}
+	
+	private boolean addToDatabase(HttpServletRequest request, String login) throws ServiceException {
+		boolean add = true;
+		UserDaoImpl userDao = new UserDaoImpl();
+		int userId;
+		try {
+			userId = userDao.findUserIdByLogin(login);
+		} catch (DAOException e) {
+			add = false;
+			throw new ServiceException(e.getMessage());
+		}
+		HttpSession session = request.getSession();
+		session.setAttribute(ParameterName.USER_ID, userId);
+		return add;
 	}
 
 }

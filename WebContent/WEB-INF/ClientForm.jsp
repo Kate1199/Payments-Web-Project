@@ -8,13 +8,14 @@
 </head>
 <body class="mt-5 pt-5">
 	<form action="Controller?command=clientForm" method="post" class="row g-3 needs-validation">
-		
+			
 			<h5 class="display-5 mb-3 text-center">Личные данные</h5>
 			
 			<div class="row col-9 justify-content-center mx-auto">
 			<div class="col-3 mb-2">
     			<label for="inpuLastName" class="form-label">Фамилия</label>
-    			<input name="lastName" type="text" class="form-control" id="inputLastName" required pattern="^[A-ZА-Я]{1}[a-zа-я]*[\s-]*[a-zа-я]+">
+    			<input name="lastName" type="text" class="form-control" id="inputLastName" 
+    			required pattern="^[A-ZА-Я]{1}[a-zа-я]*[\s-]*[a-zа-я]+">
  			</div>
  			
  			<div class="col-3 mb-2">
@@ -45,7 +46,10 @@
  			<div class="col-5 mb-2">
     			<label for="inputRealAddress" class="form-label">Адрес проживания</label>
     			<input name="realAddress" type="text" class="form-control" id="inputRealAddress" placeholder="г. Минск, ул. ..." required pattern="[A-Za-zА-Яа-я0-9\.\,\\]{10,}">
+ 				<span class="row form-text text-danger text-center">${message}</span>
  			</div>
+ 			
+ 			
  			
   		</div>
  			

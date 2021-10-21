@@ -18,104 +18,136 @@ import by.epam.payments.exception.DAOException;
 import by.epam.payments.exception.IncorrectEnteredDataException;
 import by.epam.payments.exception.ServiceException;
 import by.epam.payments.service.encrytion.Encrypter;
-import by.epam.payments.util.parameterConstants.AttributeName;
-import by.epam.payments.util.parameterConstants.AttributeValue;
 import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.parameterConstants.Path;
 import by.epam.payments.util.validation.PatternValidator;
 import by.epam.payments.util.validation.Validator;
 
-public class UserMaker implements EntityMakerFromRequest<User> {
+public class UserMaker implements EntityMakerFromRequest {
 
 	private static final String USER_EXISTS = "user with such login already exists";
-	private static final String USER_EXISTS_RU = "Пользователь с таким именем уже существует";
+	private static final String USER_EXISTS_RU = "Пользователь с таким именем или email уже существует";
 	private static final String INCORRECT_DATA_FORMAT = "login, email or password is incorrect";
+	private static final String INCORRECT_DATA_FORMAT_RU = "Введите данные в требуемом формате";
 	
 	private static Logger logger = LogManager.getLogger();
+	
+	private HttpServletRequest request;
+	private HttpServletResponse response;
 
 	public UserMaker() {
 	}
+	
+	public UserMaker(HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
+	}
 
-	public User makeEntity(HttpServletRequest request, HttpServletResponse response)
-			throws ServiceException, IncorrectEnteredDataException {
+	public User makeEntity() throws ServiceException {
 		
-		String login;
-		String email;
-		byte[] password;
+		String login = PatternValidator.defineParameter(request, ParameterName.LOGIN);
+		String email = PatternValidator.defineParameter(request, ParameterName.EMAIL);
 		byte[] salt = Encrypter.generateSalt();
-		Role role;
-
-		HttpSession session = request.getSession();
-		login = PatternValidator.defineParameter(request, ParameterName.LOGIN);
-		email = PatternValidator.defineParameter(request, ParameterName.EMAIL);
-		password = PatternValidator.defineProtectedParameter(request, ParameterName.PASSWORD, salt);
-		role = Role.USER;
+		byte[] password = PatternValidator.defineProtectedParameter(request, ParameterName.PASSWORD, salt);
+		Role role = Role.USER;
 		
-		if (checkUserWithSuchLogin(login)) {
-			request.setAttribute(AttributeName.MESSAGE, USER_EXISTS_RU);
-			request.setAttribute(ParameterName.EMAIL, email);
-			request.setAttribute(ParameterName.PASSWORD, request.getParameter(ParameterName.PASSWORD));
-			try {
-				request.getRequestDispatcher(Path.REGISTRATION_PATH).forward(request, response);
-			} catch (IOException | ServletException e) {
-				logger.log(Level.ERROR, e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
-			throw new IncorrectEnteredDataException(USER_EXISTS);
-		} 
-		
+		sendMessageIfUserExist(login, email);
 
 		User user = new User(login, email, password, salt, role);
-		if (isEnteredDataCorrect(user, response)) {
-			session.setAttribute(ParameterName.LOGIN, login);
-			session.setAttribute(ParameterName.ROLE, role);
-
-		} else {
-			try {
-				request.getRequestDispatcher(Path.HOME_PATH).forward(request, response);
-			} catch (ServletException | IOException e) {
-				logger.log(Level.ERROR, e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
+		saveDataToSessionIfCorrect(user);
+		try {
+			response.sendRedirect(Path.INDEX_PATH);
+		} catch (IOException e) {
+			throw new ServiceException();
 		}
+		saveUserToDatabase(user);
 
 		return user;
 	}
-
-	private boolean checkUserWithSuchLogin(String login) throws ServiceException, IncorrectEnteredDataException {
-		boolean isExist = false;
-		UserDaoImpl dao = new UserDaoImpl();
-		User userWithSuchLogin = null;
+	
+	private boolean sendMessageIfUserExist(String login, String email) throws ServiceException {
+		
+		boolean send = true;
 		try {
-			userWithSuchLogin = dao.findByLogin(login);
+			if (checkIfUserExist(login, email)) {
+				request.setAttribute(ParameterName.MESSAGE, USER_EXISTS_RU);
+				updatePage();
+				throw new IncorrectEnteredDataException(USER_EXISTS);
+			}
+		} catch (ServiceException | IncorrectEnteredDataException e) {
+			send = false;
+			throw new ServiceException(e.getMessage());
+		} 
+		
+		return send;
+	}
+	
+	private boolean saveDataToSessionIfCorrect(User user) throws ServiceException {
+		boolean save = false;
+		HttpSession session = request.getSession();
+		try {
+			if(!checkIfDataIncorrect(user)) {
+				save = true;
+				session.setAttribute(ParameterName.LOGIN, user.getLogin());
+				session.setAttribute(ParameterName.ROLE, user.getRole());
+			}
+		} catch (ServiceException | IncorrectEnteredDataException e) {
+			throw new ServiceException(e.getMessage());
+		}
+		return save;
+	}
+	
+	private boolean checkIfDataIncorrect(User user) throws ServiceException, IncorrectEnteredDataException {
+		boolean incorrect = false;
+		
+		if(Validator.isEmpty(user)) {
+			incorrect = true;
+			request.setAttribute(ParameterName.MESSAGE, INCORRECT_DATA_FORMAT_RU);
+			updatePage();
+			throw new IncorrectEnteredDataException(INCORRECT_DATA_FORMAT);
+		}
+		return incorrect;
+	}
+	
+	private boolean updatePage() throws ServiceException {
+		boolean update = true;
+		try {
+			request.getRequestDispatcher(Path.REGISTRATION_PATH).forward(request, response);
+		} catch (IOException | ServletException e) {
+			update = false;
+			logger.log(Level.ERROR, e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		return update;
+	}
+
+	private boolean checkIfUserExist(String login, String email) throws ServiceException, IncorrectEnteredDataException {
+		boolean exists = false;
+		UserDaoImpl dao = new UserDaoImpl();
+		User userWithSuchLogin;
+		User userWithSuchEmail;
+		try {
+			userWithSuchLogin = dao.findUserByLogin(login);
+			userWithSuchEmail = dao.findUserByEmail(email);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage());
 		}
 
-		if (!Validator.isNull(userWithSuchLogin) || !Validator.isEmptyUser(userWithSuchLogin)) {
-			isExist = true;
+		if (!Validator.isEmpty(userWithSuchLogin) || !Validator.isEmpty(userWithSuchEmail)) {
+			exists = true;
 		}
 
-		return isExist;
+		return exists;
 	}
-
-	private boolean isEnteredDataCorrect(User user, HttpServletResponse response)
-			throws ServiceException, IncorrectEnteredDataException {
-		boolean isCorrect = true;
-		if (Validator.isStringEmpty(user.getLogin()) || Validator.isStringEmpty(user.getEmail())
-				|| Validator.isEmptyByteArray(user.getPassword())) {
-
-			isCorrect = false;
-			try {
-				// TODO:change
-
-				response.sendRedirect(Path.CLIENT_FORM_PATH);
-			} catch (IOException e) {
-				logger.log(Level.ERROR, e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
-			throw new IncorrectEnteredDataException(INCORRECT_DATA_FORMAT);
+	
+	private boolean saveUserToDatabase(User user) throws ServiceException {
+		boolean save = false;
+		UserDaoImpl userDao = new UserDaoImpl();
+		try {
+			save = userDao.insertInto(user);
+		} catch (DAOException e) {
+			throw new ServiceException(e.getMessage());
 		}
-		return isCorrect;
+		return save;
 	}
 }

@@ -12,7 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.payments.exception.ServiceException;
-import by.epam.payments.service.RedirectCommand;
+import by.epam.payments.service.PageChangeCommand;
 import by.epam.payments.service.ServletCommand;
 import by.epam.payments.util.parameterConstants.CommandMap;
 import by.epam.payments.util.parameterConstants.LogMessage;
@@ -28,7 +28,7 @@ public class Controller extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		RedirectCommand redirectCommand = new RedirectCommand();
+		PageChangeCommand redirectCommand = new PageChangeCommand();
 		try {
 			redirectCommand.execute(request, response);
 		} catch (ServiceException e) {

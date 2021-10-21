@@ -7,7 +7,7 @@ public final class ParameterPattern {
 	 */
 	public static final String LOGIN = "\\w+";
 	public static final String EMAIL = "[a-zA-z_\u002E\\d*]+@([a-zA-Z]+\u002E){1,2}[a-zA-Z]+";
-	public static final String PASSWORD = "((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^@#$%]).{8,20})";
+	public static final String PASSWORD = "(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^@#$%]).{7,20}";
 	
 	/*
 	 * Parameters for client

@@ -8,6 +8,7 @@ public class SqlRequest {
 	 */
 	public static final String FIND_ID_BY_LOGIN = "SELECT user_id FROM users WHERE hidden = 0 and login = ?";
 	public static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE hidden = 0 AND login = ?";
+	public static final String FIND_USER_BY_EMAIL = "SELECT * FROM users WHERE hidden = 0 AND email = ?";
 	public static final String FIND_ALL_USERS = "SELECT * FROM users WHERE hidden = 0";
 	public static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE hidden = 0 user_id = ?";
 	public static final String ADD_USER = "INSERT INTO users (user_id, login, email, password, user_salt, role) "
@@ -24,6 +25,8 @@ public class SqlRequest {
 	public static final String FIND_CLIENT_BY_USER_ID = "SELECT * FROM clients WHERE Users_user_id = ?";
 	public static final String FIND_CLIENT_ID_BY_USER_ID = "SELECT client_id FROM clients WHERE hidden = 0 AND user_id = ?";
 	public static final String FIND_CLIENT_BY_IDENTIFIACTION_NUMBER = "SELECT * FROM clients WHERE hidden = 0 AND personal_identification_number = ?";
+	public static final String FIND_CLIENT_BY_IDENTIFIACTION_NUMBER_AND_PHONE_NUMBER = "SELECT * FROM clients "
+			+ "WHERE hidden = 0 AND personal_identification_number = ? or phone_number = ?";
 	public static final String FIND_ALL_CLIENTS = "SELECT * FROM clients WHERE hidden = 0";
 	public static final String ADD_CLIENT = "INSERT INTO clients (client_id, personal_identification_number, "
 			+ "surname, name, patronymic, phone_number, registration_address, real_address, Users_user_id) "

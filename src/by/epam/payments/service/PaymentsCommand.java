@@ -20,11 +20,9 @@ import by.epam.payments.exception.ServiceException;
 import by.epam.payments.util.parameterConstants.Path;
 import by.epam.payments.util.validation.Validator;
 
-public class PaginationCommand implements ServletCommand {
+public class PaymentsCommand implements ServletCommand {
 	
 	private static final String PARAMETER_NAME = "payments";
-	private static final String REDIRECT_ATTRIBUTE = "redirect";
-	private static final String REDIRECT_ATTRIBUTE_PAYMENTS = "payments";
 	private static final String PAGINATION_PARAMETER = "pagination";
 	private static final String PAGINATION_PARAMETER_PREVIOUS = "previous";
 	private static final String PAGINATION_PARAMETER_NEXT = "next";
@@ -47,7 +45,7 @@ public class PaginationCommand implements ServletCommand {
 	
 	private static Logger logger = LogManager.getLogger();
 	
-	public PaginationCommand() {
+	public PaymentsCommand() {
 	}
 
 	@Override
@@ -55,6 +53,7 @@ public class PaginationCommand implements ServletCommand {
 		if(Validator.isNull(request) || Validator.isNull(response)) {
 			return;
 		}
+		
 		outputPayments(request, response);
 		try {
 			request.getRequestDispatcher(Path.PAYMENTS_PATH).forward(request, response);
@@ -72,15 +71,9 @@ public class PaginationCommand implements ServletCommand {
 		List<Payment> payments;
 		
 		String pagiantion = request.getParameter(PAGINATION_PARAMETER);
-		if(Validator.isNull(pagiantion)) {
-			
-		} else if(pagiantion.equals(PAGINATION_PARAMETER_NEXT)) {
-			nextPage(request);
-		} else if(pagiantion.equals(PAGINATION_PARAMETER_PREVIOUS)) {
-			previousPage(request, response);
-		} else if(pagiantion.equals(PAGINATION_PARAMETER_GO_TO)) {
-			goToPage(request);
-		}
+		
+		definePage(pagiantion, request, response);
+		
 		try {
 			payments = dao.findAll();
 			onePagePayments = dao.findAllWithLimits(previousLimit, limit);
@@ -98,6 +91,20 @@ public class PaginationCommand implements ServletCommand {
 		
 		return output;
 		
+	}
+	
+	private boolean definePage(String pagiantion, HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+		boolean page = true;
+		if(Validator.isNull(pagiantion)) {
+			page = false;
+		} else if(pagiantion.equals(PAGINATION_PARAMETER_NEXT)) {
+			nextPage(request);
+		} else if(pagiantion.equals(PAGINATION_PARAMETER_PREVIOUS)) {
+			previousPage(request, response);
+		} else if(pagiantion.equals(PAGINATION_PARAMETER_GO_TO)) {
+			goToPage(request);
+		}
+		return page;
 	}
 	
 	private boolean nextPage(HttpServletRequest request) {

@@ -5,6 +5,8 @@ import by.epam.payments.dao.Dao;
 import by.epam.payments.exception.DAOException;
 
 public interface UserDAO extends Dao<User> {
-	public User findByLogin(String login) throws DAOException;
+
 	public int findUserIdByLogin(String login) throws DAOException;
+	public User findUserByLogin(String login) throws DAOException;
+	public User findUserByEmail(String email) throws DAOException;
 }

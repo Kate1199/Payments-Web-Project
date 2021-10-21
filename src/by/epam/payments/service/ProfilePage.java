@@ -34,6 +34,7 @@ public class ProfilePage {
 		ClientDaoImpl clientDao = new ClientDaoImpl();
 		AccountDaoImpl accountDao = new AccountDaoImpl();
 		CardDaoImpl cardDao = new CardDaoImpl();
+		
 		try {
 			Client client = clientDao.findClientByUserId(userId);
 			request.setAttribute(ParameterName.CLIENT, client);

@@ -33,13 +33,12 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 		try {
 			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_1, payment.getId());
 			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_2, payment.getName());
-			preparedStatement.setBlob(ColoumnNumberInPreparedStatement.COLOUMN_3, new SerialBlob(payment.getImage()));
-			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_4, payment.getReciever());
-			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_5, payment.getPaymentDetails());
-			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_6, payment.getDescription());
-			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_7, payment.getFixedAmount());
-			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_8, payment.getProcentFee());
-			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_9, payment.getAccountId());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_3, payment.getReciever());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_4, payment.getPaymentDetails());
+			preparedStatement.setString(ColoumnNumberInPreparedStatement.COLOUMN_5, payment.getDescription());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_6, payment.getFixedAmount());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_7, payment.getProcentFee());
+			preparedStatement.setInt(ColoumnNumberInPreparedStatement.COLOUMN_8, payment.getAccountId());
 			transmit = true;
 		} catch (SQLException e) {
 			transmit = false;
@@ -61,14 +60,13 @@ public class PaymentBuilder implements EntityBuilder<Payment> {
 			while (resultSet.next()) {
 				int id = resultSet.getInt(ColomnName.PAYMENT_ID);
 				String name = resultSet.getString(ColomnName.PAYMENT_NAME);
-				byte[] image = BlobByteArrayMaker.makeByteArray(resultSet, ColomnName.IMAGE);
 				String reciever = resultSet.getString(ColomnName.RECIEVER);
 				String details = resultSet.getString(ColomnName.PAYMENT_DETAILS);
 				String description = resultSet.getString(ColomnName.DESCRIPTION);
 				int fixedAmount = resultSet.getInt(ColomnName.FIXED_AMOUNT);
 				int procentFee = resultSet.getInt(ColomnName.PROCENT_FEE);
 				int accountId = resultSet.getInt(ColomnName.ACCOUNTS_ACCOUNT_ID);
-				Payment payment = new Payment(id, name, image, reciever, details, description, fixedAmount, procentFee, accountId);
+				Payment payment = new Payment(id, name, reciever, details, description, fixedAmount, procentFee, accountId);
 				payments.add(payment);
 			}
 		} catch (SQLException e) {

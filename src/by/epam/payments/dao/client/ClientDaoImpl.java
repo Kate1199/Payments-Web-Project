@@ -2,6 +2,8 @@ package by.epam.payments.dao.client;
 
 import java.util.List;
 
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
+
 import by.epam.payments.bean.Client;
 import by.epam.payments.dao.SqlDatabaseDAO;
 import by.epam.payments.dao.builders.ClientBuilder;
@@ -23,6 +25,14 @@ public class ClientDaoImpl extends SqlDatabaseDAO<Client> implements ClientDao {
 		}
 		
 		return takeEntity(findByParameterEntity(SqlRequest.FIND_CLIENT_BY_USER_ID, clientBuilder, userId));
+	}
+	
+	@Override
+	public List<Client> findClientsByIdentifiactionAndPhone(String identidicationNumber, String phoneNumber) 
+			throws DAOException {
+		
+		return findByParameterEntity(SqlRequest.FIND_CLIENT_BY_IDENTIFIACTION_NUMBER_AND_PHONE_NUMBER, 
+				clientBuilder, identidicationNumber, phoneNumber);
 	}
 	
 	@Override

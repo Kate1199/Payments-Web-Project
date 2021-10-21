@@ -18,8 +18,7 @@
 
 			<div class="row mb-2">
     			<label for="inputLogin" class="form-label">Логин*</label>
-    			<input name="login" type="text" class="form-control" id="inputLogin" placeholder=" " required pattern="[A-Za-z0-9_-]+">
- 				<span class="form-text text-danger">${message}</span>
+    			<input name="login" type="text" class="form-control" id="inputLogin" required pattern="[A-Za-z0-9_-]+">
  			</div>
  
  			<div class="row mb-2">
@@ -27,7 +26,7 @@
     			<div class="input-group">
       			<span class="input-group-text" id="inputGroupPrepend2">@</span>
      	 		<input name="email" type="email" class="form-control" id="inputEmail"  
-     	 			aria-describedby="inputGroupPrepend2" value="${email}" placeholder="name@example.com" 
+     	 			aria-describedby="inputGroupPrepend2" placeholder="name@example.com" 
      	 			required pattern="[a-zA-z_\.\d]+@([a-zA-Z]+\.){1,2}[a-zA-Z]+">
     		</div>
  		</div>
@@ -36,7 +35,7 @@
  			<label for="inputPassword" class="form-label">Пароль*</label>
  			<div class="input-group">
   				<input name="password" type="password" class="form-control" id="inputPassword"
-     				aria-describedby="basic-addon2" value="${password}" placeholder=" " required pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^@#$%]).{6,20})">
+     				aria-describedby="basic-addon2" required pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^@#$%]).{6,20})">
   				<div class="input-group-append">
    					<a href="#" class="btn btn-outline-dark" onclick="return show_hide_password(this);"><img src="images/eye.svg" alt="" /></a>
  
@@ -53,15 +52,19 @@
       			<label class="form-check-label" for="invalidCheck2">
         			Согласие на обработку данных
       			</label>
+      			<span class="row form-text text-danger">${message}</span>
     		</div>
   		</div>
-  	</div>
-  	
-   	<div class="row">
-  		<div class="d-grid gap-2 col-2 mx-auto">
+  		<div class="row">
+  		<div class="d-grid gap-2 col-4 mx-auto mt-3">
     		<button class="btn btn-primary" type="submit">Отправить</button>
   		</div>
   	</div>
+  	</div>
+  	
+  
+  	
+   	
 </form>
 
 <script type="text/javascript">

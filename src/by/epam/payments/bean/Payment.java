@@ -9,7 +9,6 @@ public class Payment extends Entity implements Serializable {
 	
 	private int id;
 	private String name;
-	private byte[] image;
 	private String reciever;
 	private String paymentDetails;
 	private String description;
@@ -20,11 +19,10 @@ public class Payment extends Entity implements Serializable {
 	public Payment() {
 	}
 
-	public Payment(int id, String name, byte[] image, String reciever, String paymentDetails, String description, int fixedAmount,
+	public Payment(int id, String name, String reciever, String paymentDetails, String description, int fixedAmount,
 			int procentFee, int accountId) {
 		this.id = id;
 		this.name = name;
-		this.image = image;
 		this.reciever = reciever;
 		this.paymentDetails = paymentDetails;
 		this.description = description;
@@ -33,10 +31,9 @@ public class Payment extends Entity implements Serializable {
 		this.accountId = accountId;
 	}
 	
-	public Payment(String name, byte[] image, String reciever, String paymentDetails, String description, int fixedAmount,
+	public Payment(String name, String reciever, String paymentDetails, String description, int fixedAmount,
 			int procentFee, int accountId) {
 		this.name = name;
-		this.image = image;
 		this.reciever = reciever;
 		this.paymentDetails = paymentDetails;
 		this.description = description;
@@ -55,14 +52,6 @@ public class Payment extends Entity implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
 	}
 
 	public String getReciever() {
@@ -117,7 +106,6 @@ public class Payment extends Entity implements Serializable {
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
 		result = prime * result + fixedAmount;
 		result = prime * result + id;
-		result = prime * result + Arrays.hashCode(image);
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((paymentDetails == null) ? 0 : paymentDetails.hashCode());
 		result = prime * result + procentFee;
@@ -136,7 +124,6 @@ public class Payment extends Entity implements Serializable {
 		Payment other = (Payment) obj;
 		return id == other.id
 				&& name.equals(other.name)
-				&& Arrays.equals(image, other.image)
 				&& reciever.equals(other.reciever)
 				&& paymentDetails.equals(other.paymentDetails)
 				&& description.equals(other.description)
@@ -154,8 +141,6 @@ public class Payment extends Entity implements Serializable {
 		builder.append(id);
 		builder.append(", name=");
 		builder.append(name);
-		builder.append(", image=");
-		builder.append(Arrays.toString(image));
 		builder.append(", reciever=");
 		builder.append(reciever);
 		builder.append(", paymentDetails=");

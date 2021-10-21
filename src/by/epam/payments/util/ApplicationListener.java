@@ -19,12 +19,12 @@ import by.epam.payments.util.parameterConstants.LogMessage;
  *
  */
 @WebListener
-public class StrartEndServerListener implements ServletContextListener, HttpSessionListener, ServletRequestListener {
+public class ApplicationListener implements ServletContextListener, HttpSessionListener, ServletRequestListener {
 
 	
 	private static Logger logger = LogManager.getLogger();
  
-    public StrartEndServerListener() {
+    public ApplicationListener() {
         
     }
 

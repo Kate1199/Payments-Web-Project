@@ -1,7 +1,5 @@
 package by.epam.payments.util.validation;
 
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
