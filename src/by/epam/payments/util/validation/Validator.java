@@ -3,8 +3,6 @@ package by.epam.payments.util.validation;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.logging.log4j.core.net.Facility;
-
 import by.epam.payments.bean.Client;
 import by.epam.payments.bean.User;
 import by.epam.payments.util.MinValues;

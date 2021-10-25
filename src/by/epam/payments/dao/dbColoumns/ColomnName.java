@@ -36,7 +36,7 @@ public class ColomnName {
 	public static final String CARD_START_DIGITS = "card_start_digits";
 	public static final String CARD_END_DIGITS = "card_end_digits";
 	public static final String CARD_SALT = "card_salt";
-	public static final String VALIDITY_PERIOD = "validity_period";
+	public static final String VALIDITY_PERIOD = "vaidity_period";
 	
 	public static final String ID_BILLS = "id_bills";
 	public static final String DATE_TIME = "date_time";

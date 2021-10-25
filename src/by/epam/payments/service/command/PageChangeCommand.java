@@ -1,4 +1,4 @@
-package by.epam.payments.service;
+package by.epam.payments.service.command;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import by.epam.payments.exception.ServiceException;
 import by.epam.payments.service.pageChange.ExitPageChange;
 import by.epam.payments.service.pageChange.HomePageChange;
 import by.epam.payments.service.pageChange.ProfilePageChange;
-import by.epam.payments.util.parameterConstants.AttributeValue;
+import by.epam.payments.util.parameterConstants.PageName;
 import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.parameterConstants.PathMap;
 import by.epam.payments.util.validation.Validator;
@@ -45,11 +45,11 @@ public class PageChangeCommand implements ServletCommand {
 		PathMap pathMap = new PathMap(request, response);
 		String page;
 		
-		if(Validator.isNull(value) || value.equals(AttributeValue.HOME)) {
+		if(Validator.isNull(value) || value.equals(PageName.HOME)) {
 			page = new HomePageChange().takePage(request, response);
-		} else if(value.equals(AttributeValue.EXIT)) {
+		} else if(value.equals(PageName.EXIT)) {
 			page = new ExitPageChange().takePage(request, response);
-		} else if(value.equals(AttributeValue.PROFILE)) {
+		} else if(value.equals(PageName.PROFILE)) {
 			page = new ProfilePageChange().takePage(request, response);
 		} else {
 			page = pathMap.getPath(value);

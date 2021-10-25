@@ -1,4 +1,4 @@
-package by.epam.payments.service;
+package by.epam.payments.service.command;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

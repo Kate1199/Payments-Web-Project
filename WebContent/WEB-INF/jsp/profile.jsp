@@ -47,17 +47,21 @@
     				<dl class="row">
     			
   						<dt class="col-sm-3">Баланс</dt>
-  						<dd class="col-sm-9">${account.balance * 0.01} ${account.currency}</dd>
-  
-  						<c:forEach var="card" items="${account.cards}">
+  						<dd class="col-sm-9">${account.balance * account.balanceMultiplier} ${account.currency}</dd>
+  						
   							<dt class="col-sm-3">Привязанные карты</dt>
-  							<dd class="col-sm-9">${card.cardNumber}</dd>
-  						</c:forEach>
-
+  							<dd class="col-sm-9">
+  								<c:forEach var="card" items="${account.cards}">
+  									№ ${card.startDigits} **** **** ${card.endDigits} <br> ${card.validityPeriod} <br>
+  								</c:forEach>
+  							</dd>
 					</dl>
-					<form action="Controller">
-    					<button type="submit" class="btn btn-success" name="redirect" value="cashIn">Пополнить счет</button>
+					
+					<form action="Controller?command=sendAccount" method="post">
+    					<button type="submit" class="btn btn-success" name="numberIBAN" value="${account.numberIBAN}">Пополнить счет</button>
+    					<button type="button" class="btn btn-danger">Заблокировать счет</button>
     				</form>
+					
   				</div>
   			</c:forEach>
 		</div>

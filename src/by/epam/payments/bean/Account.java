@@ -15,6 +15,7 @@ public class Account extends Entity implements Serializable {
 	private int clientId;
 	private int bankDepartmentId;
 	private List<Card> cards = new ArrayList<Card>();
+	private double balanceMultiplier = 0.01;
 	
 	public Account() {
 		
@@ -78,7 +79,10 @@ public class Account extends Entity implements Serializable {
 		this.cards = cards;
 	}
 	
-	
+	public double getBalanceMultiplier() {
+		return balanceMultiplier;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

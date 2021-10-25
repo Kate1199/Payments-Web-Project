@@ -4,12 +4,12 @@ import java.util.HashMap;
 
 import by.epam.payments.util.validation.Validator;
 
-public final class ParameterMap {
+public final class PatternMap {
 	
 	private static HashMap<String, String> parameters = new HashMap<String, String>();
-	private static ParameterMap instanse;
+	private static PatternMap instanse;
 	
-	private ParameterMap() {
+	private PatternMap() {
 		parameters.put(ParameterName.LOGIN, ParameterPattern.LOGIN);
 		parameters.put(ParameterName.EMAIL, ParameterPattern.EMAIL);
 		parameters.put(ParameterName.PASSWORD, ParameterPattern.PASSWORD);
@@ -22,9 +22,9 @@ public final class ParameterMap {
 		parameters.put(ParameterName.REAL_ADDRESS, ParameterPattern.ADDRESS);
 	}
 	
-	public static synchronized ParameterMap getInstanse() {
+	public static synchronized PatternMap getInstanse() {
 		if(Validator.isNull(instanse)) {
-			instanse = new ParameterMap();
+			instanse = new PatternMap();
 		}
 		
 		return instanse;

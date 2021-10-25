@@ -36,16 +36,7 @@
 		</c:otherwise>
 	</c:choose>
        </li>
-       <li class="nav-item">
-       <form action="Controller" method="get">
-         <button class="nav-link btn btn-link" type="submit" name="redirect" value="exchangeRates">Курсы валют</button>
-         </form>
-       </li>
-       <li class="nav-item">
-       <form action="Controller" method="get">
-         <button class="nav-link btn btn-link" type="submit" name="redirect" value="partners">Банки-партнеры</button>
-         </form>
-       </li>
+      
        <li class="nav-item">
        <form action="Controller" method="get">
        		<button class="nav-link btn btn-link" type="submit" name="redirect" value="contacts">Контакты</button>

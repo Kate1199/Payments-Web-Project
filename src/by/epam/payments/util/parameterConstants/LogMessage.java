@@ -23,4 +23,6 @@ public class LogMessage {
 	
 	public static final String INCORRECT_CLIENT_DATA = "Attempt to enter invalid client data";
 	
+	public static final String SENDER_ACCOUNT_IS_EMPTY = "Sender account is empty";
+	public static final String SENDER_ACCOUNT_IS_EMPTY_RU = "Счёт для операции не выбран";
 }

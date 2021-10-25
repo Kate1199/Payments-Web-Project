@@ -2,8 +2,6 @@ package by.epam.payments.dao.client;
 
 import java.util.List;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 import by.epam.payments.bean.Client;
 import by.epam.payments.dao.SqlDatabaseDAO;
 import by.epam.payments.dao.builders.ClientBuilder;
@@ -43,7 +41,8 @@ public class ClientDaoImpl extends SqlDatabaseDAO<Client> implements ClientDao {
 		if(Validator.isNull(clientIdParameter)) {
 			clientId = 0;
 		} else {
-			clientId = (int) clientIdParameter;
+			long clientIdLong = (long) clientIdParameter;
+			clientId = (int) clientIdLong;
 		}
 		return clientId;
 	}

@@ -1,4 +1,4 @@
-package by.epam.payments.service;
+package by.epam.payments.service.command;
 
 import java.io.IOException;
 import java.util.ArrayList;

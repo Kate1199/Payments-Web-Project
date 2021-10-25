@@ -1,6 +1,6 @@
 package by.epam.payments.util.parameterConstants;
 
-public class AttributeValue {
+public class PageName {
 	
 	public static final String HOME = "home";
 	public static final String REGISTRATION = "registration";
@@ -14,4 +14,5 @@ public class AttributeValue {
 	public static final String BANKS_PARTNERS = "partners";	
 	public static final String CONTACTS = "contacts";	
 	public static final String CASH_IN = "cashIn";	
+	public static final String SEND_ACCOUNT = "sendAccount";	
 }

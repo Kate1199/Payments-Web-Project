@@ -1,4 +1,4 @@
-package by.epam.payments.service;
+package by.epam.payments.service.command;
 
 import java.io.IOException;
 
@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import by.epam.payments.exception.ServiceException;
+import by.epam.payments.service.ProfilePage;
 import by.epam.payments.service.entityMaker.ClientMaker;
 import by.epam.payments.util.parameterConstants.Path;
 

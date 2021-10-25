@@ -12,8 +12,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.epam.payments.exception.ServiceException;
-import by.epam.payments.service.PageChangeCommand;
-import by.epam.payments.service.ServletCommand;
+import by.epam.payments.service.command.PageChangeCommand;
+import by.epam.payments.service.command.ServletCommand;
 import by.epam.payments.util.parameterConstants.CommandMap;
 import by.epam.payments.util.parameterConstants.LogMessage;
 

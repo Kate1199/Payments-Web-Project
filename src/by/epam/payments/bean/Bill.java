@@ -1,7 +1,7 @@
 package by.epam.payments.bean;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.Calendar;
 
 public class Bill extends Entity implements Serializable {
 	
@@ -9,7 +9,7 @@ public class Bill extends Entity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private int id;
-	private Date dateTime;
+	private Calendar dateTime;
 	private long amount;
 	private int fee;
 	private int cardId;
@@ -17,18 +17,27 @@ public class Bill extends Entity implements Serializable {
 	
 	public Bill() {
 	}
+	
+	public Bill(Calendar dateTime, long amount) {
+		this.dateTime = dateTime;
+		this.amount = amount;
+	}
+	
+	public Bill(Calendar dateTime, long amount, int fee, int cardId, int paymentId) {
+		this.dateTime = dateTime;
+		this.amount = amount;
+		this.fee = fee;
+		this.cardId = cardId;
+		this.paymentId = paymentId;
+	}
 
-	public Bill(int id, Date dateTime, long amount, int fee) {
+	public Bill(int id, Calendar dateTime, long amount, int fee, int cardId, int paymentId) {
 		this.id = id;
 		this.dateTime = dateTime;
 		this.amount = amount;
 		this.fee = fee;
-	}
-	
-	public Bill(Date dateTime, long amount, int fee) {
-		this.dateTime = dateTime;
-		this.amount = amount;
-		this.fee = fee;
+		this.cardId = cardId;
+		this.paymentId = paymentId;
 	}
 
 	public int getId() {
@@ -39,11 +48,11 @@ public class Bill extends Entity implements Serializable {
 		this.id = id;
 	}
 
-	public Date getDateTime() {
+	public Calendar getDateTime() {
 		return dateTime;
 	}
 
-	public void setDateTime(Date dateTime) {
+	public void setDateTime(Calendar dateTime) {
 		this.dateTime = dateTime;
 	}
 
@@ -62,8 +71,14 @@ public class Bill extends Entity implements Serializable {
 	public void setFee(int fee) {
 		this.fee = fee;
 	}
-	
-	
+
+	public int getCardId() {
+		return cardId;
+	}
+
+	public int getPaymentId() {
+		return paymentId;
+	}
 
 	@Override
 	public int hashCode() {

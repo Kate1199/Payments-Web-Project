@@ -2,11 +2,13 @@ package by.epam.payments.util.parameterConstants;
 
 import java.util.HashMap;
 
-import by.epam.payments.service.ClientFormCommand;
-import by.epam.payments.service.LoginCommand;
-import by.epam.payments.service.PaymentsCommand;
-import by.epam.payments.service.RegistrationCommand;
-import by.epam.payments.service.ServletCommand;
+import by.epam.payments.service.command.CashInCommand;
+import by.epam.payments.service.command.ClientFormCommand;
+import by.epam.payments.service.command.LoginCommand;
+import by.epam.payments.service.command.PaymentsCommand;
+import by.epam.payments.service.command.RegistrationCommand;
+import by.epam.payments.service.command.SendAccountCommand;
+import by.epam.payments.service.command.ServletCommand;
 import by.epam.payments.util.validation.Validator;
 
 public class CommandMap {
@@ -15,10 +17,12 @@ public class CommandMap {
 	private static CommandMap instanse;
 	
 	private CommandMap() {
-		commands.put(AttributeValue.REGISTRATION, new RegistrationCommand());
-		commands.put(AttributeValue.LOGIN, new LoginCommand());
-		commands.put(AttributeValue.PAYMENTS, new PaymentsCommand());
-		commands.put(AttributeValue.CLIENT_FORM, new ClientFormCommand());
+		commands.put(PageName.REGISTRATION, new RegistrationCommand());
+		commands.put(PageName.LOGIN, new LoginCommand());
+		commands.put(PageName.PAYMENTS, new PaymentsCommand());
+		commands.put(PageName.CLIENT_FORM, new ClientFormCommand());
+		commands.put(PageName.SEND_ACCOUNT, new SendAccountCommand());
+		commands.put(PageName.CASH_IN, new CashInCommand());
 	}
 	
 	public static synchronized CommandMap getInstanse() {

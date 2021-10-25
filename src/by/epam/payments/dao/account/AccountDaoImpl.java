@@ -26,6 +26,11 @@ public class AccountDaoImpl extends SqlDatabaseDAO<Account> implements AccountDa
 	public AccountDaoImpl() {
 	}
 	
+	public List<Account> findAllExceptCurrent(int clientId, String currentAccountId) throws DAOException {
+		return findByParameterEntity(SqlRequest.FIND_ALL_CLIENT_ACCOUNTS_EXCEPT_CURRENT, accountBuilder, 
+				clientId, currentAccountId);
+	}
+	
 	@Override
 	public List<Account> takeAccountByClientId(int clientId) throws DAOException {
 		if(clientId <= 0) {
@@ -47,7 +52,7 @@ public class AccountDaoImpl extends SqlDatabaseDAO<Account> implements AccountDa
 		if(balance < 0 || Validator.isNull(numberIban)) {
 			return false;
 		}
-		return updateCore(SqlRequest.GET_BALANCE_BY_ACCOUNT_NUMBER, balance, numberIban);
+		return updateCore(SqlRequest.UPDATE_ACCOUNT_BALANCE, balance, numberIban);
 	}
 
 	@Override

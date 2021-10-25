@@ -1,4 +1,4 @@
-package by.epam.payments.service;
+package by.epam.payments.service.command;
 
 import java.io.IOException;
 
@@ -14,12 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 import by.epam.payments.bean.Role;
 import by.epam.payments.bean.User;
+import by.epam.payments.dao.client.ClientDaoImpl;
 import by.epam.payments.dao.user.UserDaoImpl;
 import by.epam.payments.exception.DAOException;
 import by.epam.payments.exception.IncorrectEnteredDataException;
 import by.epam.payments.exception.ServiceException;
 import by.epam.payments.service.encrytion.Encrypter;
-import by.epam.payments.util.parameterConstants.AttributeName;
 import by.epam.payments.util.parameterConstants.LogMessage;
 import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.parameterConstants.Path;
@@ -68,8 +68,7 @@ public class LoginCommand implements ServletCommand {
 		if(user.getRole() == Role.ADMIN) {
 			logger.log(Level.INFO, LogMessage.ADMIN_LOGGED_IN + user.getId());
 		}
-		
-		addToDatabase(request, login);
+
 		
 		return passwordsEqual;
 	}
@@ -111,7 +110,7 @@ public class LoginCommand implements ServletCommand {
 	
 	private boolean updatePage(HttpServletRequest request, HttpServletResponse response, String message) throws ServiceException {
 		boolean update = true;
-		request.setAttribute(AttributeName.MESSAGE, message);
+		request.setAttribute(ParameterName.MESSAGE, message);
 		try {
 			request.getRequestDispatcher(Path.LOGIN_PATH).forward(request, response);
 		} catch (IOException | ServletException e) {
@@ -128,6 +127,8 @@ public class LoginCommand implements ServletCommand {
 		HttpSession session = request.getSession();
 		session.setAttribute(ParameterName.LOGIN, user.getLogin());
 		session.setAttribute(ParameterName.ROLE, user.getRole());
+		session.setAttribute(ParameterName.USER_ID, user.getId());
+		session.setAttribute(ParameterName.CLIENT_ID, takeClientId(user.getId()));
 		try {
 			response.sendRedirect(Path.INDEX_PATH);
 		} catch (IOException e) {
@@ -138,19 +139,15 @@ public class LoginCommand implements ServletCommand {
 		return save;
 	}
 	
-	private boolean addToDatabase(HttpServletRequest request, String login) throws ServiceException {
-		boolean add = true;
-		UserDaoImpl userDao = new UserDaoImpl();
-		int userId;
+	private int takeClientId(int userId) throws ServiceException {
+		ClientDaoImpl clientDao = new ClientDaoImpl();
+		int clientId;
 		try {
-			userId = userDao.findUserIdByLogin(login);
+			clientId = clientDao.findClientId(userId);
 		} catch (DAOException e) {
-			add = false;
 			throw new ServiceException(e.getMessage());
 		}
-		HttpSession session = request.getSession();
-		session.setAttribute(ParameterName.USER_ID, userId);
-		return add;
+		return clientId;
 	}
 
 }

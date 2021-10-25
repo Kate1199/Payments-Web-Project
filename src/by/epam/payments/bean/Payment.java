@@ -1,7 +1,6 @@
 package by.epam.payments.bean;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 public class Payment extends Entity implements Serializable {
 

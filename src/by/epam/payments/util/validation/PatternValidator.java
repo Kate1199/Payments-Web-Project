@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import by.epam.payments.exception.ServiceException;
 import by.epam.payments.service.encrytion.Encrypter;
 import by.epam.payments.util.MinValues;
-import by.epam.payments.util.parameterConstants.ParameterMap;
+import by.epam.payments.util.parameterConstants.PatternMap;
 
 public class PatternValidator {
 	
@@ -21,7 +21,7 @@ public class PatternValidator {
 	public static String defineParameter(HttpServletRequest request, String parameterName) {
 		String parameter = MinValues.EMPTY_STRING;
 		String tempParameter = request.getParameter(parameterName);
-		ParameterMap parameterMap = ParameterMap.getInstanse();
+		PatternMap parameterMap = PatternMap.getInstanse();
 		if(checkString(tempParameter, parameterMap.getPattern(parameterName))) {
 			parameter = tempParameter;
 		}
@@ -33,14 +33,14 @@ public class PatternValidator {
 		
 		byte[] parameter = new byte[MinValues.MIN_ARRAY_SIZE];
 		char[] tempParameter = request.getParameter(parameterName).toCharArray();
-		ParameterMap parameterMap = ParameterMap.getInstanse();
+		PatternMap parameterMap = PatternMap.getInstanse();
 		if(checkString(new String(tempParameter), parameterMap.getPattern(parameterName))) {
 			parameter = Encrypter.hashData(tempParameter, salt);
 		}
 		return parameter;
 	}
 	
-	public static boolean checkString(String data, String regex) {
+	private static boolean checkString(String data, String regex) {
 		boolean isMatch = true;
 		if(Validator.isStringEmpty(data)) {
 			return false;

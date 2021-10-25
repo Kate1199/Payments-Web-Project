@@ -23,7 +23,7 @@ public class SqlRequest {
 	 * For client
 	 */
 	public static final String FIND_CLIENT_BY_USER_ID = "SELECT * FROM clients WHERE Users_user_id = ?";
-	public static final String FIND_CLIENT_ID_BY_USER_ID = "SELECT client_id FROM clients WHERE hidden = 0 AND user_id = ?";
+	public static final String FIND_CLIENT_ID_BY_USER_ID = "SELECT client_id FROM clients WHERE hidden = 0 AND Users_user_id = ?";
 	public static final String FIND_CLIENT_BY_IDENTIFIACTION_NUMBER = "SELECT * FROM clients WHERE hidden = 0 AND personal_identification_number = ?";
 	public static final String FIND_CLIENT_BY_IDENTIFIACTION_NUMBER_AND_PHONE_NUMBER = "SELECT * FROM clients "
 			+ "WHERE hidden = 0 AND personal_identification_number = ? or phone_number = ?";
@@ -39,21 +39,17 @@ public class SqlRequest {
 			+ " surname = ? AND name = ? AND patronymic = ? AND phone_number = ? AND registration_address = ? AND "
 			+ "real_address = ? AND Users_user_id = ?";
 	public static final String HIDE_CLIENT_BY_ID = "UPDATE clients SET hidden = 1 WHERE client_id = ?";
-	
-	/*
-	 * For bank
-	 */
-	public static final String FIND_BANK_NAME_BY_ID = "SELECT bank_id FROM banks WHERE hidden = 0 AND bank_id = ?";
-	
+
 	/*
 	 * For account
 	 */
+	public static final String FIND_ALL_CLIENT_ACCOUNTS_EXCEPT_CURRENT = "SELECT * FROM accounts WHERE hidden = 0 AND Clients_client_id = ? AND account_IBAN_number != ?";
 	public static final String FIND_ALL_ACCOUNTS = "SELECT * FROM accounts WHERE hidden = 0";
 	public static final String ADD_ACCOUNT = "INSERT INTO accounts account_id, account_IBAN_number, "
 			+ "currency, balance, Cients_client_id, Bank_departents_department_id VALUES(?, ?, ?, ?, ?, ?)";
 	public static final String FIND_ACCOUNT_BY_ID = "SELECT * FROM accounts WHERE hidden = 0 AND account_id = ?";
 	public static final String FIND_ACCOUNT_BY_CLIENT_ID = "SELECT * FROM accounts WHERE hidden = 0 AND Clients_client_id = ?";
-	public static final String GET_BALANCE_BY_ACCOUNT_NUMBER = "SELECT balnce FROM accounts WHERE hidden = 0 AND account_IBAN_number = ?";	
+	public static final String GET_BALANCE_BY_ACCOUNT_NUMBER = "SELECT balance FROM accounts WHERE hidden = 0 AND account_IBAN_number = ?";	
 	public static final String UPDATE_ACCOUNT_BALANCE = "UPDATE accounts SET balance = ? WHERE hidden = 0 AND account_IBAN_number = ?";
 	public static final String HIDE_ACCOUNT = "UPDATE accounts SET hidden = 1 WHERE account_IBAN_number = ? "
 			+ "AND currency = ? AND  balance = ? AND Clients_client_id = ? "
@@ -80,14 +76,19 @@ public class SqlRequest {
 	public static final String FIND_ALL_PAYMENTS = "SELECT * FROM payments WHERE hidden = 0";
 	public static final String FIND_PAYMENT_BY_NAME = "SELECT * FROM payments WHERE hidden = 0 AND payment_name = ?";
 	public static final String FIND_PAYMENT_BY_ID = "SELECT * FROM payments WHERE hidden = 0 AND payment_id = ?";
-	public static final String ADD_PAYMENT = "INSERT INTO payments (payment_name, image, reciever, "
+	public static final String ADD_PAYMENT = "INSERT INTO payments (payment_name, reciever, "
 			+ "payment_details, description, fixed_amount, procent_fee, Accounts_account_id) "
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
-	public static final String UPDATE_PAYMENT = "UPDATE payments SET payment_name = ?, image = ?, reciever = ?,"
+	public static final String UPDATE_PAYMENT = "UPDATE payments SET payment_name = ?, reciever = ?,"
 			+"payment_details = ?, description = ?, fixed_amount = ?, procent_fee = ?, "
 			+ "Accounts_account_id = ? WHERE hidden = 0 AND payment_id = ?";
 	public static final String HIDE_PAYMENT = "UPDATE payments SET hidden = 1 WHERE payment_name = ? AND "
 			+ "image = ? AND reciever = ? AND payment_details = ? AND description = ? AND fixed_amount = ?"
 			+ " AND procent_fee = ? AND Accounts_account_id = ?";
 	public static final String HIDE_PAYMENT_BY_ID = "UPDATE payment SET hidden = 1 WHERE payment_id = ?";
+
+	/*
+	 * For bills
+	 */
+	public static final String ADD_BILL = "INSERT INTO bills (date_time, amount, fee, Cards_card_id, Payments_payment_id) VALUES (?, ?, ?, ?, ?)";
 }

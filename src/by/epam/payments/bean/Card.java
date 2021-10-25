@@ -114,7 +114,7 @@ public class Card extends Entity implements Serializable {
 		builder.append(", salt=");
 		builder.append(Arrays.toString(salt));
 		builder.append(", validityPeriod=");
-		builder.append(validityPeriod);
+		builder.append(validityPeriod.toString());
 		builder.append(", accountId=");
 		builder.append(accountId);
 		builder.append("]");

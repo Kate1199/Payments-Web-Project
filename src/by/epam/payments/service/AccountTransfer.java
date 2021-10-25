@@ -9,10 +9,12 @@ import by.epam.payments.exception.DAOException;
 import by.epam.payments.exception.ServiceException;
 import by.epam.payments.util.MinValues;
 import by.epam.payments.util.parameterConstants.ParameterName;
-import by.epam.payments.util.parameterConstants.RuMessage;
 import by.epam.payments.util.parameterConstants.SqlRequest;
+import by.epam.payments.util.validation.Validator;
 
 public class AccountTransfer {
+	
+	private static final String NOT_ENOUGH_MONEY = "Недостаточно средств";
 	
 	private static final boolean SENDER = true;
 	private static final boolean RECIEVER = false;
@@ -30,6 +32,10 @@ public class AccountTransfer {
 	
 	public boolean doTransfer(String senderNumberIban, String recieverNumberIban, long sum) throws ServiceException {
 		boolean transfer = true;
+		
+		if(sum <= 0 || Validator.isNull(senderNumberIban) || Validator.isNull(recieverNumberIban)) {
+			return false;
+		}
 
 		try {
 			transaction.initTransaction();
@@ -82,7 +88,7 @@ public class AccountTransfer {
 		boolean enough = true;
 		if(sum > balance) {
 			enough = false;
-			request.setAttribute(ParameterName.MESSAGE, RuMessage.NOT_ENOUGH_MONEY);
+			request.setAttribute(ParameterName.MESSAGE, NOT_ENOUGH_MONEY);
 		} 
 		return enough;
 	}

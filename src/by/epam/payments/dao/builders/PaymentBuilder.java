@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sql.rowset.serial.SerialBlob;
-
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,7 +14,6 @@ import by.epam.payments.bean.Payment;
 import by.epam.payments.dao.dbColoumns.ColomnName;
 import by.epam.payments.dao.dbColoumns.ColoumnNumberInPreparedStatement;
 import by.epam.payments.exception.DAOException;
-import by.epam.payments.util.BlobByteArrayMaker;
 import by.epam.payments.util.validation.Validator;
 
 public class PaymentBuilder implements EntityBuilder<Payment> {

@@ -13,14 +13,12 @@ public class PathMap {
 	private static HashMap<String, String> path = new HashMap<String, String>();
 	
 	public PathMap(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-		path.put(AttributeValue.REGISTRATION, Path.REGISTRATION_PATH);
-		path.put(AttributeValue.LOGIN, Path.LOGIN_PATH);
-		path.put(AttributeValue.PAYMENTS, Path.PAYMENTS_PATH);
-		path.put(AttributeValue.ABOUT_US, Path.ABOUT_US);
-		path.put(AttributeValue.EXCHANGE_RATES, Path.EXCHANGE_RATES_PATH);
-		path.put(AttributeValue.BANKS_PARTNERS, Path.BANKS_PARTNERS_PATH);
-		path.put(AttributeValue.CONTACTS, Path.CONTACTS_PATH);
-		path.put(AttributeValue.CASH_IN, Path.CASH_IN_PATH);
+		path.put(PageName.REGISTRATION, Path.REGISTRATION_PATH);
+		path.put(PageName.LOGIN, Path.LOGIN_PATH);
+		path.put(PageName.PAYMENTS, Path.PAYMENTS_PATH);
+		path.put(PageName.ABOUT_US, Path.ABOUT_US);
+		path.put(PageName.CONTACTS, Path.CONTACTS_PATH);
+		path.put(PageName.CASH_IN, Path.CASH_IN_PATH);
 	}
 	
 	public String getPath(String name) {
