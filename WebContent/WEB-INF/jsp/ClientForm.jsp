@@ -11,7 +11,7 @@
 			
 			<h5 class="display-5 mb-3 text-center">Личные данные</h5>
 			
-			<div class="row col-9 justify-content-center mx-auto">
+			<div class="row col-10 mx-auto">
 			<div class="col-3 mb-2">
     			<label for="inpuLastName" class="form-label">Фамилия</label>
     			<input name="lastName" type="text" class="form-control" id="inputLastName" 
@@ -33,7 +33,7 @@
     			<input name="identifiactionNumber" type="text" class="form-control" id="inputIdentifiactionNumber" required pattern="[A-Za-z0-9]{5,20}">
  			</div>
  			
- 			<div class="col-3 mb-2">
+ 			<div class="col-2 mb-2">
     			<label for="inputPhoneNumber" class="form-label">Номер телефона</label>
     			<input name="phoneNumber" type="text" class="form-control" id="inputPhoneNumber" placeholder="+375 29" required pattern="\u002B{1}[0-9]{7,}">
  			</div>
@@ -58,7 +58,13 @@
     				<button class="btn btn-primary" type="submit">Отправить</button>
   				</div>
   			</div>
-
 	</form>
+	<form action="Controller?command=becomeAdmin" method="post">
+		<div class="row">
+  			<div class="mt-3 d-grid gap-2 col-3 mx-auto">
+    			<button class="btn btn-success" type="submit">Стать администратором</button>
+  			</div>
+  		</div>
+  	</form>
 </body>
 </html>

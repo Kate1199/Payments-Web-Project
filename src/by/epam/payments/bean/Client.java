@@ -1,6 +1,8 @@
 package by.epam.payments.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client extends Entity implements Serializable {
 
@@ -15,6 +17,7 @@ public class Client extends Entity implements Serializable {
 	private String registrationAddress;
 	private String realAddress;
 	private int userId;
+	private List<Account> accounts = new ArrayList<Account>();
 	
 	public Client() {
 	}
@@ -107,6 +110,14 @@ public class Client extends Entity implements Serializable {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
 	}
 
 	@Override

@@ -16,6 +16,15 @@ public class UserDaoImpl extends SqlDatabaseDAO<User> implements UserDAO {
 	public UserDaoImpl() {
 	}
 	
+	public List<User> findPotentialAdmins() throws DAOException {
+		return super.findAll(SqlRequest.FIND_POTENTIAL_ADMINS, userBuilder);
+	}
+	
+	@Override
+	public boolean updatePotentialAdmin(String potentialAdmin, int userId) throws DAOException {
+		return update(SqlRequest.UPDATE_POTENTIAL_ADMIN, potentialAdmin, userId);
+	}
+	
 	@Override
 	public int findUserIdByLogin(String login) throws DAOException {
 		long id = (long) findByParameterField(SqlRequest.FIND_ID_BY_LOGIN, login);

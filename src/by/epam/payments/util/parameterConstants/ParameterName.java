@@ -2,15 +2,16 @@ package by.epam.payments.util.parameterConstants;
 
 public final class ParameterName {
 	
+	public static final String ENTITIES = "entities";
 	public static final String ACCOUNTS = "accounts";
 	public static final String ACCOUNT = "account";
-	public static final String CLIENT = "client";
 	public static final String MESSAGE = "message";
 	public static final String COMMAND = "command";
 	public static final String REDIRECT = "redirect";
 	public static final String PAYMENTS = "payments";
 	public static final String SUM = "sum";
 	
+	public static final String USER = "user";
 	public static final String USER_ID = "userId";
 	public static final String LOGIN = "login";
 	public static final String EMAIL = "email";
@@ -18,6 +19,8 @@ public final class ParameterName {
 	public static final String REPEAT_PASSWORD = "repeatPassword";
 	public static final String ROLE = "role";
 	
+	public static final String CLIENTS = "clients";
+	public static final String CLIENT = "client";
 	public static final String CLIENT_ID = "clientId";
 	public static final String IDENTIFIACTION_NUMBER = "identifiactionNumber";
 	public static final String FIRST_NAME = "firstName";

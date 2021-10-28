@@ -2,8 +2,6 @@ package by.epam.payments.util;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.ServletRequestEvent;
-import javax.servlet.ServletRequestListener;
 import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -19,7 +17,7 @@ import by.epam.payments.util.parameterConstants.LogMessage;
  *
  */
 @WebListener
-public class ApplicationListener implements ServletContextListener, HttpSessionListener, ServletRequestListener {
+public class ApplicationListener implements ServletContextListener, HttpSessionListener {
 
 	
 	private static Logger logger = LogManager.getLogger();
@@ -30,20 +28,6 @@ public class ApplicationListener implements ServletContextListener, HttpSessionL
 
 
     public void sessionCreated(HttpSessionEvent arg0)  { 
-         // TODO Auto-generated method stub
-    }
-
-	/**
-     * @see ServletRequestListener#requestDestroyed(ServletRequestEvent)
-     */
-    public void requestDestroyed(ServletRequestEvent arg0)  { 
-         // TODO Auto-generated method stub
-    }
-
-	/**
-     * @see ServletRequestListener#requestInitialized(ServletRequestEvent)
-     */
-    public void requestInitialized(ServletRequestEvent arg0)  { 
          // TODO Auto-generated method stub
     }
 

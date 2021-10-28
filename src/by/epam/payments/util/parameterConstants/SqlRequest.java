@@ -6,11 +6,13 @@ public class SqlRequest {
 	/*
 	 * For user
 	 */
+	public static final String FIND_POTENTIAL_ADMINS = "SELECT * FROM users WHERE hidden = 0 AND potential_admin = 1";
+	public static final String UPDATE_POTENTIAL_ADMIN = "UPDATE users SET potential_admin = ? WHERE hidden = 0 AND user_id = ?";
 	public static final String FIND_ID_BY_LOGIN = "SELECT user_id FROM users WHERE hidden = 0 and login = ?";
 	public static final String FIND_USER_BY_LOGIN = "SELECT * FROM users WHERE hidden = 0 AND login = ?";
 	public static final String FIND_USER_BY_EMAIL = "SELECT * FROM users WHERE hidden = 0 AND email = ?";
 	public static final String FIND_ALL_USERS = "SELECT * FROM users WHERE hidden = 0";
-	public static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE hidden = 0 user_id = ?";
+	public static final String FIND_USER_BY_ID = "SELECT * FROM users WHERE hidden = 0 AND user_id = ?";
 	public static final String ADD_USER = "INSERT INTO users (user_id, login, email, password, user_salt, role) "
 			+ "VALUES (?, ?, ?, ?, ?, ?)";
 	public static final String UPDATE_USER = "UPDATE users SET login = ?, email = ?, password = ?, "
@@ -28,6 +30,7 @@ public class SqlRequest {
 	public static final String FIND_CLIENT_BY_IDENTIFIACTION_NUMBER_AND_PHONE_NUMBER = "SELECT * FROM clients "
 			+ "WHERE hidden = 0 AND personal_identification_number = ? or phone_number = ?";
 	public static final String FIND_ALL_CLIENTS = "SELECT * FROM clients WHERE hidden = 0";
+	public static final String FIND_ALL_CLIENTS_WITH_LIMIT = "SELECT * FROM clients WHERE hidden = 0 ORDER BY client_id LIMIT ?, ?";
 	public static final String ADD_CLIENT = "INSERT INTO clients (client_id, personal_identification_number, "
 			+ "surname, name, patronymic, phone_number, registration_address, real_address, Users_user_id) "
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -44,7 +47,9 @@ public class SqlRequest {
 	 * For account
 	 */
 	public static final String FIND_ALL_CLIENT_ACCOUNTS_EXCEPT_CURRENT = "SELECT * FROM accounts WHERE hidden = 0 AND Clients_client_id = ? AND account_IBAN_number != ?";
-	public static final String FIND_ALL_ACCOUNTS = "SELECT * FROM accounts WHERE hidden = 0";
+	public static final String FIND_ALL_ACCOUNTS = "SELECT * FROM accounts WHERE hidden = 0 AND Clients_client_id > 0 AND Bank_departments_department_id > 0";
+	public static final String FIND_ALL_ACCOUNTS_WHITH_LIMIT = "SELECT * FROM accounts WHERE hidden = 0 AND Clients_client_id > 0 AND Bank_departments_department_id != 0 "
+			+ "ORDER BY account_id LIMIT ?,?";
 	public static final String ADD_ACCOUNT = "INSERT INTO accounts account_id, account_IBAN_number, "
 			+ "currency, balance, Cients_client_id, Bank_departents_department_id VALUES(?, ?, ?, ?, ?, ?)";
 	public static final String FIND_ACCOUNT_BY_ID = "SELECT * FROM accounts WHERE hidden = 0 AND account_id = ?";

@@ -12,10 +12,17 @@
   			<div class="card-header">
     			Личная информация
  		 	</div>
- 		 
+ 		 <c:set var="user" value="${user}"></c:set>
  		 <c:set var="client" value="${requestScope.client}"></c:set>
   			<div class="card-body">
     			<dl class="row">
+    			
+    				<dt class="col-sm-3">Логин</dt>
+  					<dd class="col-sm-9">${user.login}</dd>
+  					
+  					<dt class="col-sm-3">email</dt>
+  					<dd class="col-sm-9">${user.email}</dd>
+  					
   					<dt class="col-sm-3">ФИО</dt>
   					<dd class="col-sm-9">${client.firstName} ${client.lastName} ${client.patronymic}</dd>
 

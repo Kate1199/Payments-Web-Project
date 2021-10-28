@@ -3,7 +3,7 @@ package by.epam.payments.view;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import by.epam.payments.util.MinValues;
+import by.epam.payments.util.MinValue;
 import by.epam.payments.util.parameterConstants.AccountBalanceMultiplier;
 
 public class View {
@@ -18,7 +18,7 @@ public class View {
 	
 	public static long countRealBalance(double balance) {
 		if(balance <= 0) {
-			return MinValues.MIN_LONG_VALUE;
+			return MinValue.MIN_LONG_VALUE;
 		}
 		return (long) (balance * AccountBalanceMultiplier.BALANCE_MULTIPLIER);
 	}

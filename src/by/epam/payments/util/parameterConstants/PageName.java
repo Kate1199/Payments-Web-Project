@@ -15,4 +15,7 @@ public class PageName {
 	public static final String CONTACTS = "contacts";	
 	public static final String CASH_IN = "cashIn";	
 	public static final String SEND_ACCOUNT = "sendAccount";	
+	public static final String BECOME_ADMIN = "becomeAdmin";		
+	public static final String SHOW_CLIENTS = "showClients";		
+	public static final String POTENTIAL_ADMINS = "potentialAdmins";		
 }

@@ -7,7 +7,7 @@ import by.epam.payments.dao.EntityTransaction;
 import by.epam.payments.dao.account.AccountDaoImpl;
 import by.epam.payments.exception.DAOException;
 import by.epam.payments.exception.ServiceException;
-import by.epam.payments.util.MinValues;
+import by.epam.payments.util.MinValue;
 import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.parameterConstants.SqlRequest;
 import by.epam.payments.util.validation.Validator;
@@ -69,7 +69,7 @@ public class AccountTransfer {
 	}
 	
 	private long countBalance(String numberIban, long sum, boolean sender) throws ServiceException {
-		long balance = MinValues.MIN_LONG_VALUE;
+		long balance = MinValue.MIN_LONG_VALUE;
 		try {
 			balance = accountDao.takeBalanceByAccountNumber(SqlRequest.GET_BALANCE_BY_ACCOUNT_NUMBER, numberIban);
 		} catch (DAOException e) {

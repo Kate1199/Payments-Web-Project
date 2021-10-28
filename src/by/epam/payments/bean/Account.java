@@ -15,6 +15,7 @@ public class Account extends Entity implements Serializable {
 	private int clientId;
 	private int bankDepartmentId;
 	private List<Card> cards = new ArrayList<Card>();
+	private Client client;
 	private double balanceMultiplier = 0.01;
 	
 	public Account() {
@@ -79,6 +80,14 @@ public class Account extends Entity implements Serializable {
 		this.cards = cards;
 	}
 	
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
 	public double getBalanceMultiplier() {
 		return balanceMultiplier;
 	}

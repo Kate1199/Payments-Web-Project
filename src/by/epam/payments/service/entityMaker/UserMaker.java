@@ -18,6 +18,7 @@ import by.epam.payments.exception.DAOException;
 import by.epam.payments.exception.IncorrectEnteredDataException;
 import by.epam.payments.exception.ServiceException;
 import by.epam.payments.service.encrytion.Encrypter;
+import by.epam.payments.util.MinValue;
 import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.parameterConstants.Path;
 import by.epam.payments.util.validation.PatternValidator;
@@ -55,12 +56,13 @@ public class UserMaker implements EntityMakerFromRequest {
 
 		User user = new User(login, email, password, salt, role);
 		saveDataToSessionIfCorrect(user);
+		saveUserToDatabase(user);
 		try {
 			response.sendRedirect(Path.INDEX_PATH);
 		} catch (IOException e) {
 			throw new ServiceException();
 		}
-		saveUserToDatabase(user);
+	
 
 		return user;
 	}

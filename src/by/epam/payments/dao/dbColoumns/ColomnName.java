@@ -8,6 +8,7 @@ public class ColomnName {
 	public static final String PASSWORD = "password";
 	public static final String USER_SALT = "user_salt";
 	public static final String ROLE = "role";
+	public static final String POTENTIAL_ADMIN = "potential_admin";
 	
 	public static final String CLIENT_ID = "client_id";
 	public static final String PERSONAL_IDENTIFIACTION_NUMBER = "personal_identification_number";
@@ -36,7 +37,7 @@ public class ColomnName {
 	public static final String CARD_START_DIGITS = "card_start_digits";
 	public static final String CARD_END_DIGITS = "card_end_digits";
 	public static final String CARD_SALT = "card_salt";
-	public static final String VALIDITY_PERIOD = "vaidity_period";
+	public static final String VALIDITY_PERIOD = "validity_period";
 	
 	public static final String ID_BILLS = "id_bills";
 	public static final String DATE_TIME = "date_time";

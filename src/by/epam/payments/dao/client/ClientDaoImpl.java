@@ -1,5 +1,6 @@
 package by.epam.payments.dao.client;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import by.epam.payments.bean.Client;

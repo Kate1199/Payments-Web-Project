@@ -12,7 +12,7 @@ import by.epam.payments.bean.Account;
 import by.epam.payments.dao.SqlDatabaseDAO;
 import by.epam.payments.dao.builders.AccountBuilder;
 import by.epam.payments.exception.DAOException;
-import by.epam.payments.util.MinValues;
+import by.epam.payments.util.MinValue;
 import by.epam.payments.util.parameterConstants.LogMessage;
 import by.epam.payments.util.parameterConstants.SqlRequest;
 import by.epam.payments.util.validation.Validator;
@@ -26,6 +26,7 @@ public class AccountDaoImpl extends SqlDatabaseDAO<Account> implements AccountDa
 	public AccountDaoImpl() {
 	}
 	
+	@Override
 	public List<Account> findAllExceptCurrent(int clientId, String currentAccountId) throws DAOException {
 		return findByParameterEntity(SqlRequest.FIND_ALL_CLIENT_ACCOUNTS_EXCEPT_CURRENT, accountBuilder, 
 				clientId, currentAccountId);
@@ -42,7 +43,7 @@ public class AccountDaoImpl extends SqlDatabaseDAO<Account> implements AccountDa
 	@Override
 	public long takeBalanceByAccountNumber(String sqlRequest, String numberIban) throws DAOException {
 		if(Validator.isNull(numberIban)) {
-			return MinValues.MIN_LONG_VALUE;
+			return MinValue.MIN_LONG_VALUE;
 		}
 		return (long) findByParameterField(sqlRequest, numberIban);
 	}

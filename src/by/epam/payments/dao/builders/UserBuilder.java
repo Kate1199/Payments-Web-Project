@@ -18,6 +18,7 @@ import by.epam.payments.dao.dbColoumns.ColomnName;
 import by.epam.payments.dao.dbColoumns.ColoumnNumberInPreparedStatement;
 import by.epam.payments.exception.DAOException;
 import by.epam.payments.util.BlobByteArrayMaker;
+import by.epam.payments.util.parameterConstants.ParameterName;
 import by.epam.payments.util.validation.Validator;
 
 public class UserBuilder implements EntityBuilder<User> {

@@ -5,7 +5,7 @@ import java.util.List;
 
 import by.epam.payments.bean.Client;
 import by.epam.payments.bean.User;
-import by.epam.payments.util.MinValues;
+import by.epam.payments.util.MinValue;
 
 public class Validator {
 	
@@ -14,15 +14,15 @@ public class Validator {
 	}
 	
 	public static boolean isStringEmpty(String str) {
-		return str.trim().equals(MinValues.EMPTY_STRING);
+		return str.trim().equals(MinValue.EMPTY_STRING);
 	}
 	
 	public static boolean isEmptyByteArray(byte[] array) {
-		return Arrays.equals(array, new byte[MinValues.MIN_ARRAY_SIZE]);
+		return Arrays.equals(array, new byte[MinValue.MIN_ARRAY_SIZE]);
 	}
 	
 	public static boolean isEmptyCharArray(char[] array) {
-		return Arrays.equals(array, new char[MinValues.MIN_ARRAY_SIZE]);
+		return Arrays.equals(array, new char[MinValue.MIN_ARRAY_SIZE]);
 	}
 	
 	public static boolean isEmpty(User user) {

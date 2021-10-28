@@ -161,7 +161,7 @@ public class SqlDatabaseDAO<T extends Entity> {
 	}
 
 	private Object takeFieldFromResultSet() throws DAOException {
-		Object field = new Object();
+		Object field = null;
 		try {
 			while (resultSet.next()) {
 				field = resultSet.getObject(FIELD_INDEX);

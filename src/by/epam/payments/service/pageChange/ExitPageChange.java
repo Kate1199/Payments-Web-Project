@@ -5,7 +5,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import by.epam.payments.exception.ServiceException;
-import by.epam.payments.util.parameterConstants.ParameterName;
 
 public class ExitPageChange implements PageChange {
 
@@ -18,8 +17,7 @@ public class ExitPageChange implements PageChange {
 	
 	private boolean exit(HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		session.removeAttribute(ParameterName.LOGIN);
-		session.removeAttribute(ParameterName.ROLE);
+		session.invalidate();
 		return true;
 	}
 }

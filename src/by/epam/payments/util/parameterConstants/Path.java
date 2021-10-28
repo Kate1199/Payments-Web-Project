@@ -14,5 +14,8 @@ public final class Path {
 	public static final String CASH_IN_PATH = "/WEB-INF/jsp/cashIn.jsp";
 	public static final String BILL_PAGE_PATH = "/WEB-INF/jsp/billPage.jsp";
 	public static final String SERVER_ERROR_PATH = "/WEB-INF/jsp/error/serverError.jsp";
+	public static final String APLICATION_SEND_PATH = "/WEB-INF/jsp/applicationSend.jsp";
+	public static final String CLIENT_LIST_PATH = "/WEB-INF/jsp/clientList.jsp";
+	public static final String POTENTIAL_ADMINS_PATH = "/WEB-INF/jsp/potentialAdminList.jsp";
 
 }

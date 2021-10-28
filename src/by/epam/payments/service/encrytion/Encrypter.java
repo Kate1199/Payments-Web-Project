@@ -10,7 +10,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 import by.epam.payments.exception.ServiceException;
-import by.epam.payments.util.MinValues;
+import by.epam.payments.util.MinValue;
 import by.epam.payments.util.validation.Validator;
 
 public class Encrypter {
@@ -33,7 +33,7 @@ public class Encrypter {
 	
 	public static byte[] hashData(char[] dataToHash, byte[] salt) throws ServiceException {
 		if(Validator.isNull(dataToHash) || Validator.isEmptyCharArray(dataToHash)) {
-			return new byte[MinValues.MIN_ARRAY_SIZE];
+			return new byte[MinValue.MIN_ARRAY_SIZE];
 		}
 		KeySpec spec = new PBEKeySpec(dataToHash, salt, NUMBER_OF_ITERATIONS, HASH_BYTES);
 		byte[] hashedData = null;
@@ -47,7 +47,7 @@ public class Encrypter {
 		}
 		
 		if(Validator.isNull(hashedData)) {
-			hashedData = new byte[MinValues.MIN_ARRAY_SIZE];
+			hashedData = new byte[MinValue.MIN_ARRAY_SIZE];
 		}
 		return hashedData;
 	}

@@ -61,6 +61,25 @@
      </div>
      </div>
      </c:when>
+     <c:when test="${role == 'ADMIN'}">
+     <div class="row">
+     <div class="col-3">
+     	<form action="Controller?command=showClients" method=post>
+     		<button type="submit" class=" btn btn-outline-light">Клиенты</button>
+     	</form>
+     	</div>
+     	<div class="col-3 me-5">
+     	<form action="Controller?command=potentialAdmins" method=post>
+     		<button type="submit" class=" btn btn-outline-light">Потенциальные администраторы</button>
+     	</form>
+     	</div>
+     	<div class="col-3 ms-2">
+ 		    <form action="Controller" method="get">
+     			<button type="submit" name="redirect" value="exit" class="btn btn-outline-primary">Выход</button>
+  		   </form>
+    	 </div>
+    	 </div>
+     </c:when>
      <c:otherwise>
      	<%@ include file="headerButtons.jsp" %>
      </c:otherwise>

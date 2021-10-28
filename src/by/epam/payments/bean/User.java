@@ -76,14 +76,15 @@ public class User extends Entity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + email.hashCode();
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + id;
-		result = prime * result + login.hashCode();
+		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + Arrays.hashCode(password);
+		result = prime * result + ((role == null) ? 0 : role.hashCode());
 		result = prime * result + Arrays.hashCode(salt);
-		result = prime * result + role.hashCode();
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -100,6 +101,7 @@ public class User extends Entity {
 				&& Arrays.equals(salt, other.salt)
 				&& role.equals(other.role);
 	}
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

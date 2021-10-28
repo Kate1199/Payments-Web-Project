@@ -2,13 +2,16 @@ package by.epam.payments.util.parameterConstants;
 
 import java.util.HashMap;
 
+import by.epam.payments.service.command.BecomeAdminCommand;
 import by.epam.payments.service.command.CashInCommand;
 import by.epam.payments.service.command.ClientFormCommand;
 import by.epam.payments.service.command.LoginCommand;
 import by.epam.payments.service.command.PaymentsCommand;
+import by.epam.payments.service.command.PotentialAdminCommand;
 import by.epam.payments.service.command.RegistrationCommand;
 import by.epam.payments.service.command.SendAccountCommand;
 import by.epam.payments.service.command.ServletCommand;
+import by.epam.payments.service.command.ShowClientCommand;
 import by.epam.payments.util.validation.Validator;
 
 public class CommandMap {
@@ -23,6 +26,9 @@ public class CommandMap {
 		commands.put(PageName.CLIENT_FORM, new ClientFormCommand());
 		commands.put(PageName.SEND_ACCOUNT, new SendAccountCommand());
 		commands.put(PageName.CASH_IN, new CashInCommand());
+		commands.put(PageName.BECOME_ADMIN, new BecomeAdminCommand());
+		commands.put(PageName.SHOW_CLIENTS, new ShowClientCommand());
+		commands.put(PageName.POTENTIAL_ADMINS, new PotentialAdminCommand());
 	}
 	
 	public static synchronized CommandMap getInstanse() {
