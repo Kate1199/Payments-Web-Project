@@ -3,7 +3,7 @@
   <display-name>payments</display-name>
   <servlet>
  	 <servlet-name>Controller</servlet-name>
- 	 <servlet-class>by.epam.payments.controller.Controller</servlet-class>
+ 	 <servlet-class>by.epam.payment.controller.Controller</servlet-class>
   </servlet>
 
   <servlet-mapping>
@@ -19,22 +19,18 @@
 		</jsp-property-group>
 	</jsp-config>
   
-  <session-config>
-  	<session-timeout>15</session-timeout>
-  </session-config>
-  
   <context-param>  
     	<param-name>log4jConfiguration</param-name>  
     	<param-value>/WEB-INF/classes/log4j2.xml</param-value>  
    </context-param>  
    
    <listener>
-   		<listener-class>by.epam.payments.util.ApplicationListener</listener-class>
+   		<listener-class>by.epam.payment.controller.ApplicationListener</listener-class>
    </listener>
 
 	<filter>
     	<filter-name>CharacterEncodingFilter</filter-name>
-    	<filter-class>by.epam.payments.service.filter.CharacterEncodingFilter</filter-class>
+    	<filter-class>by.epam.payment.controller.CharacterEncodingFilter</filter-class>
       <init-param>
         <param-name>requestEncoding</param-name>
         <param-value>UTF-8</param-value>

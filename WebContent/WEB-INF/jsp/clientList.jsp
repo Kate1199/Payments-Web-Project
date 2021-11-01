@@ -13,6 +13,7 @@
       			<th>ФИО</th>
       			<th>Идентификационный номер</th>
       			<th>Номер счёта</th>
+      			<th>Статус</th>
       			<th></th>
   			</tr>
   		</thead>
@@ -23,6 +24,7 @@
       					<th scope="row">${client.lastName} ${client.firstName} ${client.patronymic}</th>
       					<td>${client.identificationNumber}</td>
      					 <td>${account.numberIBAN}</td>
+     					 <td>${account.status}</td>
       					<td><button type="submit" class="btn btn-danger">Заблокировать счёт</button></td>
     				</tr>
     		</c:forEach>

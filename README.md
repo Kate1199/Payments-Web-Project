@@ -1,9 +1,9 @@
-"# Payments-Web-Project" 
-"# Payments-Web-Project" 
-"# Payments-Web-Project" 
-"# Payments-Web-Project" 
-"# Payments-Web-Project" 
-# Payments-Web-Project
-# Payments-Web-Project
-# Payments-Web-Project
-# Payments-Web-Project
+#Payment-Web-Project
+
+Присутствует 2 роли:
+- Клиент
+- Банк (Администратор)
+
+Система **Платежи**. **Клиент** имеет одну или несколько **Кредитных карт**, каждая из которых соответстует некоторому **Счету** в системе платежей. **Клиент** может при помощи **Счета** сделать **Платеж**, заблокировать **Счет** и пополнить **Счет**. **Администратор** снимет блокировку.
+
+![Схема БД](D:/Схема БД.png)

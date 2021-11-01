@@ -87,10 +87,6 @@
      </div>
    </div>
    </div>
-   
-   <button type="submit" class="btn btn-light me-5">
-   		<img alt="" src="images/translate.svg">
-   </button>
 </nav>
 
 <%@include file="modalNotificationRegLog.jsp" %>
